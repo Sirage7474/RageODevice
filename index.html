@@ -20,76 +20,44 @@ body {
 .page { display:none; }
 .page.active { display:block; }
 
-h1 {
-  margin:30px 0 8px;
-  font-size:38px;
-  font-weight:900;
-  color:#fff;
-  letter-spacing:3px;
-}
-
-.subtitle {
-  color:#555;
-  font-size:11px;
-  margin-bottom:30px;
-  letter-spacing:3px;
-}
+h1 { margin:30px 0 8px; font-size:38px; font-weight:900; letter-spacing:3px; }
+.subtitle { color:#555; font-size:11px; margin-bottom:30px; letter-spacing:3px; }
 
 /* CONNECTION PAGE */
 .connection-wrap {
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  min-height:70vh;
+  display:flex; align-items:center;
+  justify-content:center; min-height:70vh;
 }
 
 .connection-box {
-  background:#0a0a0a;
-  border:2px solid #fff;
-  border-radius:20px;
-  padding:50px 70px;
-  max-width:580px;
-  width:100%;
-  position:relative;
-  overflow:hidden;
+  background:#0a0a0a; border:2px solid #fff;
+  border-radius:20px; padding:50px 70px;
+  max-width:580px; width:100%;
+  position:relative; overflow:hidden;
 }
 
 .connection-box::before {
-  content:'';
-  position:absolute;
-  top:-50%; left:-50%;
-  width:200%; height:200%;
-  background:conic-gradient(transparent, transparent, transparent, #fff);
+  content:''; position:absolute;
+  top:-50%; left:-50%; width:200%; height:200%;
+  background:conic-gradient(transparent,transparent,transparent,#fff);
   animation:rotate 4s linear infinite;
-  opacity:0.03;
-  pointer-events:none;
+  opacity:0.03; pointer-events:none;
 }
 
 @keyframes rotate { 100% { transform:rotate(360deg); } }
 
-.connection-box h2 {
-  font-size:20px;
-  margin-bottom:10px;
-  letter-spacing:2px;
-}
+.connection-box h2 { font-size:20px; margin-bottom:10px; letter-spacing:2px; }
 
 .connection-box > p {
-  color:#555;
-  font-size:11px;
-  margin-bottom:25px;
-  line-height:1.8;
-  letter-spacing:1px;
+  color:#555; font-size:11px;
+  margin-bottom:25px; line-height:1.8; letter-spacing:1px;
 }
 
 .device-info {
-  background:#000;
-  border:1px solid #1a1a1a;
-  border-radius:10px;
-  padding:16px 20px;
-  margin:20px 0;
-  text-align:left;
-  font-size:11px;
-  line-height:2.2;
+  background:#000; border:1px solid #1a1a1a;
+  border-radius:10px; padding:16px 20px;
+  margin:20px 0; text-align:left;
+  font-size:11px; line-height:2.2;
 }
 
 .device-info strong { color:#fff; display:block; margin-bottom:2px; }
@@ -99,12 +67,9 @@ h1 {
 
 .scan-circle {
   width:90px; height:90px;
-  border:2px solid #1a1a1a;
-  border-top:2px solid #fff;
-  border-radius:50%;
-  margin:0 auto 18px;
-  animation:spin 1s linear infinite;
-  display:none;
+  border:2px solid #1a1a1a; border-top:2px solid #fff;
+  border-radius:50%; margin:0 auto 18px;
+  animation:spin 1s linear infinite; display:none;
 }
 
 .scan-circle.active { display:block; }
@@ -114,8 +79,7 @@ h1 {
 .scan-dots.active { display:flex; }
 
 .dot {
-  width:7px; height:7px; background:#fff;
-  border-radius:50%;
+  width:7px; height:7px; background:#fff; border-radius:50%;
   animation:dotPulse 1.2s ease-in-out infinite;
 }
 .dot:nth-child(2) { animation-delay:0.2s; }
@@ -133,8 +97,7 @@ h1 {
   padding:15px 45px; border-radius:30px;
   font-weight:900; cursor:pointer;
   font-family:'Orbitron',sans-serif;
-  font-size:13px; letter-spacing:2px;
-  transition:all 0.3s; margin-top:8px;
+  font-size:13px; letter-spacing:2px; transition:all 0.3s; margin-top:8px;
 }
 
 .connect-btn:hover { background:#ddd; transform:translateY(-2px); box-shadow:0 8px 25px rgba(255,255,255,0.15); }
@@ -145,26 +108,19 @@ h1 {
 
 /* PORT PICKER */
 .port-overlay {
-  display:none;
-  position:fixed;
+  display:none; position:fixed;
   top:0; left:0; right:0; bottom:0;
-  background:rgba(0,0,0,0.85);
-  z-index:1000;
-  align-items:center;
-  justify-content:center;
+  background:rgba(0,0,0,0.85); z-index:1000;
+  align-items:center; justify-content:center;
   backdrop-filter:blur(4px);
 }
 
 .port-overlay.active { display:flex; }
 
 .port-dialog {
-  background:#0a0a0a;
-  border:2px solid #fff;
-  border-radius:20px;
-  padding:40px;
-  width:500px;
-  max-width:95vw;
-  position:relative;
+  background:#0a0a0a; border:2px solid #fff;
+  border-radius:20px; padding:40px;
+  width:500px; max-width:95vw;
   animation:dialogIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
 }
 
@@ -174,11 +130,7 @@ h1 {
 }
 
 .port-dialog h3 { font-size:16px; letter-spacing:2px; margin-bottom:6px; }
-
-.port-dialog p {
-  color:#555; font-size:10px; letter-spacing:1px;
-  margin-bottom:25px; line-height:1.7;
-}
+.port-dialog > p { color:#555; font-size:10px; letter-spacing:1px; margin-bottom:25px; line-height:1.7; }
 
 .port-list {
   display:flex; flex-direction:column; gap:8px;
@@ -198,7 +150,6 @@ h1 {
 
 .port-item:hover { border-color:#fff; background:#0d0d0d; }
 .port-item.selected { border-color:#fff; background:#111; }
-
 .port-item-left { flex:1; }
 .port-item-name { font-size:13px; font-weight:700; color:#fff; letter-spacing:1px; margin-bottom:4px; }
 .port-item-detail { font-size:9px; color:#444; letter-spacing:1px; }
@@ -210,7 +161,7 @@ h1 {
 
 .port-item-badge.unknown { background:#1a1a1a; color:#555; }
 
-.port-empty { text-align:center; padding:30px 20px; }
+.port-empty { text-align:center; padding:25px 20px; }
 .port-empty p { color:#444; font-size:10px; letter-spacing:1px; margin-bottom:8px; }
 
 .port-scanning { display:none; text-align:center; padding:20px; }
@@ -225,13 +176,13 @@ h1 {
 
 .port-scanning p { color:#555; font-size:10px; letter-spacing:2px; }
 
-.port-dialog-btns { display:flex; gap:10px; justify-content:flex-end; }
+.port-dialog-btns { display:flex; gap:10px; justify-content:flex-end; margin-top:10px; }
 
 .port-btn-cancel {
   background:transparent; color:#555; border:1px solid #222;
   padding:12px 24px; border-radius:10px;
-  font-family:'Orbitron',sans-serif; font-size:11px; letter-spacing:1px;
-  cursor:pointer; transition:all 0.2s;
+  font-family:'Orbitron',sans-serif; font-size:11px;
+  letter-spacing:1px; cursor:pointer; transition:all 0.2s;
 }
 
 .port-btn-cancel:hover { color:#fff; border-color:#555; }
@@ -240,8 +191,7 @@ h1 {
   background:#fff; color:#000; border:none;
   padding:12px 28px; border-radius:10px;
   font-family:'Orbitron',sans-serif; font-size:11px;
-  font-weight:900; letter-spacing:1px;
-  cursor:pointer; transition:all 0.2s;
+  font-weight:900; letter-spacing:1px; cursor:pointer; transition:all 0.2s;
 }
 
 .port-btn-connect:hover { background:#ddd; }
@@ -250,8 +200,8 @@ h1 {
 .port-btn-refresh {
   background:transparent; color:#555; border:1px solid #222;
   padding:12px 20px; border-radius:10px;
-  font-family:'Orbitron',sans-serif; font-size:11px; letter-spacing:1px;
-  cursor:pointer; transition:all 0.2s; margin-right:auto;
+  font-family:'Orbitron',sans-serif; font-size:11px;
+  letter-spacing:1px; cursor:pointer; transition:all 0.2s; margin-right:auto;
 }
 
 .port-btn-refresh:hover { color:#fff; border-color:#555; }
@@ -285,20 +235,19 @@ h1 {
   font-size:16px; font-weight:700; background:#000; color:#fff; letter-spacing:2px;
 }
 
-.encoderWrap { position:absolute; left:42.5px; top:50px; text-align:center; }
+.encoderWrap { position:absolute; left:42.5px; top:40px; text-align:center; }
 
 .encoder {
   width:90px; height:90px; border:3px solid #fff;
   border-radius:50%; display:flex; align-items:center;
   justify-content:center; margin:0 auto 10px; background:#0a0a0a;
-  font-weight:700; font-size:13px; color:#fff;
-  cursor:pointer; transition:all 0.3s;
+  font-weight:700; font-size:13px; color:#fff; cursor:pointer; transition:all 0.3s;
 }
 
 .encoder:hover { background:#111; transform:rotate(20deg); }
 
 .buttons {
-  position:absolute; bottom:45px; left:50%;
+  position:absolute; bottom:20px; left:50%;
   transform:translateX(-50%); display:flex; gap:20px;
 }
 
@@ -334,6 +283,15 @@ select:hover { background:#111; }
 select:focus { outline:none; background:#111; }
 option { background:#0a0a0a; }
 .encoder-select { width:100px; font-size:10px; }
+
+/* CLICK COUNT */
+.click-count {
+  font-size:9px; color:#555;
+  letter-spacing:1px; margin-top:6px;
+  transition:color 0.3s;
+}
+
+.click-count.updated { color:#777; }
 
 /* CONTROLS */
 .controls { margin-top:35px; display:flex; justify-content:center; gap:15px; flex-wrap:wrap; }
@@ -394,7 +352,6 @@ option { background:#0a0a0a; }
 }
 
 .preset-row { display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
-
 .preset-label { font-size:10px; color:#444; letter-spacing:1px; min-width:70px; }
 
 .preset-name-input {
@@ -422,7 +379,6 @@ option { background:#0a0a0a; }
 #fileInput { position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; cursor:pointer; }
 
 .preset-list { margin-top:16px; display:flex; flex-direction:column; gap:8px; }
-
 .preset-empty { font-size:10px; color:#2a2a2a; letter-spacing:1px; padding:15px 0; text-align:center; }
 
 .preset-item {
@@ -477,7 +433,7 @@ option { background:#0a0a0a; }
 
 <div class="toast" id="toast"></div>
 
-<!-- CUSTOM PORT PICKER -->
+<!-- PORT PICKER -->
 <div class="port-overlay" id="portOverlay">
   <div class="port-dialog">
     <h3>Select Device</h3>
@@ -510,20 +466,15 @@ option { background:#0a0a0a; }
       <span style="color:#555;font-size:10px;letter-spacing:1px;">Use Chrome or Edge for Web Serial support</span></p>
 
       <div class="device-info">
-        <strong>Device name:</strong>
-        <span>RageODevice</span>
-        <strong>Baud rate:</strong>
-        <span>115200</span>
-        <strong>Connection:</strong>
-        <span>USB</span>
+        <strong>Device name:</strong><span>RageODevice</span>
+        <strong>Baud rate:</strong><span>115200</span>
+        <strong>Connection:</strong><span>USB</span>
       </div>
 
       <div class="scan-wrap">
         <div class="scan-circle" id="scanCircle"></div>
         <div class="scan-dots" id="scanDots">
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
+          <div class="dot"></div><div class="dot"></div><div class="dot"></div>
         </div>
         <div class="scan-text" id="scanText"></div>
       </div>
@@ -554,10 +505,26 @@ option { background:#0a0a0a; }
     </div>
 
     <div class="buttons">
-      <div class="btnBox"><div class="btn">S1</div><select id="b1"></select></div>
-      <div class="btnBox"><div class="btn">S2</div><select id="b2"></select></div>
-      <div class="btnBox"><div class="btn">S3</div><select id="b3"></select></div>
-      <div class="btnBox"><div class="btn">S4</div><select id="b4"></select></div>
+      <div class="btnBox">
+        <div class="btn">S1</div>
+        <select id="b1"></select>
+        <div class="click-count" id="clicks0">— clicks</div>
+      </div>
+      <div class="btnBox">
+        <div class="btn">S2</div>
+        <select id="b2"></select>
+        <div class="click-count" id="clicks1">— clicks</div>
+      </div>
+      <div class="btnBox">
+        <div class="btn">S3</div>
+        <select id="b3"></select>
+        <div class="click-count" id="clicks2">— clicks</div>
+      </div>
+      <div class="btnBox">
+        <div class="btn">S4</div>
+        <select id="b4"></select>
+        <div class="click-count" id="clicks3">— clicks</div>
+      </div>
     </div>
   </div>
 
@@ -576,14 +543,12 @@ option { background:#0a0a0a; }
   <!-- PRESET SYSTEM -->
   <div class="preset-section">
     <h3>Presets</h3>
-
     <div class="preset-row">
       <span class="preset-label">Save as:</span>
       <input type="text" class="preset-name-input" id="presetNameInput" placeholder="Preset name...">
       <button class="preset-btn primary" onclick="savePreset()">Save</button>
       <button class="preset-btn" onclick="downloadPreset()">Download .txt</button>
     </div>
-
     <div class="preset-row">
       <span class="preset-label">Import:</span>
       <div class="file-import-wrap">
@@ -591,7 +556,6 @@ option { background:#0a0a0a; }
         <input type="file" id="fileInput" accept=".txt" onchange="importPreset(event)">
       </div>
     </div>
-
     <div class="preset-list" id="presetList"></div>
   </div>
 
@@ -611,12 +575,13 @@ option { background:#0a0a0a; }
 let port = null;
 let selectedPortIndex = null;
 let availablePorts = [];
+let serialReader = null;
 
 const DEVICE_NAMES = {
-  '2341:0037': 'RageODevice', '2341:8037': 'RageODevice',
-  '2341:0237': 'RageODevice', '2341:8237': 'RageODevice',
-  '2A03:0037': 'RageODevice', '2A03:8037': 'RageODevice',
-  '2342:8038': 'RageODevice',
+  '2341:0037':'RageODevice','2341:8037':'RageODevice',
+  '2341:0237':'RageODevice','2341:8237':'RageODevice',
+  '2A03:0037':'RageODevice','2A03:8037':'RageODevice',
+  '2342:8038':'RageODevice',
 };
 
 const keys = [
@@ -659,61 +624,26 @@ async function refreshPorts() {
   connectBtn.disabled = true;
 
   await new Promise(r => setTimeout(r, 600));
-
-  try {
-    availablePorts = await navigator.serial.getPorts();
-    scanning.classList.remove('active');
-
-    if(availablePorts.length === 0) {
-      list.innerHTML = `
-        <div class="port-empty">
-          <p>No devices found</p>
-          <p>Click "Request Device" to grant access</p>
-        </div>
-        <div style="text-align:center;margin-top:12px">
-          <button class="port-btn-connect" style="margin:0 auto" onclick="requestNewPort()">Request Device</button>
-        </div>
-      `;
-    } else {
-      renderPortList();
-    }
-  } catch(e) {
-    scanning.classList.remove('active');
-    list.innerHTML = `<div class="port-empty"><p>Error scanning ports</p></div>`;
-  }
-}
-
-async function refreshPorts() {
-  const scanning = document.getElementById('portScanning');
-  const list = document.getElementById('portList');
-  const connectBtn = document.getElementById('portConnectBtn');
-
-  scanning.classList.add('active');
-  list.innerHTML = '';
-  selectedPortIndex = null;
-  connectBtn.disabled = true;
-
-  await new Promise(r => setTimeout(r, 600));
   scanning.classList.remove('active');
 
-  // Haal eerder toegestane ports op - geen dialoog
+  // Haal eerder toegestane poorten op - geen browser dialoog
   availablePorts = await navigator.serial.getPorts();
 
-  if(availablePorts.length > 0){
-    // Auto-selecteer eerste RageODevice
+  if(availablePorts.length > 0) {
+    // Auto-selecteer eerste bekende RageODevice
     availablePorts.forEach((p, i) => {
       const info = p.getInfo();
       const vid = info.usbVendorId ? info.usbVendorId.toString(16).toUpperCase().padStart(4,'0') : null;
       const pid = info.usbProductId ? info.usbProductId.toString(16).toUpperCase().padStart(4,'0') : null;
       const key = vid && pid ? `${vid}:${pid}` : null;
-      if(key && DEVICE_NAMES[key] && selectedPortIndex === null){
+      if(key && DEVICE_NAMES[key] && selectedPortIndex === null) {
         selectedPortIndex = i;
         connectBtn.disabled = false;
       }
     });
     renderPortList();
   } else {
-    // Eerste keer - vraag toegang via requestPort
+    // Eerste keer - vraag toegang
     list.innerHTML = `
       <div class="port-empty">
         <p>No devices found</p>
@@ -728,7 +658,7 @@ async function refreshPorts() {
 
 async function grantAccess() {
   try {
-    // Dit opent browser dialoog - maar slechts 1 keer ooit nodig
+    // Browser dialoog - alleen 1x nodig voor toestemming
     await navigator.serial.requestPort({
       filters: [
         { usbVendorId: 0x2341, usbProductId: 0x0037 },
@@ -740,10 +670,11 @@ async function grantAccess() {
         { usbVendorId: 0x2342, usbProductId: 0x8038 },
       ]
     });
-    // Daarna altijd via getPorts - nooit meer dialoog
+    // Daarna altijd via getPorts - geen dialoog meer
     await refreshPorts();
   } catch(e) {}
 }
+
 function renderPortList() {
   const list = document.getElementById('portList');
   if(!availablePorts.length) {
@@ -799,6 +730,14 @@ async function connectSelected() {
     document.getElementById('page1').classList.remove('active');
     document.getElementById('page2').classList.add('active');
     initSelects();
+
+    // Start reading serial data van Arduino
+    startReadingSerial();
+
+    // Vraag click counts op
+    await new Promise(r => setTimeout(r, 500));
+    await requestClicks();
+
     showToast('RageODevice Connected');
 
   } catch(e) {
@@ -812,6 +751,64 @@ async function connectSelected() {
   }
 }
 
+// ---- SERIAL READING ----
+
+function startReadingSerial() {
+  if(!port || !port.readable) return;
+
+  let buffer = '';
+  const reader = port.readable.getReader();
+  serialReader = reader;
+
+  async function read() {
+    try {
+      while(true) {
+        const { value, done } = await reader.read();
+        if(done) break;
+        buffer += new TextDecoder().decode(value);
+        const lines = buffer.split('\n');
+        buffer = lines.pop(); // bewaar onvolledige regel
+        for(const line of lines) {
+          handleIncoming(line.trim());
+        }
+      }
+    } catch(e) {
+      // Verbinding verbroken
+    }
+    reader.releaseLock();
+  }
+
+  read();
+}
+
+function handleIncoming(line) {
+  if(!line) return;
+  console.log('Arduino:', line);
+
+  if(line.startsWith('CLICKS:')) {
+    const parts = line.replace('CLICKS:', '').split(',');
+    parts.forEach((v, i) => {
+      const el = document.getElementById('clicks' + i);
+      if(el) {
+        const num = parseInt(v);
+        el.textContent = num.toLocaleString() + ' clicks';
+        // Kort oplichten bij update
+        el.classList.add('updated');
+        setTimeout(() => el.classList.remove('updated'), 1000);
+      }
+    });
+  }
+}
+
+async function requestClicks() {
+  if(!port || !port.writable) return;
+  try {
+    const writer = port.writable.getWriter();
+    await writer.write(new TextEncoder().encode('GETCLICKS\n'));
+    writer.releaseLock();
+  } catch(e) {}
+}
+
 // ---- SELECTS ----
 
 function buildOptions(selectId, defaultVal) {
@@ -819,8 +816,7 @@ function buildOptions(selectId, defaultVal) {
   sel.innerHTML = '';
   keys.forEach((k, i) => {
     const opt = document.createElement('option');
-    opt.value = i;
-    opt.textContent = k;
+    opt.value = i; opt.textContent = k;
     if(i === defaultVal) opt.selected = true;
     sel.appendChild(opt);
   });
@@ -861,7 +857,7 @@ function applyConfig(cfg) {
   updateEncoderDisplay();
 }
 
-// ---- SEND TO DEVICE ----
+// ---- SEND ----
 
 async function sendToDevice() {
   if(!port) { showToast('Not connected!'); return; }
@@ -881,15 +877,13 @@ async function sendToDevice() {
     fillEl.style.width = '20%';
     textEl.textContent = 'Sending settings...';
 
-    const cfg = getCurrentConfig();
-    const jsonStr = JSON.stringify(cfg) + '\n';
+    const jsonStr = JSON.stringify(getCurrentConfig()) + '\n';
     console.log('Sending:', jsonStr);
 
     const encoded = new TextEncoder().encode(jsonStr);
     const writer = port.writable.getWriter();
 
-    // Stuur byte voor byte met kleine pauze voor betrouwbaarheid
-    for(let i = 0; i < encoded.length; i++){
+    for(let i = 0; i < encoded.length; i++) {
       await writer.write(encoded.slice(i, i + 1));
       await new Promise(r => setTimeout(r, 8));
       fillEl.style.width = (20 + (i / encoded.length) * 50) + '%';
@@ -959,7 +953,7 @@ function textToConfig(text) {
 
 function getNameFromText(text, fallback) {
   const line = text.split('\n').find(l => l.startsWith('# NAME:'));
-  return line ? line.replace('# NAME:','').trim() : fallback;
+  return line ? line.replace('# NAME:', '').trim() : fallback;
 }
 
 function savePreset() {
@@ -990,7 +984,7 @@ function importPreset(event) {
       const cfg = textToConfig(text);
       if(cfg.b1 === undefined) { showToast('Invalid preset file!'); return; }
       applyConfig(cfg);
-      const name = getNameFromText(text, file.name.replace('.txt',''));
+      const name = getNameFromText(text, file.name.replace('.txt', ''));
       const preset = { name, date: new Date().toLocaleDateString(), config: cfg };
       const idx = savedPresets.findIndex(p => p.name === name);
       if(idx >= 0) savedPresets[idx] = preset;
@@ -1041,7 +1035,7 @@ function renderPresetList() {
     list.innerHTML = '<div class="preset-empty">No saved presets yet</div>';
     return;
   }
-  list.innerHTML = savedPresets.map((p,i) => `
+  list.innerHTML = savedPresets.map((p, i) => `
     <div class="preset-item">
       <span class="preset-item-name">${p.name}</span>
       <span class="preset-item-date">${p.date}</span>
@@ -1070,6 +1064,10 @@ function setScanState(active, text='') {
 }
 
 async function disconnectDevice() {
+  if(serialReader) {
+    try { await serialReader.cancel(); } catch(e) {}
+    serialReader = null;
+  }
   if(port) {
     try { await port.close(); } catch(e) {}
     port = null;
