@@ -53,7 +53,7 @@ The web configurator runs in the browser and sends configuration to the device o
 - Firefox and Safari are not supported
 
 **How to use:**
-1. Open `RageODevice.html` in Chrome or Edge
+1. Open `https://sirage7474.github.io/RageODevice` in Chrome or Edge
 2. Connect your RageODevice via USB
 3. Click **Connect Device** and select your device from the list
 4. Configure your buttons and encoder mode
