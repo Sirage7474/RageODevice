@@ -117,12 +117,18 @@ ENC=0  # Volume
 
 ---
 
-## Arduino Libraries Required
+## Flashing the Firmware
 
-Install these via the Arduino Library Manager:
+Flashing is done via the web configurator — no Arduino IDE required.
 
-- [HID-Project](https://github.com/NicoHood/HID) by NicoHood
-- [U8g2](https://github.com/olikraus/u8g2) by olikraus
+1. Open `RageODevice.html` in Chrome or Edge
+2. Connect your RageODevice via USB
+3. Click **Connect Device** and select your device
+4. Configure your buttons and encoder mode
+5. Click **Send to Device** — settings are saved to EEPROM instantly
+
+> Note: The web configurator only sends configuration data (button mappings, encoder mode).
+> For uploading new firmware you still need Arduino IDE.
 
 ---
 
