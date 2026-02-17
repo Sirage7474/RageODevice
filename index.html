@@ -35,9 +35,7 @@ h1 {
   letter-spacing:3px;
 }
 
-/* ===================== */
-/* CONNECTION PAGE       */
-/* ===================== */
+/* CONNECTION PAGE */
 .connection-wrap {
   display:flex;
   align-items:center;
@@ -61,8 +59,8 @@ h1 {
   position:absolute;
   top:-50%; left:-50%;
   width:200%; height:200%;
-  background: conic-gradient(transparent, transparent, transparent, #fff);
-  animation: rotate 4s linear infinite;
+  background:conic-gradient(transparent, transparent, transparent, #fff);
+  animation:rotate 4s linear infinite;
   opacity:0.03;
   pointer-events:none;
 }
@@ -97,7 +95,6 @@ h1 {
 .device-info strong { color:#fff; display:block; margin-bottom:2px; }
 .device-info span { color:#555; }
 
-/* SCAN ANIMATION */
 .scan-wrap { margin:20px 0; }
 
 .scan-circle {
@@ -146,9 +143,7 @@ h1 {
 
 #connectionStatus { margin-top:14px; color:#555; font-size:10px; letter-spacing:1px; min-height:18px; }
 
-/* ===================== */
-/* CUSTOM PORT PICKER    */
-/* ===================== */
+/* PORT PICKER */
 .port-overlay {
   display:none;
   position:fixed;
@@ -178,28 +173,16 @@ h1 {
   to { transform:scale(1); opacity:1; }
 }
 
-.port-dialog h3 {
-  font-size:16px;
-  letter-spacing:2px;
-  margin-bottom:6px;
-}
+.port-dialog h3 { font-size:16px; letter-spacing:2px; margin-bottom:6px; }
 
 .port-dialog p {
-  color:#555;
-  font-size:10px;
-  letter-spacing:1px;
-  margin-bottom:25px;
-  line-height:1.7;
+  color:#555; font-size:10px; letter-spacing:1px;
+  margin-bottom:25px; line-height:1.7;
 }
 
-/* Port list */
 .port-list {
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  max-height:280px;
-  overflow-y:auto;
-  margin-bottom:20px;
+  display:flex; flex-direction:column; gap:8px;
+  max-height:280px; overflow-y:auto; margin-bottom:20px;
 }
 
 .port-list::-webkit-scrollbar { width:4px; }
@@ -207,103 +190,42 @@ h1 {
 .port-list::-webkit-scrollbar-thumb { background:#333; border-radius:2px; }
 
 .port-item {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  background:#000;
-  border:1px solid #1a1a1a;
-  border-radius:10px;
-  padding:14px 18px;
-  cursor:pointer;
-  transition:all 0.2s;
-  text-align:left;
+  display:flex; align-items:center; justify-content:space-between;
+  background:#000; border:1px solid #1a1a1a;
+  border-radius:10px; padding:14px 18px;
+  cursor:pointer; transition:all 0.2s; text-align:left;
 }
 
 .port-item:hover { border-color:#fff; background:#0d0d0d; }
-
 .port-item.selected { border-color:#fff; background:#111; }
 
 .port-item-left { flex:1; }
-
-.port-item-name {
-  font-size:13px;
-  font-weight:700;
-  color:#fff;
-  letter-spacing:1px;
-  margin-bottom:4px;
-}
-
-.port-item-detail {
-  font-size:9px;
-  color:#444;
-  letter-spacing:1px;
-}
+.port-item-name { font-size:13px; font-weight:700; color:#fff; letter-spacing:1px; margin-bottom:4px; }
+.port-item-detail { font-size:9px; color:#444; letter-spacing:1px; }
 
 .port-item-badge {
-  background:#fff;
-  color:#000;
-  font-size:9px;
-  font-weight:900;
-  letter-spacing:1px;
-  padding:4px 10px;
-  border-radius:20px;
+  background:#fff; color:#000; font-size:9px;
+  font-weight:900; letter-spacing:1px; padding:4px 10px; border-radius:20px;
 }
 
-.port-item-badge.unknown {
-  background:#1a1a1a;
-  color:#555;
-}
+.port-item-badge.unknown { background:#1a1a1a; color:#555; }
 
-/* No ports state */
-.port-empty {
-  text-align:center;
-  padding:30px 20px;
-}
+.port-empty { text-align:center; padding:30px 20px; }
+.port-empty p { color:#444; font-size:10px; letter-spacing:1px; margin-bottom:8px; }
 
-.port-empty-icon {
-  width:60px; height:60px;
-  border:2px solid #1a1a1a;
-  border-radius:50%;
-  margin:0 auto 16px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:24px;
-}
-
-.port-empty p {
-  color:#444;
-  font-size:10px;
-  letter-spacing:1px;
-  margin-bottom:5px;
-}
-
-/* Scanning state inside dialog */
-.port-scanning {
-  display:none;
-  text-align:center;
-  padding:20px;
-}
-
+.port-scanning { display:none; text-align:center; padding:20px; }
 .port-scanning.active { display:block; }
 
 .port-scan-ring {
   width:50px; height:50px;
-  border:2px solid #1a1a1a;
-  border-top:2px solid #fff;
-  border-radius:50%;
-  margin:0 auto 14px;
+  border:2px solid #1a1a1a; border-top:2px solid #fff;
+  border-radius:50%; margin:0 auto 14px;
   animation:spin 0.8s linear infinite;
 }
 
 .port-scanning p { color:#555; font-size:10px; letter-spacing:2px; }
 
-/* Dialog buttons */
-.port-dialog-btns {
-  display:flex;
-  gap:10px;
-  justify-content:flex-end;
-}
+.port-dialog-btns { display:flex; gap:10px; justify-content:flex-end; }
 
 .port-btn-cancel {
   background:transparent; color:#555; border:1px solid #222;
@@ -329,15 +251,12 @@ h1 {
   background:transparent; color:#555; border:1px solid #222;
   padding:12px 20px; border-radius:10px;
   font-family:'Orbitron',sans-serif; font-size:11px; letter-spacing:1px;
-  cursor:pointer; transition:all 0.2s;
-  margin-right:auto;
+  cursor:pointer; transition:all 0.2s; margin-right:auto;
 }
 
 .port-btn-refresh:hover { color:#fff; border-color:#555; }
 
-/* ===================== */
-/* STATUS               */
-/* ===================== */
+/* STATUS */
 .status {
   border:1px solid #fff; padding:10px 22px;
   border-radius:25px; display:inline-block;
@@ -351,9 +270,7 @@ h1 {
   100% { background:transparent; color:#fff; }
 }
 
-/* ===================== */
-/* BOARD                */
-/* ===================== */
+/* BOARD */
 .board {
   width:600px; max-width:95vw; height:400px;
   margin:25px auto; border:3px solid #fff;
@@ -464,9 +381,7 @@ option { background:#0a0a0a; }
 
 .disconnect-btn:hover { color:#fff; border-color:#fff; transform:translateY(-2px); }
 
-/* ===================== */
-/* PRESET SYSTEM        */
-/* ===================== */
+/* PRESET SYSTEM */
 .preset-section {
   margin:30px auto; max-width:700px;
   background:#0a0a0a; border:1px solid #1a1a1a;
@@ -478,10 +393,7 @@ option { background:#0a0a0a; }
   margin-bottom:20px; padding-bottom:12px; border-bottom:1px solid #111;
 }
 
-.preset-row {
-  display:flex; align-items:center;
-  gap:10px; margin-bottom:14px; flex-wrap:wrap;
-}
+.preset-row { display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
 
 .preset-label { font-size:10px; color:#444; letter-spacing:1px; min-width:70px; }
 
@@ -565,19 +477,17 @@ option { background:#0a0a0a; }
 
 <div class="toast" id="toast"></div>
 
-<!-- CUSTOM PORT PICKER OVERLAY -->
+<!-- CUSTOM PORT PICKER -->
 <div class="port-overlay" id="portOverlay">
   <div class="port-dialog">
     <h3>Select Device</h3>
     <p>Choose your RageODevice from the list below.<br>Make sure it is connected via USB.</p>
 
-    <!-- Scanning state -->
     <div class="port-scanning" id="portScanning">
       <div class="port-scan-ring"></div>
       <p>Scanning for devices...</p>
     </div>
 
-    <!-- Port list -->
     <div class="port-list" id="portList"></div>
 
     <div class="port-dialog-btns">
@@ -597,7 +507,7 @@ option { background:#0a0a0a; }
     <div class="connection-box">
       <h2>Connect to RageODevice</h2>
       <p>Connect your device via USB and click the button below.<br>
-<span style="color:#555;font-size:10px;letter-spacing:1px;">Use Chrome or Edge for Web Serial support.</span></p>
+      <span style="color:#555;font-size:10px;letter-spacing:1px;">Use Chrome or Edge for Web Serial support</span></p>
 
       <div class="device-info">
         <strong>Device name:</strong>
@@ -702,15 +612,10 @@ let port = null;
 let selectedPortIndex = null;
 let availablePorts = [];
 
-// Known VID/PID combinations
-const KNOWN_VIDS = [0x2341, 0x2A03, 0x2342];
 const DEVICE_NAMES = {
-  '2341:0037': 'RageODevice',
-  '2341:8037': 'RageODevice',
-  '2341:0237': 'RageODevice',
-  '2341:8237': 'RageODevice',
-  '2A03:0037': 'RageODevice',
-  '2A03:8037': 'RageODevice',
+  '2341:0037': 'RageODevice', '2341:8037': 'RageODevice',
+  '2341:0237': 'RageODevice', '2341:8237': 'RageODevice',
+  '2A03:0037': 'RageODevice', '2A03:8037': 'RageODevice',
   '2342:8038': 'RageODevice',
 };
 
@@ -756,17 +661,12 @@ async function refreshPorts() {
   await new Promise(r => setTimeout(r, 600));
 
   try {
-    // Get already-granted ports
     availablePorts = await navigator.serial.getPorts();
-
-    // Also request new ones via filters
     scanning.classList.remove('active');
 
     if(availablePorts.length === 0) {
-      // No previously granted ports - show request button
       list.innerHTML = `
         <div class="port-empty">
-          <div class="port-empty-icon">?</div>
           <p>No devices found</p>
           <p>Click "Request Device" to grant access</p>
         </div>
@@ -777,16 +677,59 @@ async function refreshPorts() {
     } else {
       renderPortList();
     }
-
   } catch(e) {
     scanning.classList.remove('active');
-    list.innerHTML = `<div class="port-empty"><p style="color:#555">Error scanning ports</p></div>`;
+    list.innerHTML = `<div class="port-empty"><p>Error scanning ports</p></div>`;
   }
 }
 
-async function requestNewPort() {
+async function refreshPorts() {
+  const scanning = document.getElementById('portScanning');
+  const list = document.getElementById('portList');
+  const connectBtn = document.getElementById('portConnectBtn');
+
+  scanning.classList.add('active');
+  list.innerHTML = '';
+  selectedPortIndex = null;
+  connectBtn.disabled = true;
+
+  await new Promise(r => setTimeout(r, 600));
+  scanning.classList.remove('active');
+
+  // Haal eerder toegestane ports op - geen dialoog
+  availablePorts = await navigator.serial.getPorts();
+
+  if(availablePorts.length > 0){
+    // Auto-selecteer eerste RageODevice
+    availablePorts.forEach((p, i) => {
+      const info = p.getInfo();
+      const vid = info.usbVendorId ? info.usbVendorId.toString(16).toUpperCase().padStart(4,'0') : null;
+      const pid = info.usbProductId ? info.usbProductId.toString(16).toUpperCase().padStart(4,'0') : null;
+      const key = vid && pid ? `${vid}:${pid}` : null;
+      if(key && DEVICE_NAMES[key] && selectedPortIndex === null){
+        selectedPortIndex = i;
+        connectBtn.disabled = false;
+      }
+    });
+    renderPortList();
+  } else {
+    // Eerste keer - vraag toegang via requestPort
+    list.innerHTML = `
+      <div class="port-empty">
+        <p>No devices found</p>
+        <p style="color:#333;margin-top:4px">Grant access to your RageODevice first</p>
+      </div>
+      <div style="text-align:center;margin-top:14px">
+        <button class="port-btn-connect" onclick="grantAccess()">Grant Access</button>
+      </div>
+    `;
+  }
+}
+
+async function grantAccess() {
   try {
-    const newPort = await navigator.serial.requestPort({
+    // Dit opent browser dialoog - maar slechts 1 keer ooit nodig
+    await navigator.serial.requestPort({
       filters: [
         { usbVendorId: 0x2341, usbProductId: 0x0037 },
         { usbVendorId: 0x2341, usbProductId: 0x8037 },
@@ -797,26 +740,16 @@ async function requestNewPort() {
         { usbVendorId: 0x2342, usbProductId: 0x8038 },
       ]
     });
-
-    availablePorts = await navigator.serial.getPorts();
-    const idx = availablePorts.indexOf(newPort);
-    selectedPortIndex = idx >= 0 ? idx : 0;
-    renderPortList();
-    document.getElementById('portConnectBtn').disabled = false;
-
-  } catch(e) {
-    // User cancelled
-  }
+    // Daarna altijd via getPorts - nooit meer dialoog
+    await refreshPorts();
+  } catch(e) {}
 }
-
 function renderPortList() {
   const list = document.getElementById('portList');
-
-  if(availablePorts.length === 0) {
+  if(!availablePorts.length) {
     list.innerHTML = '<div class="port-empty"><p>No devices found</p></div>';
     return;
   }
-
   list.innerHTML = availablePorts.map((p, i) => {
     const info = p.getInfo();
     const vid = info.usbVendorId ? info.usbVendorId.toString(16).toUpperCase().padStart(4,'0') : null;
@@ -824,12 +757,9 @@ function renderPortList() {
     const key = vid && pid ? `${vid}:${pid}` : null;
     const deviceName = key && DEVICE_NAMES[key] ? DEVICE_NAMES[key] : 'Unknown Device';
     const isKnown = key && DEVICE_NAMES[key];
-    const isSelected = i === selectedPortIndex;
-
     const detail = vid && pid ? `VID: ${vid}  PID: ${pid}` : 'USB Serial Device';
-
     return `
-      <div class="port-item ${isSelected ? 'selected' : ''}" onclick="selectPort(${i})">
+      <div class="port-item ${i === selectedPortIndex ? 'selected' : ''}" onclick="selectPort(${i})">
         <div class="port-item-left">
           <div class="port-item-name">${deviceName}</div>
           <div class="port-item-detail">${detail}</div>
@@ -858,7 +788,6 @@ async function connectSelected() {
   try {
     port = availablePorts[selectedPortIndex];
     await port.open({ baudRate: 115200 });
-
     closePortDialog();
 
     setScanState(true, 'Connecting...');
@@ -876,13 +805,10 @@ async function connectSelected() {
     connectBtn.disabled = false;
     connectBtn.textContent = 'Connect';
     cancelBtn.style.display = '';
-
-    // Show error in list
-    const list = document.getElementById('portList');
     const errDiv = document.createElement('div');
     errDiv.style.cssText = 'font-size:10px;color:#555;letter-spacing:1px;padding:10px;text-align:center;';
     errDiv.textContent = 'Failed: ' + e.message;
-    list.appendChild(errDiv);
+    document.getElementById('portList').appendChild(errDiv);
   }
 }
 
@@ -933,6 +859,69 @@ function applyConfig(cfg) {
   document.getElementById('b4').value = cfg.b4;
   document.getElementById('enc').value = cfg.enc ?? 0;
   updateEncoderDisplay();
+}
+
+// ---- SEND TO DEVICE ----
+
+async function sendToDevice() {
+  if(!port) { showToast('Not connected!'); return; }
+
+  const sendBtn = document.getElementById('sendBtn');
+  const progressEl = document.getElementById('flashProgress');
+  const fillEl = document.getElementById('progressFill');
+  const textEl = document.getElementById('progressText');
+
+  try {
+    sendBtn.disabled = true;
+    progressEl.classList.add('active');
+    fillEl.style.width = '0%';
+    textEl.textContent = 'Preparing...';
+    await new Promise(r => setTimeout(r, 300));
+
+    fillEl.style.width = '20%';
+    textEl.textContent = 'Sending settings...';
+
+    const cfg = getCurrentConfig();
+    const jsonStr = JSON.stringify(cfg) + '\n';
+    console.log('Sending:', jsonStr);
+
+    const encoded = new TextEncoder().encode(jsonStr);
+    const writer = port.writable.getWriter();
+
+    // Stuur byte voor byte met kleine pauze voor betrouwbaarheid
+    for(let i = 0; i < encoded.length; i++){
+      await writer.write(encoded.slice(i, i + 1));
+      await new Promise(r => setTimeout(r, 8));
+      fillEl.style.width = (20 + (i / encoded.length) * 50) + '%';
+    }
+
+    writer.releaseLock();
+
+    fillEl.style.width = '80%';
+    textEl.textContent = 'Writing to EEPROM...';
+    await new Promise(r => setTimeout(r, 1000));
+
+    fillEl.style.width = '100%';
+    textEl.textContent = 'Done!';
+
+    const statusEl = document.getElementById('status');
+    statusEl.textContent = 'Settings Applied!';
+    statusEl.classList.add('success');
+    setTimeout(() => { statusEl.textContent = 'Connected'; statusEl.classList.remove('success'); }, 2000);
+
+    showToast('Settings Saved to Device');
+    await new Promise(r => setTimeout(r, 800));
+    progressEl.classList.remove('active');
+    fillEl.style.width = '0%';
+    sendBtn.disabled = false;
+
+  } catch(e) {
+    progressEl.classList.remove('active');
+    sendBtn.disabled = false;
+    document.getElementById('status').textContent = 'Error: ' + e.message;
+    showToast('Failed: ' + e.message);
+    console.error(e);
+  }
 }
 
 // ---- PRESETS ----
@@ -1080,57 +1069,6 @@ function setScanState(active, text='') {
   document.getElementById('scanText').textContent = text;
 }
 
-// ---- SEND ----
-
-async function sendToDevice() {
-  if(!port) { showToast('Not connected!'); return; }
-
-  const sendBtn = document.getElementById('sendBtn');
-  const progressEl = document.getElementById('flashProgress');
-  const fillEl = document.getElementById('progressFill');
-  const textEl = document.getElementById('progressText');
-
-  try {
-    sendBtn.disabled = true;
-    progressEl.classList.add('active');
-    fillEl.style.width = '0%';
-    textEl.textContent = 'Preparing...';
-    await new Promise(r => setTimeout(r, 200));
-
-    fillEl.style.width = '30%';
-    textEl.textContent = 'Sending settings...';
-    await new Promise(r => setTimeout(r, 200));
-
-    const writer = port.writable.getWriter();
-    await writer.write(new TextEncoder().encode(JSON.stringify(getCurrentConfig()) + '\n'));
-    writer.releaseLock();
-
-    fillEl.style.width = '70%';
-    textEl.textContent = 'Writing to EEPROM...';
-    await new Promise(r => setTimeout(r, 400));
-
-    fillEl.style.width = '100%';
-    textEl.textContent = 'Done!';
-
-    const statusEl = document.getElementById('status');
-    statusEl.textContent = 'Settings Applied!';
-    statusEl.classList.add('success');
-    setTimeout(() => { statusEl.textContent = 'Connected'; statusEl.classList.remove('success'); }, 2000);
-
-    showToast('Settings Saved to Device');
-    await new Promise(r => setTimeout(r, 800));
-    progressEl.classList.remove('active');
-    fillEl.style.width = '0%';
-    sendBtn.disabled = false;
-
-  } catch(e) {
-    progressEl.classList.remove('active');
-    sendBtn.disabled = false;
-    document.getElementById('status').textContent = 'Error: ' + e.message;
-    showToast('Failed to send!');
-  }
-}
-
 async function disconnectDevice() {
   if(port) {
     try { await port.close(); } catch(e) {}
@@ -1139,12 +1077,10 @@ async function disconnectDevice() {
   document.getElementById('page2').classList.remove('active');
   document.getElementById('page1').classList.add('active');
   document.getElementById('connectBtn').disabled = false;
-  document.getElementById('connectionStatus').textContent = '';
   setScanState(false);
   showToast('Disconnected');
 }
 
-// Close overlay on background click
 document.getElementById('portOverlay').addEventListener('click', function(e) {
   if(e.target === this) closePortDialog();
 });
