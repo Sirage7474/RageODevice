@@ -6,426 +6,130 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-  background:#000;
-  color:#fff;
-  font-family:'Orbitron',sans-serif;
-  text-align:center;
-  min-height:100vh;
-  padding:20px;
-  overflow-x:hidden;
-}
-
+body { background:#000; color:#fff; font-family:'Orbitron',sans-serif; text-align:center; min-height:100vh; padding:20px; }
 .page { display:none; }
 .page.active { display:block; }
-
 h1 { margin:30px 0 8px; font-size:38px; font-weight:900; letter-spacing:3px; }
 .subtitle { color:#555; font-size:11px; margin-bottom:30px; letter-spacing:3px; }
-
-/* CONNECTION PAGE */
-.connection-wrap {
-  display:flex; align-items:center;
-  justify-content:center; min-height:70vh;
-}
-
-.connection-box {
-  background:#0a0a0a; border:2px solid #fff;
-  border-radius:20px; padding:50px 70px;
-  max-width:580px; width:100%;
-  position:relative; overflow:hidden;
-}
-
-.connection-box::before {
-  content:''; position:absolute;
-  top:-50%; left:-50%; width:200%; height:200%;
-  background:conic-gradient(transparent,transparent,transparent,#fff);
-  animation:rotate 4s linear infinite;
-  opacity:0.03; pointer-events:none;
-}
-
+.connection-wrap { display:flex; align-items:center; justify-content:center; min-height:70vh; }
+.connection-box { background:#0a0a0a; border:2px solid #fff; border-radius:20px; padding:50px 70px; max-width:580px; width:100%; position:relative; overflow:hidden; }
+.connection-box::before { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:conic-gradient(transparent,transparent,transparent,#fff); animation:rotate 4s linear infinite; opacity:0.03; pointer-events:none; }
 @keyframes rotate { 100% { transform:rotate(360deg); } }
-
 .connection-box h2 { font-size:20px; margin-bottom:10px; letter-spacing:2px; }
-
-.connection-box > p {
-  color:#555; font-size:11px;
-  margin-bottom:25px; line-height:1.8; letter-spacing:1px;
-}
-
-.device-info {
-  background:#000; border:1px solid #1a1a1a;
-  border-radius:10px; padding:16px 20px;
-  margin:20px 0; text-align:left;
-  font-size:11px; line-height:2.2;
-}
-
+.connection-box > p { color:#555; font-size:11px; margin-bottom:25px; line-height:1.8; letter-spacing:1px; }
+.device-info { background:#000; border:1px solid #1a1a1a; border-radius:10px; padding:16px 20px; margin:20px 0; text-align:left; font-size:11px; line-height:2.2; }
 .device-info strong { color:#fff; display:block; margin-bottom:2px; }
 .device-info span { color:#555; }
-
 .scan-wrap { margin:20px 0; }
-
-.scan-circle {
-  width:90px; height:90px;
-  border:2px solid #1a1a1a; border-top:2px solid #fff;
-  border-radius:50%; margin:0 auto 18px;
-  animation:spin 1s linear infinite; display:none;
-}
-
+.scan-circle { width:90px; height:90px; border:2px solid #1a1a1a; border-top:2px solid #fff; border-radius:50%; margin:0 auto 18px; animation:spin 1s linear infinite; display:none; }
 .scan-circle.active { display:block; }
 @keyframes spin { 100% { transform:rotate(360deg); } }
-
 .scan-dots { display:none; justify-content:center; gap:8px; margin-bottom:12px; }
 .scan-dots.active { display:flex; }
-
-.dot {
-  width:7px; height:7px; background:#fff; border-radius:50%;
-  animation:dotPulse 1.2s ease-in-out infinite;
-}
+.dot { width:7px; height:7px; background:#fff; border-radius:50%; animation:dotPulse 1.2s ease-in-out infinite; }
 .dot:nth-child(2) { animation-delay:0.2s; }
 .dot:nth-child(3) { animation-delay:0.4s; }
-
-@keyframes dotPulse {
-  0%,100% { opacity:0.15; transform:scale(0.8); }
-  50% { opacity:1; transform:scale(1.2); }
-}
-
+@keyframes dotPulse { 0%,100% { opacity:0.15; transform:scale(0.8); } 50% { opacity:1; transform:scale(1.2); } }
 .scan-text { font-size:10px; color:#555; letter-spacing:2px; min-height:18px; }
-
-.connect-btn {
-  background:#fff; color:#000; border:none;
-  padding:15px 45px; border-radius:30px;
-  font-weight:900; cursor:pointer;
-  font-family:'Orbitron',sans-serif;
-  font-size:13px; letter-spacing:2px; transition:all 0.3s; margin-top:8px;
-}
-
+.connect-btn { background:#fff; color:#000; border:none; padding:15px 45px; border-radius:30px; font-weight:900; cursor:pointer; font-family:'Orbitron',sans-serif; font-size:13px; letter-spacing:2px; transition:all 0.3s; margin-top:8px; }
 .connect-btn:hover { background:#ddd; transform:translateY(-2px); box-shadow:0 8px 25px rgba(255,255,255,0.15); }
 .connect-btn:active { transform:translateY(0); }
-.connect-btn:disabled { background:#1a1a1a; color:#444; cursor:not-allowed; transform:none; box-shadow:none; }
-
+.connect-btn:disabled { background:#1a1a1a; color:#444; cursor:not-allowed; transform:none; }
 #connectionStatus { margin-top:14px; color:#555; font-size:10px; letter-spacing:1px; min-height:18px; }
-
-/* PORT PICKER */
-.port-overlay {
-  display:none; position:fixed;
-  top:0; left:0; right:0; bottom:0;
-  background:rgba(0,0,0,0.85); z-index:1000;
-  align-items:center; justify-content:center;
-  backdrop-filter:blur(4px);
-}
-
+.port-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.85); z-index:1000; align-items:center; justify-content:center; backdrop-filter:blur(4px); }
 .port-overlay.active { display:flex; }
-
-.port-dialog {
-  background:#0a0a0a; border:2px solid #fff;
-  border-radius:20px; padding:40px;
-  width:500px; max-width:95vw;
-  animation:dialogIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
-}
-
-@keyframes dialogIn {
-  from { transform:scale(0.8); opacity:0; }
-  to { transform:scale(1); opacity:1; }
-}
-
+.port-dialog { background:#0a0a0a; border:2px solid #fff; border-radius:20px; padding:40px; width:500px; max-width:95vw; animation:dialogIn 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes dialogIn { from { transform:scale(0.8); opacity:0; } to { transform:scale(1); opacity:1; } }
 .port-dialog h3 { font-size:16px; letter-spacing:2px; margin-bottom:6px; }
 .port-dialog > p { color:#555; font-size:10px; letter-spacing:1px; margin-bottom:25px; line-height:1.7; }
-
-.port-list {
-  display:flex; flex-direction:column; gap:8px;
-  max-height:280px; overflow-y:auto; margin-bottom:20px;
-}
-
+.port-list { display:flex; flex-direction:column; gap:8px; max-height:280px; overflow-y:auto; margin-bottom:20px; }
 .port-list::-webkit-scrollbar { width:4px; }
 .port-list::-webkit-scrollbar-track { background:#000; }
 .port-list::-webkit-scrollbar-thumb { background:#333; border-radius:2px; }
-
-.port-item {
-  display:flex; align-items:center; justify-content:space-between;
-  background:#000; border:1px solid #1a1a1a;
-  border-radius:10px; padding:14px 18px;
-  cursor:pointer; transition:all 0.2s; text-align:left;
-}
-
+.port-item { display:flex; align-items:center; justify-content:space-between; background:#000; border:1px solid #1a1a1a; border-radius:10px; padding:14px 18px; cursor:pointer; transition:all 0.2s; text-align:left; }
 .port-item:hover { border-color:#fff; background:#0d0d0d; }
 .port-item.selected { border-color:#fff; background:#111; }
 .port-item-left { flex:1; }
 .port-item-name { font-size:13px; font-weight:700; color:#fff; letter-spacing:1px; margin-bottom:4px; }
 .port-item-detail { font-size:9px; color:#444; letter-spacing:1px; }
-
-.port-item-badge {
-  background:#fff; color:#000; font-size:9px;
-  font-weight:900; letter-spacing:1px; padding:4px 10px; border-radius:20px;
-}
-
+.port-item-badge { background:#fff; color:#000; font-size:9px; font-weight:900; letter-spacing:1px; padding:4px 10px; border-radius:20px; }
 .port-item-badge.unknown { background:#1a1a1a; color:#555; }
-
 .port-empty { text-align:center; padding:25px 20px; }
 .port-empty p { color:#444; font-size:10px; letter-spacing:1px; margin-bottom:8px; }
-
 .port-scanning { display:none; text-align:center; padding:20px; }
 .port-scanning.active { display:block; }
-
-.port-scan-ring {
-  width:50px; height:50px;
-  border:2px solid #1a1a1a; border-top:2px solid #fff;
-  border-radius:50%; margin:0 auto 14px;
-  animation:spin 0.8s linear infinite;
-}
-
+.port-scan-ring { width:50px; height:50px; border:2px solid #1a1a1a; border-top:2px solid #fff; border-radius:50%; margin:0 auto 14px; animation:spin 0.8s linear infinite; }
 .port-scanning p { color:#555; font-size:10px; letter-spacing:2px; }
-
 .port-dialog-btns { display:flex; gap:10px; justify-content:flex-end; margin-top:10px; }
-
-.port-btn-cancel {
-  background:transparent; color:#555; border:1px solid #222;
-  padding:12px 24px; border-radius:10px;
-  font-family:'Orbitron',sans-serif; font-size:11px;
-  letter-spacing:1px; cursor:pointer; transition:all 0.2s;
-}
-
+.port-btn-cancel { background:transparent; color:#555; border:1px solid #222; padding:12px 24px; border-radius:10px; font-family:'Orbitron',sans-serif; font-size:11px; letter-spacing:1px; cursor:pointer; transition:all 0.2s; }
 .port-btn-cancel:hover { color:#fff; border-color:#555; }
-
-.port-btn-connect {
-  background:#fff; color:#000; border:none;
-  padding:12px 28px; border-radius:10px;
-  font-family:'Orbitron',sans-serif; font-size:11px;
-  font-weight:900; letter-spacing:1px; cursor:pointer; transition:all 0.2s;
-}
-
+.port-btn-connect { background:#fff; color:#000; border:none; padding:12px 28px; border-radius:10px; font-family:'Orbitron',sans-serif; font-size:11px; font-weight:900; letter-spacing:1px; cursor:pointer; transition:all 0.2s; }
 .port-btn-connect:hover { background:#ddd; }
 .port-btn-connect:disabled { background:#1a1a1a; color:#444; cursor:not-allowed; }
-
-.port-btn-refresh {
-  background:transparent; color:#555; border:1px solid #222;
-  padding:12px 20px; border-radius:10px;
-  font-family:'Orbitron',sans-serif; font-size:11px;
-  letter-spacing:1px; cursor:pointer; transition:all 0.2s; margin-right:auto;
-}
-
+.port-btn-refresh { background:transparent; color:#555; border:1px solid #222; padding:12px 20px; border-radius:10px; font-family:'Orbitron',sans-serif; font-size:11px; letter-spacing:1px; cursor:pointer; transition:all 0.2s; margin-right:auto; }
 .port-btn-refresh:hover { color:#fff; border-color:#555; }
-
-/* STATUS */
-.status {
-  border:1px solid #fff; padding:10px 22px;
-  border-radius:25px; display:inline-block;
-  margin-bottom:25px; font-size:11px; color:#fff; letter-spacing:2px;
-}
-
+.status { border:1px solid #fff; padding:10px 22px; border-radius:25px; display:inline-block; margin-bottom:25px; font-size:11px; color:#fff; letter-spacing:2px; }
 .status.success { animation:statusFlash 0.5s ease; }
-
-@keyframes statusFlash {
-  0% { background:#fff; color:#000; }
-  100% { background:transparent; color:#fff; }
-}
-
-/* BOARD */
-.board {
-  width:600px; max-width:95vw; height:400px;
-  margin:25px auto; border:3px solid #fff;
-  border-radius:20px; position:relative; background:#0a0a0a;
-}
-
-.oled {
-  position:absolute; top:40px; left:49%;
-  transform:translateX(-50%); width:210px; height:110px;
-  border:3px solid #fff; border-radius:8px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:16px; font-weight:700; background:#000; color:#fff; letter-spacing:2px;
-}
-
-.encoderWrap { position:absolute; left:42.5px; top:40px; text-align:center; }
-
-.encoder {
-  width:90px; height:90px; border:3px solid #fff;
-  border-radius:50%; display:flex; align-items:center;
-  justify-content:center; margin:0 auto 10px; background:#0a0a0a;
-  font-weight:700; font-size:13px; color:#fff; cursor:pointer; transition:all 0.3s;
-}
-
+@keyframes statusFlash { 0% { background:#fff; color:#000; } 100% { background:transparent; color:#fff; } }
+.board { width:600px; max-width:95vw; height:400px; margin:25px auto; border:3px solid #fff; border-radius:20px; position:relative; background:#0a0a0a; }
+.oled { position:absolute; top:40px; left:49%; transform:translateX(-50%); width:210px; height:110px; border:3px solid #fff; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:700; background:#000; color:#fff; letter-spacing:2px; }
+.encoderWrap { position:absolute; left:42.5px; top:50px; text-align:center; }
+.encoder { width:90px; height:90px; border:3px solid #fff; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 10px; background:#0a0a0a; font-weight:700; font-size:13px; color:#fff; cursor:pointer; transition:all 0.3s; }
 .encoder:hover { background:#111; transform:rotate(20deg); }
-
-.buttons {
-  position:absolute; bottom:20px; left:50%;
-  transform:translateX(-50%); display:flex; gap:20px;
-}
-
+.buttons { position:absolute; bottom:45px; left:50%; transform:translateX(-50%); display:flex; gap:20px; }
 .btnBox { text-align:center; transition:all 0.3s; }
 .btnBox:hover { transform:translateY(-5px); }
-
-.btn {
-  width:110px; height:110px; border:3px solid #fff;
-  border-radius:16px; display:flex; align-items:center;
-  justify-content:center; margin-bottom:10px; font-size:24px;
-  font-weight:900; background:#0a0a0a; color:#fff;
-  cursor:pointer; transition:all 0.3s; position:relative; overflow:hidden;
-}
-
-.btn::after {
-  content:''; position:absolute; top:50%; left:50%;
-  width:0; height:0; background:rgba(255,255,255,0.08);
-  border-radius:50%; transform:translate(-50%,-50%); transition:all 0.4s;
-}
-
+.btn { width:110px; height:110px; border:3px solid #fff; border-radius:16px; display:flex; align-items:center; justify-content:center; margin-bottom:10px; font-size:24px; font-weight:900; background:#0a0a0a; color:#fff; cursor:pointer; transition:all 0.3s; }
 .btn:hover { background:#111; }
-.btn:hover::after { width:160px; height:160px; }
 .btn:active { transform:scale(0.95); }
-
-select {
-  background:#000; color:#fff; border:2px solid #fff;
-  padding:8px 6px; font-family:'Orbitron',sans-serif;
-  width:115px; border-radius:8px; font-size:11px;
-  font-weight:500; cursor:pointer; transition:all 0.2s;
-}
-
+select { background:#000; color:#fff; border:2px solid #fff; padding:8px 6px; font-family:'Orbitron',sans-serif; width:115px; border-radius:8px; font-size:11px; font-weight:500; cursor:pointer; transition:all 0.2s; }
 select:hover { background:#111; }
 select:focus { outline:none; background:#111; }
 option { background:#0a0a0a; }
 .encoder-select { width:100px; font-size:10px; }
-
-/* CLICK COUNT */
-.click-count {
-  font-size:9px; color:#555;
-  letter-spacing:1px; margin-top:6px;
-  transition:color 0.3s;
-}
-
-.click-count.updated { color:#777; }
-
-/* CONTROLS */
 .controls { margin-top:35px; display:flex; justify-content:center; gap:15px; flex-wrap:wrap; }
-
-.flash-btn {
-  background:#fff; color:#000; border:none;
-  padding:15px 45px; border-radius:30px; font-weight:900;
-  cursor:pointer; font-family:'Orbitron',sans-serif;
-  font-size:13px; letter-spacing:2px; transition:all 0.3s;
-  position:relative; overflow:hidden;
-}
-
-.flash-btn::before {
-  content:''; position:absolute; top:0; left:-100%;
-  width:100%; height:100%;
-  background:linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
-  transition:left 0.5s;
-}
-
+.flash-btn { background:#fff; color:#000; border:none; padding:15px 45px; border-radius:30px; font-weight:900; cursor:pointer; font-family:'Orbitron',sans-serif; font-size:13px; letter-spacing:2px; transition:all 0.3s; position:relative; overflow:hidden; }
+.flash-btn::before { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent); transition:left 0.5s; }
 .flash-btn:hover::before { left:100%; }
 .flash-btn:hover { background:#ddd; transform:translateY(-2px); }
 .flash-btn:active { transform:translateY(0); }
 .flash-btn:disabled { background:#1a1a1a; color:#444; cursor:not-allowed; }
-
 .flash-progress { display:none; margin:20px auto; max-width:500px; }
 .flash-progress.active { display:block; }
-
-.progress-bar-wrap {
-  background:#0a0a0a; border:1px solid #1a1a1a;
-  border-radius:30px; height:4px; overflow:hidden; margin-bottom:10px;
-}
-
-.progress-bar-fill {
-  height:100%; background:#fff; border-radius:30px; width:0%; transition:width 0.3s ease;
-}
-
+.progress-bar-wrap { background:#0a0a0a; border:1px solid #1a1a1a; border-radius:30px; height:4px; overflow:hidden; margin-bottom:10px; }
+.progress-bar-fill { height:100%; background:#fff; border-radius:30px; width:0%; transition:width 0.3s ease; }
 .progress-text { font-size:10px; color:#555; letter-spacing:2px; }
-
-.disconnect-btn {
-  background:transparent; color:#444; border:1px solid #222;
-  padding:15px 35px; border-radius:30px; font-weight:700;
-  cursor:pointer; font-family:'Orbitron',sans-serif;
-  font-size:12px; letter-spacing:1px; transition:all 0.3s;
-}
-
+.disconnect-btn { background:transparent; color:#444; border:1px solid #222; padding:15px 35px; border-radius:30px; font-weight:700; cursor:pointer; font-family:'Orbitron',sans-serif; font-size:12px; letter-spacing:1px; transition:all 0.3s; }
 .disconnect-btn:hover { color:#fff; border-color:#fff; transform:translateY(-2px); }
-
-/* PRESET SYSTEM */
-.preset-section {
-  margin:30px auto; max-width:700px;
-  background:#0a0a0a; border:1px solid #1a1a1a;
-  border-radius:15px; padding:25px 30px; text-align:left;
-}
-
-.preset-section h3 {
-  color:#fff; font-size:13px; letter-spacing:2px;
-  margin-bottom:20px; padding-bottom:12px; border-bottom:1px solid #111;
-}
-
+.preset-section { margin:30px auto; max-width:700px; background:#0a0a0a; border:1px solid #1a1a1a; border-radius:15px; padding:25px 30px; text-align:left; }
+.preset-section h3 { color:#fff; font-size:13px; letter-spacing:2px; margin-bottom:20px; padding-bottom:12px; border-bottom:1px solid #111; }
 .preset-row { display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
 .preset-label { font-size:10px; color:#444; letter-spacing:1px; min-width:70px; }
-
-.preset-name-input {
-  background:#000; color:#fff; border:1px solid #222;
-  padding:10px 14px; border-radius:8px;
-  font-family:'Orbitron',sans-serif; font-size:11px;
-  letter-spacing:1px; flex:1; min-width:140px; transition:border-color 0.2s;
-}
-
+.preset-name-input { background:#000; color:#fff; border:1px solid #222; padding:10px 14px; border-radius:8px; font-family:'Orbitron',sans-serif; font-size:11px; letter-spacing:1px; flex:1; min-width:140px; transition:border-color 0.2s; }
 .preset-name-input:focus { outline:none; border-color:#fff; }
 .preset-name-input::placeholder { color:#2a2a2a; }
-
-.preset-btn {
-  background:transparent; color:#aaa; border:1px solid #222;
-  padding:10px 18px; border-radius:8px;
-  font-family:'Orbitron',sans-serif; font-size:10px;
-  letter-spacing:1px; cursor:pointer; transition:all 0.2s; white-space:nowrap;
-}
-
+.preset-btn { background:transparent; color:#aaa; border:1px solid #222; padding:10px 18px; border-radius:8px; font-family:'Orbitron',sans-serif; font-size:10px; letter-spacing:1px; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
 .preset-btn:hover { color:#fff; border-color:#fff; transform:translateY(-1px); }
 .preset-btn.primary { background:#fff; color:#000; border-color:#fff; }
 .preset-btn.primary:hover { background:#ddd; }
-
 .file-import-wrap { position:relative; display:inline-block; }
 #fileInput { position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; cursor:pointer; }
-
 .preset-list { margin-top:16px; display:flex; flex-direction:column; gap:8px; }
 .preset-empty { font-size:10px; color:#2a2a2a; letter-spacing:1px; padding:15px 0; text-align:center; }
-
-.preset-item {
-  display:flex; align-items:center; justify-content:space-between;
-  background:#000; border:1px solid #111;
-  border-radius:8px; padding:12px 16px; transition:border-color 0.2s;
-}
-
+.preset-item { display:flex; align-items:center; justify-content:space-between; background:#000; border:1px solid #111; border-radius:8px; padding:12px 16px; transition:border-color 0.2s; }
 .preset-item:hover { border-color:#333; }
 .preset-item-name { font-size:11px; color:#fff; letter-spacing:1px; flex:1; }
 .preset-item-date { font-size:9px; color:#2a2a2a; letter-spacing:1px; margin:0 14px; }
 .preset-item-actions { display:flex; gap:7px; }
-
-.preset-action-btn {
-  background:transparent; color:#444; border:1px solid #1a1a1a;
-  padding:6px 11px; border-radius:6px;
-  font-family:'Orbitron',sans-serif; font-size:9px;
-  letter-spacing:1px; cursor:pointer; transition:all 0.2s;
-}
-
+.preset-action-btn { background:transparent; color:#444; border:1px solid #1a1a1a; padding:6px 11px; border-radius:6px; font-family:'Orbitron',sans-serif; font-size:9px; letter-spacing:1px; cursor:pointer; transition:all 0.2s; }
 .preset-action-btn.load:hover { color:#fff; border-color:#fff; background:#111; }
 .preset-action-btn.dl:hover { color:#fff; border-color:#fff; background:#111; }
 .preset-action-btn.del:hover { color:#fff; border-color:#fff; background:#1a0000; }
-
-/* HOW TO */
-.howto {
-  margin:20px auto; max-width:700px;
-  background:#0a0a0a; border:1px solid #111;
-  border-radius:15px; padding:25px 30px;
-  text-align:left; font-size:11px; line-height:2;
-}
-
+.howto { margin:20px auto; max-width:700px; background:#0a0a0a; border:1px solid #111; border-radius:15px; padding:25px 30px; text-align:left; font-size:11px; line-height:2; }
 .howto h3 { color:#fff; margin-bottom:12px; font-size:13px; letter-spacing:2px; }
 .howto ol { margin-left:20px; color:#444; }
 .howto li { margin:6px 0; }
-
-/* TOAST */
-.toast {
-  position:fixed; bottom:30px; left:50%;
-  transform:translateX(-50%) translateY(100px);
-  background:#fff; color:#000;
-  padding:14px 30px; border-radius:30px;
-  font-size:12px; font-weight:700; letter-spacing:2px;
-  transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
-  z-index:9999; white-space:nowrap;
-}
-
+.toast { position:fixed; bottom:30px; left:50%; transform:translateX(-50%) translateY(100px); background:#fff; color:#000; padding:14px 30px; border-radius:30px; font-size:12px; font-weight:700; letter-spacing:2px; transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1); z-index:9999; white-space:nowrap; }
 .toast.show { transform:translateX(-50%) translateY(0); }
 </style>
 </head>
@@ -433,19 +137,15 @@ option { background:#0a0a0a; }
 
 <div class="toast" id="toast"></div>
 
-<!-- PORT PICKER -->
 <div class="port-overlay" id="portOverlay">
   <div class="port-dialog">
     <h3>Select Device</h3>
     <p>Choose your RageODevice from the list below.<br>Make sure it is connected via USB.</p>
-
     <div class="port-scanning" id="portScanning">
       <div class="port-scan-ring"></div>
       <p>Scanning for devices...</p>
     </div>
-
     <div class="port-list" id="portList"></div>
-
     <div class="port-dialog-btns">
       <button class="port-btn-refresh" onclick="refreshPorts()">Refresh</button>
       <button class="port-btn-cancel" onclick="closePortDialog()">Cancel</button>
@@ -454,23 +154,19 @@ option { background:#0a0a0a; }
   </div>
 </div>
 
-<!-- PAGE 1: CONNECT -->
 <div id="page1" class="page active">
   <h1>RageODevice</h1>
   <p class="subtitle">CUSTOM KEYBOARD CONFIGURATOR</p>
-
   <div class="connection-wrap">
     <div class="connection-box">
       <h2>Connect to RageODevice</h2>
       <p>Connect your device via USB and click the button below.<br>
       <span style="color:#555;font-size:10px;letter-spacing:1px;">Use Chrome or Edge for Web Serial support</span></p>
-
       <div class="device-info">
         <strong>Device name:</strong><span>RageODevice</span>
         <strong>Baud rate:</strong><span>115200</span>
         <strong>Connection:</strong><span>USB</span>
       </div>
-
       <div class="scan-wrap">
         <div class="scan-circle" id="scanCircle"></div>
         <div class="scan-dots" id="scanDots">
@@ -478,23 +174,18 @@ option { background:#0a0a0a; }
         </div>
         <div class="scan-text" id="scanText"></div>
       </div>
-
       <button class="connect-btn" onclick="openPortDialog()" id="connectBtn">Connect Device</button>
       <p id="connectionStatus"></p>
     </div>
   </div>
 </div>
 
-<!-- PAGE 2: CONFIGURATOR -->
 <div id="page2" class="page">
   <h1>RageODevice</h1>
   <p class="subtitle">CUSTOM KEYBOARD CONFIGURATOR</p>
-
   <div class="status" id="status">Connected</div>
-
   <div class="board">
     <div class="oled">RageODevice</div>
-
     <div class="encoderWrap">
       <div class="encoder" id="encoderDisplay">VOL</div>
       <select id="enc" class="encoder-select" onchange="updateEncoderDisplay()">
@@ -503,44 +194,21 @@ option { background:#0a0a0a; }
         <option value="2">Scroll</option>
       </select>
     </div>
-
     <div class="buttons">
-      <div class="btnBox">
-        <div class="btn">S1</div>
-        <select id="b1"></select>
-        <div class="click-count" id="clicks0">— clicks</div>
-      </div>
-      <div class="btnBox">
-        <div class="btn">S2</div>
-        <select id="b2"></select>
-        <div class="click-count" id="clicks1">— clicks</div>
-      </div>
-      <div class="btnBox">
-        <div class="btn">S3</div>
-        <select id="b3"></select>
-        <div class="click-count" id="clicks2">— clicks</div>
-      </div>
-      <div class="btnBox">
-        <div class="btn">S4</div>
-        <select id="b4"></select>
-        <div class="click-count" id="clicks3">— clicks</div>
-      </div>
+      <div class="btnBox"><div class="btn">S1</div><select id="b1"></select></div>
+      <div class="btnBox"><div class="btn">S2</div><select id="b2"></select></div>
+      <div class="btnBox"><div class="btn">S3</div><select id="b3"></select></div>
+      <div class="btnBox"><div class="btn">S4</div><select id="b4"></select></div>
     </div>
   </div>
-
   <div class="flash-progress" id="flashProgress">
-    <div class="progress-bar-wrap">
-      <div class="progress-bar-fill" id="progressFill"></div>
-    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
     <div class="progress-text" id="progressText">Sending...</div>
   </div>
-
   <div class="controls">
     <button class="flash-btn" onclick="sendToDevice()" id="sendBtn">Send to Device</button>
     <button class="disconnect-btn" onclick="disconnectDevice()">Disconnect</button>
   </div>
-
-  <!-- PRESET SYSTEM -->
   <div class="preset-section">
     <h3>Presets</h3>
     <div class="preset-row">
@@ -558,15 +226,13 @@ option { background:#0a0a0a; }
     </div>
     <div class="preset-list" id="presetList"></div>
   </div>
-
   <div class="howto">
     <h3>How to use:</h3>
     <ol>
-      <li>Select the key or shortcut for each button using the dropdowns</li>
+      <li>Select the key or shortcut for each button</li>
       <li>Choose encoder mode: Volume, Zoom or Scroll</li>
-      <li>Click "Send to Device" to apply your settings</li>
-      <li>Save a preset or download as .txt to share with others</li>
-      <li>Import a .txt preset file to instantly load those settings</li>
+      <li>Click "Send to Device" to save settings</li>
+      <li>Disconnect safely when done</li>
     </ol>
   </div>
 </div>
@@ -575,7 +241,6 @@ option { background:#0a0a0a; }
 let port = null;
 let selectedPortIndex = null;
 let availablePorts = [];
-let serialReader = null;
 
 const DEVICE_NAMES = {
   '2341:0037':'RageODevice','2341:8037':'RageODevice',
@@ -598,8 +263,6 @@ const keys = [
 
 const defaults = [0, 2, 72, 0];
 let savedPresets = JSON.parse(localStorage.getItem('ragePresets') || '[]');
-
-// ---- PORT PICKER ----
 
 async function openPortDialog() {
   document.getElementById('portOverlay').classList.add('active');
@@ -625,12 +288,9 @@ async function refreshPorts() {
 
   await new Promise(r => setTimeout(r, 600));
   scanning.classList.remove('active');
-
-  // Haal eerder toegestane poorten op - geen browser dialoog
   availablePorts = await navigator.serial.getPorts();
 
   if(availablePorts.length > 0) {
-    // Auto-selecteer eerste bekende RageODevice
     availablePorts.forEach((p, i) => {
       const info = p.getInfo();
       const vid = info.usbVendorId ? info.usbVendorId.toString(16).toUpperCase().padStart(4,'0') : null;
@@ -643,7 +303,6 @@ async function refreshPorts() {
     });
     renderPortList();
   } else {
-    // Eerste keer - vraag toegang
     list.innerHTML = `
       <div class="port-empty">
         <p>No devices found</p>
@@ -658,7 +317,6 @@ async function refreshPorts() {
 
 async function grantAccess() {
   try {
-    // Browser dialoog - alleen 1x nodig voor toestemming
     await navigator.serial.requestPort({
       filters: [
         { usbVendorId: 0x2341, usbProductId: 0x0037 },
@@ -670,7 +328,6 @@ async function grantAccess() {
         { usbVendorId: 0x2342, usbProductId: 0x8038 },
       ]
     });
-    // Daarna altijd via getPorts - geen dialoog meer
     await refreshPorts();
   } catch(e) {}
 }
@@ -730,14 +387,6 @@ async function connectSelected() {
     document.getElementById('page1').classList.remove('active');
     document.getElementById('page2').classList.add('active');
     initSelects();
-
-    // Start reading serial data van Arduino
-    startReadingSerial();
-
-    // Vraag click counts op
-    await new Promise(r => setTimeout(r, 500));
-    await requestClicks();
-
     showToast('RageODevice Connected');
 
   } catch(e) {
@@ -750,66 +399,6 @@ async function connectSelected() {
     document.getElementById('portList').appendChild(errDiv);
   }
 }
-
-// ---- SERIAL READING ----
-
-function startReadingSerial() {
-  if(!port || !port.readable) return;
-
-  let buffer = '';
-  const reader = port.readable.getReader();
-  serialReader = reader;
-
-  async function read() {
-    try {
-      while(true) {
-        const { value, done } = await reader.read();
-        if(done) break;
-        buffer += new TextDecoder().decode(value);
-        const lines = buffer.split('\n');
-        buffer = lines.pop(); // bewaar onvolledige regel
-        for(const line of lines) {
-          handleIncoming(line.trim());
-        }
-      }
-    } catch(e) {
-      // Verbinding verbroken
-    }
-    reader.releaseLock();
-  }
-
-  read();
-}
-
-function handleIncoming(line) {
-  if(!line) return;
-  console.log('Arduino:', line);
-
-  if(line.startsWith('CLICKS:')) {
-    const parts = line.replace('CLICKS:', '').split(',');
-    parts.forEach((v, i) => {
-      const el = document.getElementById('clicks' + i);
-      if(el) {
-        const num = parseInt(v);
-        el.textContent = num.toLocaleString() + ' clicks';
-        // Kort oplichten bij update
-        el.classList.add('updated');
-        setTimeout(() => el.classList.remove('updated'), 1000);
-      }
-    });
-  }
-}
-
-async function requestClicks() {
-  if(!port || !port.writable) return;
-  try {
-    const writer = port.writable.getWriter();
-    await writer.write(new TextEncoder().encode('GETCLICKS\n'));
-    writer.releaseLock();
-  } catch(e) {}
-}
-
-// ---- SELECTS ----
 
 function buildOptions(selectId, defaultVal) {
   const sel = document.getElementById(selectId);
@@ -857,8 +446,6 @@ function applyConfig(cfg) {
   updateEncoderDisplay();
 }
 
-// ---- SEND ----
-
 async function sendToDevice() {
   if(!port) { showToast('Not connected!'); return; }
 
@@ -878,8 +465,6 @@ async function sendToDevice() {
     textEl.textContent = 'Sending settings...';
 
     const jsonStr = JSON.stringify(getCurrentConfig()) + '\n';
-    console.log('Sending:', jsonStr);
-
     const encoded = new TextEncoder().encode(jsonStr);
     const writer = port.writable.getWriter();
 
@@ -903,7 +488,7 @@ async function sendToDevice() {
     statusEl.classList.add('success');
     setTimeout(() => { statusEl.textContent = 'Connected'; statusEl.classList.remove('success'); }, 2000);
 
-    showToast('Settings Saved to Device');
+    showToast('Settings Saved!');
     await new Promise(r => setTimeout(r, 800));
     progressEl.classList.remove('active');
     fillEl.style.width = '0%';
@@ -914,11 +499,8 @@ async function sendToDevice() {
     sendBtn.disabled = false;
     document.getElementById('status').textContent = 'Error: ' + e.message;
     showToast('Failed: ' + e.message);
-    console.error(e);
   }
 }
-
-// ---- PRESETS ----
 
 function configToText(name, cfg) {
   return [
@@ -1048,8 +630,6 @@ function renderPresetList() {
   `).join('');
 }
 
-// ---- UTILS ----
-
 function showToast(msg, duration=2500) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -1064,10 +644,6 @@ function setScanState(active, text='') {
 }
 
 async function disconnectDevice() {
-  if(serialReader) {
-    try { await serialReader.cancel(); } catch(e) {}
-    serialReader = null;
-  }
   if(port) {
     try { await port.close(); } catch(e) {}
     port = null;
