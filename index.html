@@ -2,95 +2,139 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>RageODevice Configurator</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { background:#000; color:#fff; font-family:'Orbitron',sans-serif; text-align:center; min-height:100vh; padding:20px; }
+:root {
+  --bg:#000; --bg-card:#0c0c0c; --border:#1a1a1a; --border-bright:#2a2a2a; --text:#fff; --text-muted:#888; --text-dim:#555;
+  --radius:12px; --radius-lg:20px; --safe-top:env(safe-area-inset-top,0); --safe-bottom:env(safe-area-inset-bottom,0); --safe-left:env(safe-area-inset-left,0); --safe-right:env(safe-area-inset-right,0);
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--text); font-family:'Orbitron',sans-serif; text-align:center; min-height:100vh; min-height:-webkit-fill-available; padding:16px; padding-top:calc(16px + var(--safe-top)); padding-bottom:calc(16px + var(--safe-bottom)); padding-left:calc(16px + var(--safe-left)); padding-right:calc(16px + var(--safe-right)); line-height:1.5; }
 .page { display:none; }
-.page.active { display:block; }
-h1 { margin:30px 0 8px; font-size:38px; font-weight:900; letter-spacing:3px; }
-.subtitle { color:#555; font-size:11px; margin-bottom:30px; letter-spacing:3px; }
-.connection-wrap { display:flex; align-items:center; justify-content:center; min-height:70vh; }
-.connection-box { background:#0a0a0a; border:2px solid #fff; border-radius:20px; padding:50px 70px; max-width:580px; width:100%; position:relative; overflow:hidden; }
-.connection-box::before { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:conic-gradient(transparent,transparent,transparent,#fff); animation:rotate 4s linear infinite; opacity:0.03; pointer-events:none; }
+.page.active { display:block; animation:fadeIn 0.25s ease; }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+h1 { margin:24px 0 6px; font-size:clamp(28px,6vw,42px); font-weight:900; letter-spacing:4px; }
+.subtitle { color:var(--text-dim); font-size:10px; margin-bottom:24px; letter-spacing:4px; text-transform:uppercase; }
+.connection-wrap { display:flex; align-items:center; justify-content:center; min-height:60vh; padding:16px 0; width:100%; }
+.connection-box { background:var(--bg-card); border:2px solid var(--border-bright); border-radius:var(--radius-lg); padding:clamp(28px,6vw,50px) clamp(24px,5vw,70px); max-width:min(520px, calc(100% - 32px)); width:100%; margin:0 auto; position:relative; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.03); text-align:center; }
+.connection-box::before { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:conic-gradient(transparent,transparent,transparent,#fff); animation:rotate 6s linear infinite; opacity:0.02; pointer-events:none; }
 @keyframes rotate { 100% { transform:rotate(360deg); } }
-.connection-box h2 { font-size:20px; margin-bottom:10px; letter-spacing:2px; }
-.connection-box > p { color:#555; font-size:11px; margin-bottom:25px; line-height:1.8; letter-spacing:1px; }
-.device-info { background:#000; border:1px solid #1a1a1a; border-radius:10px; padding:16px 20px; margin:20px 0; text-align:left; font-size:11px; line-height:2.2; }
-.device-info strong { color:#fff; display:block; margin-bottom:2px; }
-.device-info span { color:#555; }
-.scan-wrap { margin:20px 0; }
-.scan-circle { width:90px; height:90px; border:2px solid #1a1a1a; border-top:2px solid #fff; border-radius:50%; margin:0 auto 18px; animation:spin 1s linear infinite; display:none; }
+.connection-box h2 { font-size:18px; margin-bottom:8px; letter-spacing:2px; font-weight:700; }
+.connection-box > p { color:var(--text-dim); font-size:11px; margin-bottom:20px; line-height:1.7; letter-spacing:1px; }
+.device-info { background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); padding:14px 18px; margin:18px 0; text-align:left; font-size:11px; line-height:2; }
+.device-info strong { color:var(--text); display:block; margin-bottom:2px; font-weight:700; }
+.device-info span { color:var(--text-dim); }
+.mobile-hint { display:none; margin-top:12px; padding:12px; background:rgba(255,255,255,0.05); border-radius:var(--radius); font-size:10px; color:var(--text-muted); line-height:1.6; text-align:left; }
+.serial-unsupported { display:none; margin-top:16px; padding:14px; background:rgba(255,200,0,0.08); border:1px solid rgba(255,200,0,0.3); border-radius:var(--radius); font-size:11px; color:#ccc; line-height:1.6; text-align:left; }
+.serial-unsupported.show { display:block; }
+.serial-unsupported strong { color:#fff; }
+.scan-wrap { margin:18px 0; }
+.scan-circle { width:72px; height:72px; border:2px solid var(--border); border-top-color:#fff; border-radius:50%; margin:0 auto 14px; animation:spin 1s linear infinite; display:none; }
 .scan-circle.active { display:block; }
 @keyframes spin { 100% { transform:rotate(360deg); } }
-.scan-dots { display:none; justify-content:center; gap:8px; margin-bottom:12px; }
+.scan-dots { display:none; justify-content:center; gap:6px; margin-bottom:10px; }
 .scan-dots.active { display:flex; }
-.dot { width:7px; height:7px; background:#fff; border-radius:50%; animation:dotPulse 1.2s ease-in-out infinite; }
+.dot { width:6px; height:6px; background:#fff; border-radius:50%; animation:dotPulse 1.2s ease-in-out infinite; }
 .dot:nth-child(2) { animation-delay:0.2s; }
 .dot:nth-child(3) { animation-delay:0.4s; }
-@keyframes dotPulse { 0%,100% { opacity:0.15; transform:scale(0.8); } 50% { opacity:1; transform:scale(1.2); } }
-.scan-text { font-size:10px; color:#555; letter-spacing:2px; min-height:18px; }
-.connect-btn { background:#fff; color:#000; border:none; padding:15px 45px; border-radius:30px; font-weight:900; cursor:pointer; font-family:'Orbitron',sans-serif; font-size:13px; letter-spacing:2px; transition:all 0.3s; margin-top:8px; }
-.connect-btn:hover { background:#ddd; transform:translateY(-2px); box-shadow:0 8px 25px rgba(255,255,255,0.15); }
+@keyframes dotPulse { 0%,100% { opacity:0.2; transform:scale(0.85); } 50% { opacity:1; transform:scale(1.15); } }
+.scan-text { font-size:10px; color:var(--text-dim); letter-spacing:2px; min-height:16px; }
+.connect-btn { background:#fff; color:#000; border:none; padding:16px 40px; border-radius:999px; font-weight:900; cursor:pointer; font-family:'Orbitron',sans-serif; font-size:12px; letter-spacing:2px; transition:transform 0.2s,box-shadow 0.2s,background 0.2s; margin-top:8px; min-height:48px; }
+.connect-btn:hover { background:#e8e8e8; transform:translateY(-1px); box-shadow:0 6px 20px rgba(255,255,255,0.12); }
 .connect-btn:active { transform:translateY(0); }
-.connect-btn:disabled { background:#1a1a1a; color:#444; cursor:not-allowed; transform:none; }
-#connectionStatus { margin-top:14px; color:#555; font-size:10px; letter-spacing:1px; min-height:18px; }
-.port-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.85); z-index:1000; align-items:center; justify-content:center; backdrop-filter:blur(4px); }
+.connect-btn:disabled { background:var(--border); color:#444; cursor:not-allowed; transform:none; }
+#connectionStatus { margin-top:12px; color:var(--text-dim); font-size:10px; letter-spacing:1px; min-height:16px; }
+.port-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:1000; align-items:center; justify-content:center; padding:16px; padding-top:calc(16px + var(--safe-top)); padding-bottom:calc(16px + var(--safe-bottom)); backdrop-filter:blur(8px); }
 .port-overlay.active { display:flex; }
-.port-dialog { background:#0a0a0a; border:2px solid #fff; border-radius:20px; padding:40px; width:500px; max-width:95vw; animation:dialogIn 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+.port-dialog { background:var(--bg-card); border:2px solid var(--border-bright); border-radius:var(--radius-lg); padding:28px 24px; width:100%; max-width:440px; max-height:85vh; overflow:hidden; display:flex; flex-direction:column; animation:dialogIn 0.3s cubic-bezier(0.34,1.56,0.64,1); }
 @keyframes dialogIn { from { transform:scale(0.8); opacity:0; } to { transform:scale(1); opacity:1; } }
-.port-dialog h3 { font-size:16px; letter-spacing:2px; margin-bottom:6px; }
-.port-dialog > p { color:#555; font-size:10px; letter-spacing:1px; margin-bottom:25px; line-height:1.7; }
-.port-list { display:flex; flex-direction:column; gap:8px; max-height:280px; overflow-y:auto; margin-bottom:20px; }
+.port-dialog h3 { font-size:15px; letter-spacing:2px; margin-bottom:6px; font-weight:700; }
+.port-dialog > p { color:var(--text-dim); font-size:10px; letter-spacing:1px; margin-bottom:20px; line-height:1.6; }
+.port-list { display:flex; flex-direction:column; gap:8px; max-height:240px; overflow-y:auto; margin-bottom:16px; -webkit-overflow-scrolling:touch; }
 .port-list::-webkit-scrollbar { width:4px; }
-.port-list::-webkit-scrollbar-track { background:#000; }
-.port-list::-webkit-scrollbar-thumb { background:#333; border-radius:2px; }
-.port-item { display:flex; align-items:center; justify-content:space-between; background:#000; border:1px solid #1a1a1a; border-radius:10px; padding:14px 18px; cursor:pointer; transition:all 0.2s; text-align:left; }
-.port-item:hover { border-color:#fff; background:#0d0d0d; }
+.port-list::-webkit-scrollbar-track { background:var(--bg); }
+.port-list::-webkit-scrollbar-thumb { background:var(--border-bright); border-radius:2px; }
+.port-item { display:flex; align-items:center; justify-content:space-between; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; cursor:pointer; transition:border-color 0.2s,background 0.2s; text-align:left; min-height:56px; }
+.port-item:hover, .port-item:focus { border-color:var(--border-bright); background:#0e0e0e; }
 .port-item.selected { border-color:#fff; background:#111; }
-.port-item-left { flex:1; }
-.port-item-name { font-size:13px; font-weight:700; color:#fff; letter-spacing:1px; margin-bottom:4px; }
-.port-item-detail { font-size:9px; color:#444; letter-spacing:1px; }
-.port-item-badge { background:#fff; color:#000; font-size:9px; font-weight:900; letter-spacing:1px; padding:4px 10px; border-radius:20px; }
-.port-item-badge.unknown { background:#1a1a1a; color:#555; }
-.port-empty { text-align:center; padding:25px 20px; }
-.port-empty p { color:#444; font-size:10px; letter-spacing:1px; margin-bottom:8px; }
+.port-item-left { flex:1; min-width:0; }
+.port-item-name { font-size:13px; font-weight:700; color:#fff; letter-spacing:1px; margin-bottom:2px; }
+.port-item-detail { font-size:9px; color:var(--text-dim); letter-spacing:1px; }
+.port-item-badge { background:#fff; color:#000; font-size:9px; font-weight:900; letter-spacing:1px; padding:4px 10px; border-radius:999px; flex-shrink:0; }
+.port-item-badge.unknown { background:var(--border); color:var(--text-dim); }
+.port-empty { text-align:center; padding:24px 16px; }
+.port-empty p { color:var(--text-dim); font-size:10px; letter-spacing:1px; margin-bottom:8px; }
 .port-scanning { display:none; text-align:center; padding:20px; }
 .port-scanning.active { display:block; }
-.port-scan-ring { width:50px; height:50px; border:2px solid #1a1a1a; border-top:2px solid #fff; border-radius:50%; margin:0 auto 14px; animation:spin 0.8s linear infinite; }
-.port-scanning p { color:#555; font-size:10px; letter-spacing:2px; }
-.port-dialog-btns { display:flex; gap:10px; justify-content:flex-end; margin-top:10px; }
-.port-btn-cancel { background:transparent; color:#555; border:1px solid #222; padding:12px 24px; border-radius:10px; font-family:'Orbitron',sans-serif; font-size:11px; letter-spacing:1px; cursor:pointer; transition:all 0.2s; }
-.port-btn-cancel:hover { color:#fff; border-color:#555; }
-.port-btn-connect { background:#fff; color:#000; border:none; padding:12px 28px; border-radius:10px; font-family:'Orbitron',sans-serif; font-size:11px; font-weight:900; letter-spacing:1px; cursor:pointer; transition:all 0.2s; }
-.port-btn-connect:hover { background:#ddd; }
-.port-btn-connect:disabled { background:#1a1a1a; color:#444; cursor:not-allowed; }
-.port-btn-refresh { background:transparent; color:#555; border:1px solid #222; padding:12px 20px; border-radius:10px; font-family:'Orbitron',sans-serif; font-size:11px; letter-spacing:1px; cursor:pointer; transition:all 0.2s; margin-right:auto; }
-.port-btn-refresh:hover { color:#fff; border-color:#555; }
-.status { border:1px solid #fff; padding:10px 22px; border-radius:25px; display:inline-block; margin-bottom:25px; font-size:11px; color:#fff; letter-spacing:2px; }
+.port-scan-ring { width:44px; height:44px; border:2px solid var(--border); border-top-color:#fff; border-radius:50%; margin:0 auto 12px; animation:spin 0.8s linear infinite; }
+.port-scanning p { color:var(--text-dim); font-size:10px; letter-spacing:2px; }
+.port-dialog-btns { display:flex; gap:10px; justify-content:flex-end; margin-top:8px; flex-wrap:wrap; }
+.port-btn-cancel, .port-btn-connect, .port-btn-refresh { padding:12px 20px; border-radius:var(--radius); font-family:'Orbitron',sans-serif; font-size:11px; letter-spacing:1px; cursor:pointer; transition:all 0.2s; min-height:44px; }
+.port-btn-cancel { background:transparent; color:var(--text-dim); border:1px solid var(--border-bright); }
+.port-btn-cancel:hover { color:#fff; border-color:var(--text-muted); }
+.port-btn-connect { background:#fff; color:#000; border:none; font-weight:900; }
+.port-btn-connect:hover { background:#e8e8e8; }
+.port-btn-connect:disabled { background:var(--border); color:#444; cursor:not-allowed; }
+.port-btn-refresh { background:transparent; color:var(--text-dim); border:1px solid var(--border-bright); margin-right:auto; }
+.port-btn-refresh:hover { color:#fff; border-color:var(--text-muted); }
+.status { border:1px solid var(--border-bright); padding:10px 20px; border-radius:999px; display:inline-block; margin-bottom:20px; font-size:10px; color:#fff; letter-spacing:2px; }
 .status.success { animation:statusFlash 0.5s ease; }
 @keyframes statusFlash { 0% { background:#fff; color:#000; } 100% { background:transparent; color:#fff; } }
-.board { width:600px; max-width:95vw; height:400px; margin:25px auto; border:3px solid #fff; border-radius:20px; position:relative; background:#0a0a0a; }
-.oled { position:absolute; top:40px; left:49%; transform:translateX(-50%); width:210px; height:110px; border:3px solid #fff; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:700; background:#000; color:#fff; letter-spacing:2px; }
-.encoderWrap { position:absolute; left:42.5px; top:50px; text-align:center; }
-.encoder { width:90px; height:90px; border:3px solid #fff; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 10px; background:#0a0a0a; font-weight:700; font-size:13px; color:#fff; cursor:pointer; transition:all 0.3s; }
-.encoder:hover { background:#111; transform:rotate(20deg); }
-.buttons { position:absolute; bottom:45px; left:50%; transform:translateX(-50%); display:flex; gap:20px; }
-.btnBox { text-align:center; transition:all 0.3s; }
-.btnBox:hover { transform:translateY(-5px); }
-.btn { width:110px; height:110px; border:3px solid #fff; border-radius:16px; display:flex; align-items:center; justify-content:center; margin-bottom:10px; font-size:24px; font-weight:900; background:#0a0a0a; color:#fff; cursor:pointer; transition:all 0.3s; }
-.btn:hover { background:#111; }
-.btn:active { transform:scale(0.95); }
-select { background:#000; color:#fff; border:2px solid #fff; padding:8px 6px; font-family:'Orbitron',sans-serif; width:115px; border-radius:8px; font-size:11px; font-weight:500; cursor:pointer; transition:all 0.2s; }
-select:hover { background:#111; }
-select:focus { outline:none; background:#111; }
+
+.board-legend { font-size:10px; color:var(--text-dim); letter-spacing:1px; margin-bottom:12px; max-width:520px; margin-left:auto; margin-right:auto; line-height:1.5; }
+.board { width:min(650px,100%); height:min(420px,72vw); margin:0 auto 20px; border:2px solid var(--border-bright); border-radius:var(--radius-lg); position:relative; background:var(--bg-card); box-shadow:0 4px 24px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.03); }
+.btn-sub { position:absolute; bottom:8px; left:0; right:0; font-size:7px; color:#555; }
+.oled { position:absolute; top:7%; left:50%; transform:translateX(-50%); width:min(210px,38%); height:min(110px,22%); border:2px solid var(--border-bright); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:clamp(12px,2.5vw,16px); font-weight:700; background:var(--bg); color:#fff; letter-spacing:2px; }
+.buttons { position:absolute; bottom:8%; left:50%; transform:translateX(-50%); display:flex; flex-direction:row; align-items:flex-end; justify-content:center; gap:min(18px,3vw); max-width:95%; }
+.encoder-s1-wrap { display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:8px; text-align:center; min-width:min(130px,26vw); }
+.encoder-s1-wrap .encoder { flex-shrink:0; }
+.encoder { width:min(110px,22vw); height:min(110px,22vw); border:2px solid var(--border-bright); border-radius:50%; display:flex; align-items:center; justify-content:center; background:radial-gradient(circle at 30% 30%,#151515,#000); font-weight:700; font-size:10px; color:#fff; cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden; box-shadow:0 0 16px rgba(255,255,255,0.06); }
+.encoder:hover, .encoder:active { background:radial-gradient(circle at 30% 30%,#1e1e1e,#000); box-shadow:0 0 20px rgba(255,255,255,0.1); }
+.btnBox { text-align:center; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; }
+.btn { width:min(130px,26vw); height:min(130px,26vw); min-width:72px; min-height:72px; border:2px solid var(--border-bright); border-radius:14px; display:flex; align-items:center; justify-content:center; background:linear-gradient(145deg,#111,#060606); font-size:clamp(14px,3vw,18px); font-weight:900; color:#fff; cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,0.3); }
+.btn:hover, .btn:active { background:linear-gradient(145deg,#181818,#0a0a0a); box-shadow:0 0 18px rgba(255,255,255,0.08); transform:translateY(-1px); }
+
+/* CONFIG OVERLAY THAT APPEARS ON CLICK */
+.config-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.94); z-index:2000; display:none; align-items:center; justify-content:center; padding:16px; padding-top:calc(16px + var(--safe-top)); padding-bottom:calc(16px + var(--safe-bottom)); backdrop-filter:blur(10px); overflow-y:auto; }
+.config-overlay.active { display:flex; }
+.config-panel { background:var(--bg-card); border:2px solid var(--border-bright); border-radius:var(--radius-lg); padding:24px 20px; width:100%; max-width:420px; max-height:90vh; overflow-y:auto; animation:dialogIn 0.3s cubic-bezier(0.34,1.56,0.64,1); margin:auto; }
+.config-panel h3 { font-size:16px; letter-spacing:2px; margin-bottom:20px; text-align:center; font-weight:700; }
+
+.config-tabs { display:flex; gap:8px; margin-bottom:20px; }
+.config-tab { flex:1; background:transparent; color:#555; border:2px solid #222; padding:12px 8px; border-radius:10px; font-family:'Orbitron',sans-serif; font-size:11px; letter-spacing:1px; cursor:pointer; transition:all 0.2s; font-weight:700; min-height:44px; }
+.config-tab:hover { color:#fff; border-color:#555; }
+.config-tab.active { background:#fff; color:#000; border-color:#fff; }
+
+.config-content { min-height:200px; }
+.config-section { display:none; }
+.config-section.active { display:block; }
+
+.config-label { font-size:10px; color:#555; letter-spacing:1px; margin-bottom:8px; display:block; }
+
+select.config-select, .config-input { background:#000; color:#fff; border:2px solid #fff; padding:12px; font-family:'Orbitron',sans-serif; width:100%; border-radius:10px; font-size:12px; margin-bottom:15px; min-height:48px; }
+select.config-select { font-weight:500; cursor:pointer; }
+select.config-select:hover { background:#111; }
+select.config-select:focus { outline:none; background:#111; }
 option { background:#0a0a0a; }
-.encoder-select { width:100px; font-size:10px; }
+
+.config-input:hover { background:#111; }
+.config-input:focus { outline:none; background:#111; border-color:#fff; }
+.config-input::placeholder { color:#333; }
+
+.config-btns { display:flex; gap:10px; margin-top:25px; }
+.config-btn-cancel { flex:1; background:transparent; color:#555; border:2px solid #222; padding:14px; border-radius:10px; font-family:'Orbitron',sans-serif; font-size:12px; letter-spacing:1px; cursor:pointer; transition:all 0.2s; font-weight:700; }
+.config-btn-cancel:hover { color:#fff; border-color:#fff; }
+.config-btn-save { flex:1; background:#fff; color:#000; border:none; padding:14px; border-radius:10px; font-family:'Orbitron',sans-serif; font-size:12px; font-weight:900; letter-spacing:1px; cursor:pointer; transition:all 0.2s; }
+.config-btn-save:hover { background:#ddd; transform:translateY(-1px); }
+
 .controls { margin-top:35px; display:flex; justify-content:center; gap:15px; flex-wrap:wrap; }
-.flash-btn { background:#fff; color:#000; border:none; padding:15px 45px; border-radius:30px; font-weight:900; cursor:pointer; font-family:'Orbitron',sans-serif; font-size:13px; letter-spacing:2px; transition:all 0.3s; position:relative; overflow:hidden; }
-.flash-btn::before { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent); transition:left 0.5s; }
-.flash-btn:hover::before { left:100%; }
+.flash-btn { background:#fff; color:#000; border:none; padding:15px 45px; border-radius:30px; font-weight:900; cursor:pointer; font-family:'Orbitron',sans-serif; font-size:13px; letter-spacing:2px; transition:all 0.3s; }
 .flash-btn:hover { background:#ddd; transform:translateY(-2px); }
 .flash-btn:active { transform:translateY(0); }
 .flash-btn:disabled { background:#1a1a1a; color:#444; cursor:not-allowed; }
@@ -101,11 +145,12 @@ option { background:#0a0a0a; }
 .progress-text { font-size:10px; color:#555; letter-spacing:2px; }
 .disconnect-btn { background:transparent; color:#444; border:1px solid #222; padding:15px 35px; border-radius:30px; font-weight:700; cursor:pointer; font-family:'Orbitron',sans-serif; font-size:12px; letter-spacing:1px; transition:all 0.3s; }
 .disconnect-btn:hover { color:#fff; border-color:#fff; transform:translateY(-2px); }
+
 .preset-section { margin:30px auto; max-width:700px; background:#0a0a0a; border:1px solid #1a1a1a; border-radius:15px; padding:25px 30px; text-align:left; }
 .preset-section h3 { color:#fff; font-size:13px; letter-spacing:2px; margin-bottom:20px; padding-bottom:12px; border-bottom:1px solid #111; }
 .preset-row { display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
 .preset-label { font-size:10px; color:#444; letter-spacing:1px; min-width:70px; }
-.preset-name-input { background:#000; color:#fff; border:1px solid #222; padding:10px 14px; border-radius:8px; font-family:'Orbitron',sans-serif; font-size:11px; letter-spacing:1px; flex:1; min-width:140px; transition:border-color 0.2s; }
+.preset-name-input { background:#000; color:#fff; border:1px solid #222; padding:10px 14px; border-radius:8px; font-family:'Orbitron',sans-serif; font-size:11px; letter-spacing:1px; flex:1; min-width:140px; }
 .preset-name-input:focus { outline:none; border-color:#fff; }
 .preset-name-input::placeholder { color:#2a2a2a; }
 .preset-btn { background:transparent; color:#aaa; border:1px solid #222; padding:10px 18px; border-radius:8px; font-family:'Orbitron',sans-serif; font-size:10px; letter-spacing:1px; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
@@ -125,25 +170,57 @@ option { background:#0a0a0a; }
 .preset-action-btn.load:hover { color:#fff; border-color:#fff; background:#111; }
 .preset-action-btn.dl:hover { color:#fff; border-color:#fff; background:#111; }
 .preset-action-btn.del:hover { color:#fff; border-color:#fff; background:#1a0000; }
-.howto { margin:20px auto; max-width:700px; background:#0a0a0a; border:1px solid #111; border-radius:15px; padding:25px 30px; text-align:left; font-size:11px; line-height:2; }
-.howto h3 { color:#fff; margin-bottom:12px; font-size:13px; letter-spacing:2px; }
-.howto ol { margin-left:20px; color:#444; }
-.howto li { margin:6px 0; }
-.toast { position:fixed; bottom:30px; left:50%; transform:translateX(-50%) translateY(100px); background:#fff; color:#000; padding:14px 30px; border-radius:30px; font-size:12px; font-weight:700; letter-spacing:2px; transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1); z-index:9999; white-space:nowrap; }
+
+.howto-btn { position:fixed; top:calc(12px + var(--safe-top)); left:calc(12px + var(--safe-left)); background:#fff; color:#000; border:none; padding:12px 20px; border-radius:999px; font-weight:900; cursor:pointer; font-family:'Orbitron',sans-serif; font-size:10px; letter-spacing:1.5px; z-index:100; box-shadow:0 2px 12px rgba(255,255,255,0.15); min-height:44px; transition:transform 0.2s,box-shadow 0.2s; }
+.howto-btn:hover, .howto-btn:active { background:#e8e8e8; transform:translateY(-1px); box-shadow:0 4px 16px rgba(255,255,255,0.2); }
+.clicks-section, .preset-section { margin:24px auto; max-width:640px; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px 24px; text-align:left; }
+.clicks-section h3, .preset-section h3 { color:#fff; font-size:12px; letter-spacing:2px; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--border); font-weight:700; }
+.clicks-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:16px; }
+.click-item { display:flex; align-items:center; justify-content:space-between; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); padding:12px 14px; min-height:48px; }
+.click-label { font-size:11px; color:var(--text-muted); letter-spacing:1px; }
+.click-value { font-size:14px; color:#fff; font-weight:700; font-family:'Courier New',monospace; }
+.refresh-clicks-btn { background:transparent; color:var(--text-muted); border:1px solid var(--border-bright); padding:10px 18px; border-radius:var(--radius); font-family:'Orbitron',sans-serif; font-size:10px; letter-spacing:1px; cursor:pointer; min-height:44px; transition:all 0.2s; }
+.refresh-clicks-btn:hover { color:#fff; border-color:#fff; }
+.howto { margin:24px auto; max-width:720px; background:var(--bg-card); border:2px solid var(--border-bright); border-radius:var(--radius-lg); padding:28px 24px; text-align:left; font-size:12px; line-height:2; box-shadow:0 4px 24px rgba(0,0,0,0.4); scroll-margin-top:80px; }
+.howto h3 { color:#fff; margin-bottom:16px; font-size:16px; letter-spacing:2px; font-weight:900; }
+.howto h4 { color:#fff; margin-bottom:12px; font-size:13px; letter-spacing:1.5px; font-weight:700; }
+.howto ol { margin-left:22px; color:var(--text-muted); }
+.howto li { margin:8px 0; }
+.howto p { color:var(--text-muted); font-size:11px; line-height:1.8; margin-bottom:10px; }
+.howto strong { color:#fff; font-weight:700; }
+.toast { position:fixed; bottom:calc(24px + var(--safe-bottom)); left:50%; transform:translateX(-50%) translateY(100px); background:#fff; color:#000; padding:14px 24px; border-radius:999px; font-size:12px; font-weight:700; letter-spacing:2px; transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1); z-index:9999; white-space:nowrap; max-width:calc(100vw - 32px); box-shadow:0 4px 20px rgba(0,0,0,0.3); }
 .toast.show { transform:translateX(-50%) translateY(0); }
+@media (max-width:600px) {
+  body { padding:12px; padding-top:calc(12px + var(--safe-top)); }
+  h1 { margin:16px 0 4px; font-size:26px; letter-spacing:3px; }
+  .subtitle { font-size:9px; margin-bottom:16px; letter-spacing:3px; }
+  .connection-box { padding:24px 20px; }
+  .mobile-hint { display:block; }
+  .board { height:min(380px,78vw); }
+  .encoder-s1-wrap { min-width:min(100px,22vw); }
+  .encoder { width:min(90px,20vw); height:min(90px,20vw); font-size:9px; }
+  .btn { width:min(100px,22vw); height:min(100px,22vw); min-width:64px; min-height:64px; font-size:13px; }
+  .buttons { gap:10px; }
+  .clicks-grid { grid-template-columns:1fr; }
+  .config-tabs { flex-wrap:wrap; }
+  .config-tab { min-width:calc(50% - 4px); }
+  .howto { padding:20px 18px; font-size:11px; }
+  .howto-btn { padding:10px 16px; font-size:9px; }
+}
 </style>
 </head>
 <body>
 
 <div class="toast" id="toast"></div>
 
+<!-- PORT DIALOG -->
 <div class="port-overlay" id="portOverlay">
   <div class="port-dialog">
     <h3>Select Device</h3>
-    <p>Choose your RageODevice from the list below.<br>Make sure it is connected via USB.</p>
+    <p>Choose your RageODevice from the list below.</p>
     <div class="port-scanning" id="portScanning">
       <div class="port-scan-ring"></div>
-      <p>Scanning for devices...</p>
+      <p>Scanning...</p>
     </div>
     <div class="port-list" id="portList"></div>
     <div class="port-dialog-btns">
@@ -154,17 +231,61 @@ option { background:#0a0a0a; }
   </div>
 </div>
 
+<!-- CONFIG OVERLAY -->
+<div class="config-overlay" id="configOverlay">
+  <div class="config-panel">
+    <h3 id="configTitle">Configure S1</h3>
+    
+    <div class="config-tabs">
+      <button class="config-tab active" onclick="switchTab('key')">Key</button>
+      <button class="config-tab" onclick="switchTab('text')">Text</button>
+      <button class="config-tab" onclick="switchTab('password')">Password</button>
+      <button class="config-tab" onclick="switchTab('script')">Script</button>
+    </div>
+    
+    <div class="config-content">
+      <div class="config-section active" id="tab-key">
+        <label class="config-label">SELECT KEY</label>
+        <select class="config-select" id="tempKey"></select>
+      </div>
+      
+      <div class="config-section" id="tab-text">
+        <label class="config-label">TEXT TO TYPE</label>
+        <input type="text" class="config-input" id="tempText" placeholder="Enter text (max 50 chars)" maxlength="50">
+      </div>
+      
+      <div class="config-section" id="tab-password">
+        <label class="config-label">PASSWORD</label>
+        <input type="password" class="config-input" id="tempPassword" placeholder="Enter password (max 50 chars)" maxlength="50">
+      </div>
+      
+      <div class="config-section" id="tab-script">
+        <label class="config-label">SCRIPT / COMMAND / CUSTOM SHORTCUT</label>
+        <input type="text" class="config-input" id="tempScript" placeholder="e.g., Alt+Tab, Win+Shift+S, or custom command (max 50 chars)" maxlength="50">
+      </div>
+    </div>
+    
+    <div class="config-btns">
+      <button class="config-btn-cancel" onclick="closeConfig()">Cancel</button>
+      <button class="config-btn-save" onclick="saveConfig()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 1: CONNECT -->
 <div id="page1" class="page active">
   <h1>RageODevice</h1>
   <p class="subtitle">CUSTOM KEYBOARD CONFIGURATOR</p>
   <div class="connection-wrap">
     <div class="connection-box">
       <h2>Connect to RageODevice</h2>
-      <p>Connect your device via USB and click the button below.<br>
-      <span style="color:#555;font-size:10px;letter-spacing:1px;">Use Chrome or Edge for Web Serial support</span></p>
+      <p>Connect your device via USB.<br>
+      <span style="color:var(--text-dim);font-size:10px;letter-spacing:1px;">Desktop: Chrome or Edge · Phone: Chrome on Android with USB OTG</span></p>
+      <div class="mobile-hint" id="mobileHint"><strong>On phone:</strong> Use <strong>Chrome</strong> on Android. Connect RageODevice with a USB OTG cable. iOS/Safari does not support USB serial—use a computer or Android device.</div>
+      <div class="serial-unsupported" id="serialUnsupported"><strong>USB not available in this browser.</strong> Use Chrome or Edge on desktop, or Chrome on Android with a USB OTG cable. Safari on iPhone/iPad cannot connect to USB devices.</div>
       <div class="device-info">
-        <strong>Device name:</strong><span>RageODevice</span>
-        <strong>Baud rate:</strong><span>115200</span>
+        <strong>Device:</strong><span>RageODevice</span>
+        <strong>Baud:</strong><span>115200</span>
         <strong>Connection:</strong><span>USB</span>
       </div>
       <div class="scan-wrap">
@@ -180,35 +301,72 @@ option { background:#0a0a0a; }
   </div>
 </div>
 
+<!-- PAGE 2: CONFIGURATOR -->
 <div id="page2" class="page">
+  <button class="howto-btn" onclick="scrollToHowTo()">How to Use</button>
   <h1>RageODevice</h1>
   <p class="subtitle">CUSTOM KEYBOARD CONFIGURATOR</p>
   <div class="status" id="status">Connected</div>
+  
+  <p class="board-legend">Layout matches your device — from left to right: encoder above 1st button, then S1, S2, S3, S4.</p>
   <div class="board">
     <div class="oled">RageODevice</div>
-    <div class="encoderWrap">
-      <div class="encoder" id="encoderDisplay">VOL</div>
-      <select id="enc" class="encoder-select" onchange="updateEncoderDisplay()">
-        <option value="0">Volume</option>
-        <option value="1">Zoom</option>
-        <option value="2">Scroll</option>
-      </select>
-    </div>
+    
     <div class="buttons">
-      <div class="btnBox"><div class="btn">S1</div><select id="b1"></select></div>
-      <div class="btnBox"><div class="btn">S2</div><select id="b2"></select></div>
-      <div class="btnBox"><div class="btn">S3</div><select id="b3"></select></div>
-      <div class="btnBox"><div class="btn">S4</div><select id="b4"></select></div>
+      <div class="encoder-s1-wrap">
+        <div class="encoder" onclick="openConfig('enc')">
+          <div style="text-align:center;">
+            <div style="font-size:14px;font-weight:900;" id="encDisplay">VOL</div>
+            <div style="font-size:7px;color:#555;margin-top:4px;">Encoder · click to config</div>
+          </div>
+        </div>
+        <div class="btn" onclick="openConfig('b1')">S1<div class="btn-sub">Click to config</div></div>
+      </div>
+      <div class="btnBox">
+        <div class="btn" onclick="openConfig('b2')">S2<div class="btn-sub">Click to config</div></div>
+      </div>
+      <div class="btnBox">
+        <div class="btn" onclick="openConfig('b3')">S3<div class="btn-sub">Click to config</div></div>
+      </div>
+      <div class="btnBox">
+        <div class="btn" onclick="openConfig('b4')">S4<div class="btn-sub">Click to config</div></div>
+      </div>
     </div>
   </div>
+  
   <div class="flash-progress" id="flashProgress">
     <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
     <div class="progress-text" id="progressText">Sending...</div>
   </div>
+  
   <div class="controls">
     <button class="flash-btn" onclick="sendToDevice()" id="sendBtn">Send to Device</button>
     <button class="disconnect-btn" onclick="disconnectDevice()">Disconnect</button>
   </div>
+  
+  <div class="clicks-section">
+    <h3>Button Clicks</h3>
+    <div class="clicks-grid">
+      <div class="click-item">
+        <span class="click-label">S1:</span>
+        <span class="click-value" id="clickS1">-</span>
+      </div>
+      <div class="click-item">
+        <span class="click-label">S2:</span>
+        <span class="click-value" id="clickS2">-</span>
+      </div>
+      <div class="click-item">
+        <span class="click-label">S3:</span>
+        <span class="click-value" id="clickS3">-</span>
+      </div>
+      <div class="click-item">
+        <span class="click-label">S4:</span>
+        <span class="click-value" id="clickS4">-</span>
+      </div>
+    </div>
+    <button class="refresh-clicks-btn" onclick="refreshClicks()">Refresh</button>
+  </div>
+  
   <div class="preset-section">
     <h3>Presets</h3>
     <div class="preset-row">
@@ -226,14 +384,34 @@ option { background:#0a0a0a; }
     </div>
     <div class="preset-list" id="presetList"></div>
   </div>
-  <div class="howto">
-    <h3>How to use:</h3>
+  
+  <div class="howto" id="howtoGuide">
+    <h3>How to Use</h3>
     <ol>
-      <li>Select the key or shortcut for each button</li>
-      <li>Choose encoder mode: Volume, Zoom or Scroll</li>
-      <li>Click "Send to Device" to save settings</li>
-      <li>Disconnect safely when done</li>
+      <li><strong>Configure Buttons:</strong> Click on any button (S1-S4) or the encoder to open its configuration panel.</li>
+      <li><strong>Key Tab:</strong> Select a key or shortcut from the dropdown list. Available shortcuts include:
+        <ul style="margin-left:25px;margin-top:8px;color:#888;">
+          <li>Basic keys: Space, Enter, ESC, Arrow keys, Function keys (F1-F12)</li>
+          <li>Common shortcuts: Ctrl+C, Ctrl+V, Ctrl+Z, Ctrl+A, Ctrl+Shift+T</li>
+          <li>System shortcuts: Alt+Tab, Win+D, Win+L, Ctrl+Shift+ESC (Task Manager)</li>
+          <li>Media keys: Volume Up/Down, Play/Pause, Next/Previous Track</li>
+        </ul>
+        The selected key/shortcut will be sent when you press the button.
+      </li>
+      <li><strong>Text Tab:</strong> Type any text (max 50 characters) that will be automatically entered as if you typed it yourself. Useful for frequently used phrases, email addresses, or repetitive text.</li>
+      <li><strong>Password Tab:</strong> Same as Text, but the password stays hidden in this configurator for security. Perfect for login credentials.</li>
+      <li><strong>Script/Command Tab:</strong> For custom shortcuts that aren't in the Key dropdown, type them here using the format: <strong>"Ctrl+Shift+ESC"</strong>, <strong>"Alt+Tab"</strong>, <strong>"Win+Shift+S"</strong>, etc. Use plus signs (+) to combine keys. This works for any key combination your device supports.</li>
+      <li><strong>Save & Upload:</strong> Click "Save" to store the configuration, then click "Send to Device" to upload all settings to your board.</li>
     </ol>
+    <div style="margin-top:30px;padding-top:25px;border-top:2px solid #222;">
+      <h4>💡 Important Tips</h4>
+      <p>
+        <strong>Shortcuts Format:</strong> When using Script/Command for shortcuts, type them exactly as shown: <strong>"Ctrl+Shift+ESC"</strong> (with plus signs, no spaces around +). Common shortcuts like <strong>Ctrl+Shift+ESC</strong> (Task Manager), <strong>Alt+Tab</strong>, <strong>Win+Shift+S</strong> (Snipping Tool), and <strong>Ctrl+Alt+Del</strong> are all supported.
+      </p>
+      <p>
+        <strong>Encoder:</strong> The encoder only supports Volume, Zoom, and Scroll modes - these are set via the Key tab. The encoder click can be configured with Text, Password, or Script just like buttons.
+      </p>
+    </div>
   </div>
 </div>
 
@@ -241,6 +419,8 @@ option { background:#0a0a0a; }
 let port = null;
 let selectedPortIndex = null;
 let availablePorts = [];
+let currentConfig = 'b1';
+let currentTab = 'key';
 
 const DEVICE_NAMES = {
   '2341:0037':'RageODevice','2341:8037':'RageODevice',
@@ -258,13 +438,106 @@ const keys = [
   "Ctrl+C","Ctrl+V","Ctrl+X","Ctrl+Z","Ctrl+Y","Ctrl+S","Ctrl+A","Ctrl+F","Ctrl+P","Ctrl+N","Ctrl+W","Ctrl+T","Ctrl+Tab","Ctrl+Shift+T",
   "Alt+Tab","Alt+F4","Alt+Enter",
   "Win+D","Win+E","Win+L","Win+R",
-  "Task Manager","Print Screen","Mute","Volume Up","Volume Down","Play/Pause","Next Track","Prev Track"
+  "Task Manager (Ctrl+Shift+ESC)","Print Screen","Mute","Volume Up","Volume Down","Play/Pause","Next Track","Prev Track"
 ];
 
-const defaults = [0, 2, 72, 0];
+let config = {
+  b1: {mode:'key', key:0, text:''},
+  b2: {mode:'key', key:2, text:''},
+  b3: {mode:'key', key:72, text:''},
+  b4: {mode:'key', key:0, text:''},
+  enc: {mode:0, text:''}
+};
+
 let savedPresets = JSON.parse(localStorage.getItem('ragePresets') || '[]');
 
+function openConfig(target){
+  currentConfig = target;
+  const titles = { enc: 'Encoder', b1: 'S1', b2: 'S2', b3: 'S3', b4: 'S4' };
+  document.getElementById('configTitle').textContent = 'Configure ' + (titles[target] || target.toUpperCase());
+  const keyLabelEl = document.querySelector('#tab-key .config-label');
+  
+  if(target === 'enc'){
+    // Encoder special case: only Volume / Zoom / Scroll
+    populateKeySelectForEncoder();
+    if(keyLabelEl) keyLabelEl.textContent = 'ENCODER MODE';
+    currentTab = config.enc.text ? 'text' : 'key';
+    document.getElementById('tempKey').value = config.enc.mode;
+    document.getElementById('tempText').value = config.enc.text;
+    document.getElementById('tempPassword').value = config.enc.text;
+    document.getElementById('tempScript').value = config.enc.text;
+  } else {
+    // Regular buttons: standard keys only
+    populateKeySelectForButtons();
+    if(keyLabelEl) keyLabelEl.textContent = 'SELECT KEY';
+    currentTab = config[target].mode;
+    document.getElementById('tempKey').value = config[target].key;
+    document.getElementById('tempText').value = config[target].text;
+    document.getElementById('tempPassword').value = config[target].text;
+    document.getElementById('tempScript').value = config[target].text;
+  }
+  
+  switchTab(currentTab);
+  document.getElementById('configOverlay').classList.add('active');
+}
+
+function closeConfig(){
+  document.getElementById('configOverlay').classList.remove('active');
+}
+
+function switchTab(tab){
+  currentTab = tab;
+  document.querySelectorAll('.config-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.config-section').forEach(s => s.classList.remove('active'));
+  
+  const tabIndex = ['key','text','password','script'].indexOf(tab);
+  document.querySelectorAll('.config-tab')[tabIndex].classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+
+function saveConfig(){
+  if(currentConfig === 'enc'){
+    if(currentTab === 'key'){
+      config.enc.mode = parseInt(document.getElementById('tempKey').value);
+      config.enc.text = '';
+    } else {
+      const val = document.getElementById('temp' + currentTab.charAt(0).toUpperCase() + currentTab.slice(1)).value;
+      config.enc.text = val;
+    }
+    updateEncDisplay();
+  } else {
+    if(currentTab === 'key'){
+      config[currentConfig].mode = 'key';
+      config[currentConfig].key = parseInt(document.getElementById('tempKey').value);
+      config[currentConfig].text = '';
+    } else {
+      config[currentConfig].mode = currentTab;
+      const val = document.getElementById('temp' + currentTab.charAt(0).toUpperCase() + currentTab.slice(1)).value;
+      config[currentConfig].text = val;
+    }
+  }
+  closeConfig();
+  showToast('Configuration saved');
+}
+
+function updateEncDisplay(){
+  const modes = ['VOL','ZOOM','SCR'];
+  document.getElementById('encDisplay').textContent = modes[config.enc.mode];
+}
+
+// Check Web Serial support (e.g. not available on iOS Safari)
+function isSerialSupported() {
+  return typeof navigator !== 'undefined' && navigator.serial != null;
+}
+
+// PORT FUNCTIONS
 async function openPortDialog() {
+  if (!isSerialSupported()) {
+    document.getElementById('serialUnsupported').classList.add('show');
+    showToast('USB not supported in this browser');
+    return;
+  }
+  document.getElementById('serialUnsupported').classList.remove('show');
   document.getElementById('portOverlay').classList.add('active');
   selectedPortIndex = null;
   document.getElementById('portConnectBtn').disabled = true;
@@ -273,10 +546,10 @@ async function openPortDialog() {
 
 function closePortDialog() {
   document.getElementById('portOverlay').classList.remove('active');
-  document.getElementById('connectBtn').disabled = false;
 }
 
 async function refreshPorts() {
+  if (!isSerialSupported()) return;
   const scanning = document.getElementById('portScanning');
   const list = document.getElementById('portList');
   const connectBtn = document.getElementById('portConnectBtn');
@@ -306,7 +579,6 @@ async function refreshPorts() {
     list.innerHTML = `
       <div class="port-empty">
         <p>No devices found</p>
-        <p style="color:#333;margin-top:4px">Grant access to your RageODevice first</p>
       </div>
       <div style="text-align:center;margin-top:14px">
         <button class="port-btn-connect" onclick="grantAccess()">Grant Access</button>
@@ -343,9 +615,9 @@ function renderPortList() {
     const vid = info.usbVendorId ? info.usbVendorId.toString(16).toUpperCase().padStart(4,'0') : null;
     const pid = info.usbProductId ? info.usbProductId.toString(16).toUpperCase().padStart(4,'0') : null;
     const key = vid && pid ? `${vid}:${pid}` : null;
-    const deviceName = key && DEVICE_NAMES[key] ? DEVICE_NAMES[key] : 'Unknown Device';
+    const deviceName = key && DEVICE_NAMES[key] ? DEVICE_NAMES[key] : 'Unknown';
     const isKnown = key && DEVICE_NAMES[key];
-    const detail = vid && pid ? `VID: ${vid}  PID: ${pid}` : 'USB Serial Device';
+    const detail = vid && pid ? `VID: ${vid}  PID: ${pid}` : 'USB Serial';
     return `
       <div class="port-item ${i === selectedPortIndex ? 'selected' : ''}" onclick="selectPort(${i})">
         <div class="port-item-left">
@@ -368,10 +640,8 @@ async function connectSelected() {
   if(selectedPortIndex === null || !availablePorts[selectedPortIndex]) return;
 
   const connectBtn = document.getElementById('portConnectBtn');
-  const cancelBtn = document.querySelector('.port-btn-cancel');
   connectBtn.disabled = true;
   connectBtn.textContent = 'Connecting...';
-  cancelBtn.style.display = 'none';
 
   try {
     port = availablePorts[selectedPortIndex];
@@ -386,64 +656,44 @@ async function connectSelected() {
 
     document.getElementById('page1').classList.remove('active');
     document.getElementById('page2').classList.add('active');
-    initSelects();
-    showToast('RageODevice Connected');
+    initControls();
+    showToast('Connected');
 
   } catch(e) {
     connectBtn.disabled = false;
     connectBtn.textContent = 'Connect';
-    cancelBtn.style.display = '';
-    const errDiv = document.createElement('div');
-    errDiv.style.cssText = 'font-size:10px;color:#555;letter-spacing:1px;padding:10px;text-align:center;';
-    errDiv.textContent = 'Failed: ' + e.message;
-    document.getElementById('portList').appendChild(errDiv);
   }
 }
 
-function buildOptions(selectId, defaultVal) {
-  const sel = document.getElementById(selectId);
+function initControls() {
+  updateEncDisplay();
+  renderPresetList();
+  refreshClicks();
+  // Auto-refresh clicks every 5 seconds
+  if(window.clicksInterval) clearInterval(window.clicksInterval);
+  window.clicksInterval = setInterval(refreshClicks, 5000);
+}
+
+function populateKeySelectForButtons() {
+  const sel = document.getElementById('tempKey');
   sel.innerHTML = '';
   keys.forEach((k, i) => {
     const opt = document.createElement('option');
-    opt.value = i; opt.textContent = k;
-    if(i === defaultVal) opt.selected = true;
+    opt.value = i;
+    opt.textContent = k;
     sel.appendChild(opt);
   });
 }
 
-function initSelects() {
-  buildOptions('b1', defaults[0]);
-  buildOptions('b2', defaults[1]);
-  buildOptions('b3', defaults[2]);
-  buildOptions('b4', defaults[3]);
-  renderPresetList();
-}
-
-function updateEncoderDisplay() {
-  const mode = document.getElementById('enc').value;
-  const disp = document.getElementById('encoderDisplay');
-  if(mode == 0) disp.textContent = 'VOL';
-  else if(mode == 1) disp.textContent = 'ZOOM';
-  else disp.textContent = 'SCR';
-}
-
-function getCurrentConfig() {
-  return {
-    b1: parseInt(document.getElementById('b1').value),
-    b2: parseInt(document.getElementById('b2').value),
-    b3: parseInt(document.getElementById('b3').value),
-    b4: parseInt(document.getElementById('b4').value),
-    enc: parseInt(document.getElementById('enc').value)
-  };
-}
-
-function applyConfig(cfg) {
-  document.getElementById('b1').value = cfg.b1;
-  document.getElementById('b2').value = cfg.b2;
-  document.getElementById('b3').value = cfg.b3;
-  document.getElementById('b4').value = cfg.b4;
-  document.getElementById('enc').value = cfg.enc ?? 0;
-  updateEncoderDisplay();
+function populateKeySelectForEncoder() {
+  const sel = document.getElementById('tempKey');
+  sel.innerHTML = '';
+  ['Volume','Zoom','Scroll'].forEach((label, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = label;
+    sel.appendChild(opt);
+  });
 }
 
 async function sendToDevice() {
@@ -462,9 +712,27 @@ async function sendToDevice() {
     await new Promise(r => setTimeout(r, 300));
 
     fillEl.style.width = '20%';
-    textEl.textContent = 'Sending settings...';
+    textEl.textContent = 'Sending...';
 
-    const jsonStr = JSON.stringify(getCurrentConfig()) + '\n';
+    // Convert to Arduino format
+    const data = {
+      b1mode: config.b1.mode === 'key' ? 0 : 1,
+      b1key: config.b1.key,
+      b1text: config.b1.text,
+      b2mode: config.b2.mode === 'key' ? 0 : 1,
+      b2key: config.b2.key,
+      b2text: config.b2.text,
+      b3mode: config.b3.mode === 'key' ? 0 : 1,
+      b3key: config.b3.key,
+      b3text: config.b3.text,
+      b4mode: config.b4.mode === 'key' ? 0 : 1,
+      b4key: config.b4.key,
+      b4text: config.b4.text,
+      enc: config.enc.mode,
+      enctext: config.enc.text
+    };
+
+    const jsonStr = JSON.stringify(data) + '\n';
     const encoded = new TextEncoder().encode(jsonStr);
     const writer = port.writable.getWriter();
 
@@ -477,7 +745,7 @@ async function sendToDevice() {
     writer.releaseLock();
 
     fillEl.style.width = '80%';
-    textEl.textContent = 'Writing to EEPROM...';
+    textEl.textContent = 'Writing EEPROM...';
     await new Promise(r => setTimeout(r, 1000));
 
     fillEl.style.width = '100%';
@@ -488,7 +756,9 @@ async function sendToDevice() {
     statusEl.classList.add('success');
     setTimeout(() => { statusEl.textContent = 'Connected'; statusEl.classList.remove('success'); }, 2000);
 
-    showToast('Settings Saved!');
+    showToast('Saved!');
+    // Refresh clicks after saving
+    setTimeout(() => refreshClicks(), 500);
     await new Promise(r => setTimeout(r, 800));
     progressEl.classList.remove('active');
     fillEl.style.width = '0%';
@@ -497,102 +767,28 @@ async function sendToDevice() {
   } catch(e) {
     progressEl.classList.remove('active');
     sendBtn.disabled = false;
-    document.getElementById('status').textContent = 'Error: ' + e.message;
     showToast('Failed: ' + e.message);
   }
 }
 
-function configToText(name, cfg) {
-  return [
-    '# RageODevice Preset',
-    '# NAME: ' + name,
-    '# DATE: ' + new Date().toLocaleString(),
-    '',
-    'S1=' + cfg.b1 + '  # ' + keys[cfg.b1],
-    'S2=' + cfg.b2 + '  # ' + keys[cfg.b2],
-    'S3=' + cfg.b3 + '  # ' + keys[cfg.b3],
-    'S4=' + cfg.b4 + '  # ' + keys[cfg.b4],
-    'ENC=' + (cfg.enc??0) + '  # ' + ['Volume','Zoom','Scroll'][cfg.enc??0],
-  ].join('\n');
-}
-
-function textToConfig(text) {
-  const cfg = {};
-  for(const line of text.split('\n')) {
-    const clean = line.split('#')[0].trim();
-    if(!clean) continue;
-    const [key, val] = clean.split('=');
-    if(!key || val === undefined) continue;
-    const num = parseInt(val.trim());
-    if(key.trim() === 'S1') cfg.b1 = num;
-    else if(key.trim() === 'S2') cfg.b2 = num;
-    else if(key.trim() === 'S3') cfg.b3 = num;
-    else if(key.trim() === 'S4') cfg.b4 = num;
-    else if(key.trim() === 'ENC') cfg.enc = num;
-  }
-  return cfg;
-}
-
-function getNameFromText(text, fallback) {
-  const line = text.split('\n').find(l => l.startsWith('# NAME:'));
-  return line ? line.replace('# NAME:', '').trim() : fallback;
-}
-
+// PRESET FUNCTIONS
 function savePreset() {
   const name = document.getElementById('presetNameInput').value.trim();
-  if(!name) { showToast('Enter a preset name!'); return; }
-  const preset = { name, date: new Date().toLocaleDateString(), config: getCurrentConfig() };
+  if(!name) { showToast('Enter name!'); return; }
+  const preset = { name, date: new Date().toLocaleDateString(), config: JSON.parse(JSON.stringify(config)) };
   const idx = savedPresets.findIndex(p => p.name === name);
-  if(idx >= 0) { savedPresets[idx] = preset; showToast('Preset updated'); }
-  else { savedPresets.push(preset); showToast('Preset saved'); }
+  if(idx >= 0) savedPresets[idx] = preset;
+  else savedPresets.push(preset);
   localStorage.setItem('ragePresets', JSON.stringify(savedPresets));
   document.getElementById('presetNameInput').value = '';
   renderPresetList();
-}
-
-function downloadPreset() {
-  const name = document.getElementById('presetNameInput').value.trim() || 'MyPreset';
-  triggerDownload(name, configToText(name, getCurrentConfig()));
-  showToast('Downloaded: ' + name + '.txt');
-}
-
-function importPreset(event) {
-  const file = event.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      const text = e.target.result;
-      const cfg = textToConfig(text);
-      if(cfg.b1 === undefined) { showToast('Invalid preset file!'); return; }
-      applyConfig(cfg);
-      const name = getNameFromText(text, file.name.replace('.txt', ''));
-      const preset = { name, date: new Date().toLocaleDateString(), config: cfg };
-      const idx = savedPresets.findIndex(p => p.name === name);
-      if(idx >= 0) savedPresets[idx] = preset;
-      else savedPresets.push(preset);
-      localStorage.setItem('ragePresets', JSON.stringify(savedPresets));
-      renderPresetList();
-      showToast('Loaded: ' + name);
-    } catch(err) { showToast('Failed to load preset!'); }
-  };
-  reader.readAsText(file);
-  event.target.value = '';
+  showToast('Preset saved');
 }
 
 function loadPreset(i) {
-  const p = savedPresets[i];
-  if(!p) return;
-  applyConfig(p.config);
-  document.getElementById('presetNameInput').value = p.name;
-  showToast('Loaded: ' + p.name);
-}
-
-function downloadSaved(i) {
-  const p = savedPresets[i];
-  if(!p) return;
-  triggerDownload(p.name, configToText(p.name, p.config));
-  showToast('Downloaded: ' + p.name + '.txt');
+  config = JSON.parse(JSON.stringify(savedPresets[i].config));
+  updateEncDisplay();
+  showToast('Loaded: ' + savedPresets[i].name);
 }
 
 function deletePreset(i) {
@@ -603,18 +799,46 @@ function deletePreset(i) {
   showToast('Deleted: ' + name);
 }
 
-function triggerDownload(name, text) {
-  const blob = new Blob([text], {type:'text/plain'});
+function downloadPreset() {
+  const name = document.getElementById('presetNameInput').value.trim() || 'Preset';
+  const text = JSON.stringify(config, null, 2);
+  const blob = new Blob([text], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = name.replace(/\s+/g,'_') + '.txt';
+  a.href = url; a.download = name + '.json';
+  a.click(); URL.revokeObjectURL(url);
+  showToast('Downloaded');
+}
+
+function importPreset(event) {
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      config = JSON.parse(e.target.result);
+      updateEncDisplay();
+      showToast('Imported');
+    } catch(err) { showToast('Invalid file'); }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function downloadSaved(i) {
+  const p = savedPresets[i];
+  const text = JSON.stringify(p.config, null, 2);
+  const blob = new Blob([text], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = p.name + '.json';
   a.click(); URL.revokeObjectURL(url);
 }
 
 function renderPresetList() {
   const list = document.getElementById('presetList');
   if(!savedPresets.length) {
-    list.innerHTML = '<div class="preset-empty">No saved presets yet</div>';
+    list.innerHTML = '<div class="preset-empty">No presets</div>';
     return;
   }
   list.innerHTML = savedPresets.map((p, i) => `
@@ -630,11 +854,11 @@ function renderPresetList() {
   `).join('');
 }
 
-function showToast(msg, duration=2500) {
+function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), duration);
+  setTimeout(() => t.classList.remove('show'), 2500);
 }
 
 function setScanState(active, text='') {
@@ -644,20 +868,105 @@ function setScanState(active, text='') {
 }
 
 async function disconnectDevice() {
+  if(window.clicksInterval) {
+    clearInterval(window.clicksInterval);
+    window.clicksInterval = null;
+  }
   if(port) {
     try { await port.close(); } catch(e) {}
     port = null;
   }
   document.getElementById('page2').classList.remove('active');
   document.getElementById('page1').classList.add('active');
-  document.getElementById('connectBtn').disabled = false;
-  setScanState(false);
+  // Clear clicks display
+  document.getElementById('clickS1').textContent = '-';
+  document.getElementById('clickS2').textContent = '-';
+  document.getElementById('clickS3').textContent = '-';
+  document.getElementById('clickS4').textContent = '-';
   showToast('Disconnected');
 }
 
-document.getElementById('portOverlay').addEventListener('click', function(e) {
-  if(e.target === this) closePortDialog();
+document.getElementById('portOverlay').addEventListener('click', e => {
+  if(e.target.id === 'portOverlay') closePortDialog();
 });
+
+document.getElementById('configOverlay').addEventListener('click', e => {
+  if(e.target.id === 'configOverlay') closeConfig();
+});
+
+// Show serial unsupported message on load if needed (e.g. iOS)
+if (!isSerialSupported()) {
+  document.getElementById('serialUnsupported').classList.add('show');
+}
+
+function scrollToHowTo(){
+  const howtoEl = document.querySelector('.howto');
+  if(howtoEl){
+    howtoEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+async function refreshClicks(){
+  if(!port) {
+    // Not connected, show dashes
+    document.getElementById('clickS1').textContent = '-';
+    document.getElementById('clickS2').textContent = '-';
+    document.getElementById('clickS3').textContent = '-';
+    document.getElementById('clickS4').textContent = '-';
+    return;
+  }
+  
+  try {
+    // Get writer and reader
+    const writer = port.writable.getWriter();
+    const reader = port.readable.getReader();
+    
+    // Send GETCLICKS command
+    await writer.write(new TextEncoder().encode('GETCLICKS\n'));
+    writer.releaseLock();
+    
+    // Read response with timeout
+    let buffer = '';
+    const startTime = Date.now();
+    const timeout = 1000;
+    
+    while(Date.now() - startTime < timeout){
+      const {value, done} = await reader.read();
+      if(done) break;
+      
+      const chunk = new TextDecoder().decode(value);
+      buffer += chunk;
+      
+      if(buffer.includes('\n')){
+        const lines = buffer.split('\n');
+        buffer = lines.slice(1).join('\n');
+        const response = lines[0].trim();
+        
+        if(response.startsWith('CLICKS:')){
+          const parts = response.substring(7).split(',');
+          if(parts.length === 4){
+            document.getElementById('clickS1').textContent = formatNumber(parseInt(parts[0]) || 0);
+            document.getElementById('clickS2').textContent = formatNumber(parseInt(parts[1]) || 0);
+            document.getElementById('clickS3').textContent = formatNumber(parseInt(parts[2]) || 0);
+            document.getElementById('clickS4').textContent = formatNumber(parseInt(parts[3]) || 0);
+          }
+          reader.releaseLock();
+          return;
+        }
+      }
+    }
+    
+    reader.releaseLock();
+  } catch(e){
+    // Error reading clicks, keep current values
+    console.error('Failed to refresh clicks:', e);
+  }
+}
+
+function formatNumber(num){
+  // Format large numbers with commas for readability
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 </script>
 </body>
 </html>
