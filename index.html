@@ -3,51 +3,209 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>RageODevice</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>RageODevice Configurator</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{background:#000;color:#fff;font-family:Orbitron,sans-serif;text-align:center;min-height:100vh;padding:16px}
-.page{display:none}.page.active{display:block}
-h1{margin:24px 0 6px;font-size:clamp(28px,6vw,42px);font-weight:900;letter-spacing:4px}
-.subtitle{color:#555;font-size:10px;margin-bottom:24px;letter-spacing:4px;text-transform:uppercase}
-.connection-box{background:#0c0c0c;border:2px solid #2a2a2a;border-radius:20px;padding:clamp(28px,6vw,50px);max-width:520px;margin:0 auto}
-.connect-btn{background:#fff;color:#000;border:none;padding:16px 40px;border-radius:999px;font-weight:900;cursor:pointer;font-family:Orbitron,sans-serif;font-size:12px;letter-spacing:2px;min-height:48px}
-.connect-btn:disabled{background:#1a1a1a;color:#444}
-.board{width:min(650px,100%);height:min(420px,72vw);margin:0 auto 20px;border:2px solid #2a2a2a;border-radius:20px;position:relative;background:#0c0c0c}
-.oled{position:absolute;top:7%;left:50%;transform:translateX(-50%);width:min(210px,38%);height:min(110px,22%);border:2px solid #2a2a2a;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:clamp(12px,2.5vw,16px);font-weight:700;background:#000}
-.buttons{position:absolute;bottom:8%;left:50%;transform:translateX(-50%);display:flex;gap:min(18px,3vw);max-width:95%}
-.encoder{width:min(110px,22vw);height:min(110px,22vw);border:2px solid #2a2a2a;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#000;font-weight:700;font-size:10px;cursor:pointer}
-.btn{width:min(130px,26vw);height:min(130px,26vw);min-width:72px;min-height:72px;border:2px solid #2a2a2a;border-radius:14px;display:flex;align-items:center;justify-content:center;background:#000;font-size:clamp(14px,3vw,18px);font-weight:900;cursor:pointer}
-.config-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.94);z-index:2000;display:none;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
-.config-overlay.active{display:flex}
-.config-panel{background:#0c0c0c;border:2px solid #2a2a2a;border-radius:20px;padding:24px 20px;width:100%;max-width:420px;max-height:90vh;overflow-y:auto}
-.config-tabs{display:flex;gap:8px;margin-bottom:20px}
-.config-tab{flex:1;background:transparent;color:#555;border:2px solid #222;padding:12px 8px;border-radius:10px;font-family:Orbitron,sans-serif;font-size:11px;cursor:pointer;font-weight:700;min-height:44px}
-.config-tab.active{background:#fff;color:#000}
-.config-section{display:none}.config-section.active{display:block}
-.config-select,.config-input{background:#000;color:#fff;border:2px solid #fff;padding:12px;font-family:Orbitron,sans-serif;width:100%;border-radius:10px;font-size:12px;margin-bottom:15px;min-height:48px}
-.config-btns{display:flex;gap:10px;margin-top:25px}
-.config-btn-cancel,.config-btn-save{flex:1;padding:14px;border-radius:10px;font-family:Orbitron,sans-serif;font-size:12px;cursor:pointer;font-weight:700}
-.config-btn-cancel{background:transparent;color:#555;border:2px solid #222}
-.config-btn-save{background:#fff;color:#000;border:none;font-weight:900}
-.flash-btn{background:#fff;color:#000;border:none;padding:15px 45px;border-radius:30px;font-weight:900;cursor:pointer;font-family:Orbitron,sans-serif;font-size:13px}
-.flash-btn:disabled{background:#1a1a1a;color:#444}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:#fff;color:#000;padding:14px 24px;border-radius:999px;font-size:12px;font-weight:700;z-index:9999;transition:transform .35s}
-.toast.show{transform:translateX(-50%) translateY(0)}
-.port-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:1000;display:none;align-items:center;justify-content:center;padding:16px}
-.port-overlay.active{display:flex}
-.port-dialog{background:#0c0c0c;border:2px solid #2a2a2a;border-radius:20px;padding:28px 24px;width:100%;max-width:440px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column}
-.port-list{display:flex;flex-direction:column;gap:8px;max-height:240px;overflow-y:auto;margin-bottom:16px}
-.port-item{display:flex;align-items:center;justify-content:space-between;background:#000;border:1px solid #1a1a1a;border-radius:10px;padding:14px 16px;cursor:pointer;min-height:56px}
-.port-item.selected{border-color:#fff;background:#111}
-.port-btn-connect{background:#fff;color:#000;border:none;padding:12px 20px;border-radius:10px;font-family:Orbitron,sans-serif;font-size:11px;font-weight:900;cursor:pointer;min-height:44px}
-.port-btn-connect:disabled{background:#1a1a1a;color:#444}
-.mobile-warning{display:none;margin-top:12px;padding:12px;background:rgba(255,200,0,0.08);border:1px solid rgba(255,200,0,0.3);border-radius:10px;font-size:11px;color:#ccc;line-height:1.6;text-align:left}
-.mobile-warning.show{display:block}
-@media(max-width:600px){
-  .encoder{width:min(90px,20vw);height:min(90px,20vw)}
-  .btn{width:min(100px,22vw);height:min(100px,22vw);min-width:64px;min-height:64px}
+:root {
+  --bg:#000; --bg-card:#0c0c0c; --border:#1a1a1a; --border-bright:#2a2a2a; --text:#fff; --text-muted:#888; --text-dim:#555;
+  --radius:12px; --radius-lg:20px; --safe-top:env(safe-area-inset-top,0); --safe-bottom:env(safe-area-inset-bottom,0); --safe-left:env(safe-area-inset-left,0); --safe-right:env(safe-area-inset-right,0);
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--text); font-family:'Orbitron',sans-serif; text-align:center; min-height:100vh; min-height:-webkit-fill-available; padding:16px; padding-top:calc(16px + var(--safe-top)); padding-bottom:calc(16px + var(--safe-bottom)); padding-left:calc(16px + var(--safe-left)); padding-right:calc(16px + var(--safe-right)); line-height:1.5; }
+.page { display:none; }
+.page.active { display:block; animation:fadeIn 0.25s ease; }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+h1 { margin:24px 0 6px; font-size:clamp(28px,6vw,42px); font-weight:900; letter-spacing:4px; }
+.subtitle { color:var(--text-dim); font-size:10px; margin-bottom:24px; letter-spacing:4px; text-transform:uppercase; }
+.connection-wrap { display:flex; align-items:center; justify-content:center; min-height:60vh; padding:16px 0; width:100%; }
+.connection-box { background:var(--bg-card); border:2px solid var(--border-bright); border-radius:var(--radius-lg); padding:clamp(28px,6vw,50px) clamp(24px,5vw,70px); max-width:min(520px, calc(100% - 32px)); width:100%; margin:0 auto; position:relative; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.03); text-align:center; }
+.connection-box::before { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:conic-gradient(transparent,transparent,transparent,#fff); animation:rotate 6s linear infinite; opacity:0.02; pointer-events:none; }
+@keyframes rotate { 100% { transform:rotate(360deg); } }
+.connection-box h2 { font-size:18px; margin-bottom:8px; letter-spacing:2px; font-weight:700; }
+.connection-box > p { color:var(--text-dim); font-size:11px; margin-bottom:20px; line-height:1.7; letter-spacing:1px; }
+.device-info { background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); padding:14px 18px; margin:18px 0; text-align:left; font-size:11px; line-height:2; }
+.device-info strong { color:var(--text); display:block; margin-bottom:2px; font-weight:700; }
+.device-info span { color:var(--text-dim); }
+.mobile-hint { display:none; margin-top:12px; padding:12px; background:rgba(255,255,255,0.05); border-radius:var(--radius); font-size:10px; color:var(--text-muted); line-height:1.6; text-align:left; }
+.serial-unsupported { display:none; margin-top:16px; padding:14px; background:rgba(255,200,0,0.08); border:1px solid rgba(255,200,0,0.3); border-radius:var(--radius); font-size:11px; color:#ccc; line-height:1.6; text-align:left; }
+.serial-unsupported.show { display:block; }
+.serial-unsupported strong { color:#fff; }
+.scan-wrap { margin:18px 0; }
+.scan-circle { width:72px; height:72px; border:2px solid var(--border); border-top-color:#fff; border-radius:50%; margin:0 auto 14px; animation:spin 1s linear infinite; display:none; }
+.scan-circle.active { display:block; }
+@keyframes spin { 100% { transform:rotate(360deg); } }
+.scan-dots { display:none; justify-content:center; gap:6px; margin-bottom:10px; }
+.scan-dots.active { display:flex; }
+.dot { width:6px; height:6px; background:#fff; border-radius:50%; animation:dotPulse 1.2s ease-in-out infinite; }
+.dot:nth-child(2) { animation-delay:0.2s; }
+.dot:nth-child(3) { animation-delay:0.4s; }
+@keyframes dotPulse { 0%,100% { opacity:0.2; transform:scale(0.85); } 50% { opacity:1; transform:scale(1.15); } }
+.scan-text { font-size:10px; color:var(--text-dim); letter-spacing:2px; min-height:16px; }
+.connect-btn { background:#fff; color:#000; border:none; padding:16px 40px; border-radius:999px; font-weight:900; cursor:pointer; font-family:'Orbitron',sans-serif; font-size:12px; letter-spacing:2px; transition:transform 0.2s,box-shadow 0.2s,background 0.2s; margin-top:8px; min-height:48px; }
+.connect-btn:hover { background:#e8e8e8; transform:translateY(-1px); box-shadow:0 6px 20px rgba(255,255,255,0.12); }
+.connect-btn:active { transform:translateY(0); }
+.connect-btn:disabled { background:var(--border); color:#444; cursor:not-allowed; transform:none; }
+#connectionStatus { margin-top:12px; color:var(--text-dim); font-size:10px; letter-spacing:1px; min-height:16px; }
+.port-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:1000; align-items:center; justify-content:center; padding:16px; padding-top:calc(16px + var(--safe-top)); padding-bottom:calc(16px + var(--safe-bottom)); backdrop-filter:blur(8px); }
+.port-overlay.active { display:flex; }
+.port-dialog { background:var(--bg-card); border:2px solid var(--border-bright); border-radius:var(--radius-lg); padding:28px 24px; width:100%; max-width:440px; max-height:85vh; overflow:hidden; display:flex; flex-direction:column; animation:dialogIn 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes dialogIn { from { transform:scale(0.8); opacity:0; } to { transform:scale(1); opacity:1; } }
+.port-dialog h3 { font-size:15px; letter-spacing:2px; margin-bottom:6px; font-weight:700; }
+.port-dialog > p { color:var(--text-dim); font-size:10px; letter-spacing:1px; margin-bottom:20px; line-height:1.6; }
+.port-list { display:flex; flex-direction:column; gap:8px; max-height:240px; overflow-y:auto; margin-bottom:16px; -webkit-overflow-scrolling:touch; }
+.port-list::-webkit-scrollbar { width:4px; }
+.port-list::-webkit-scrollbar-track { background:var(--bg); }
+.port-list::-webkit-scrollbar-thumb { background:var(--border-bright); border-radius:2px; }
+.port-item { display:flex; align-items:center; justify-content:space-between; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; cursor:pointer; transition:border-color 0.2s,background 0.2s; text-align:left; min-height:56px; }
+.port-item:hover, .port-item:focus { border-color:var(--border-bright); background:#0e0e0e; }
+.port-item.selected { border-color:#fff; background:#111; }
+.port-item-left { flex:1; min-width:0; }
+.port-item-name { font-size:13px; font-weight:700; color:#fff; letter-spacing:1px; margin-bottom:2px; }
+.port-item-detail { font-size:9px; color:var(--text-dim); letter-spacing:1px; }
+.port-item-badge { background:#fff; color:#000; font-size:9px; font-weight:900; letter-spacing:1px; padding:4px 10px; border-radius:999px; flex-shrink:0; }
+.port-item-badge.unknown { background:var(--border); color:var(--text-dim); }
+.port-empty { text-align:center; padding:24px 16px; }
+.port-empty p { color:var(--text-dim); font-size:10px; letter-spacing:1px; margin-bottom:8px; }
+.port-scanning { display:none; text-align:center; padding:20px; }
+.port-scanning.active { display:block; }
+.port-scan-ring { width:44px; height:44px; border:2px solid var(--border); border-top-color:#fff; border-radius:50%; margin:0 auto 12px; animation:spin 0.8s linear infinite; }
+.port-scanning p { color:var(--text-dim); font-size:10px; letter-spacing:2px; }
+.port-dialog-btns { display:flex; gap:10px; justify-content:flex-end; margin-top:8px; flex-wrap:wrap; }
+.port-btn-cancel, .port-btn-connect, .port-btn-refresh { padding:12px 20px; border-radius:var(--radius); font-family:'Orbitron',sans-serif; font-size:11px; letter-spacing:1px; cursor:pointer; transition:all 0.2s; min-height:44px; }
+.port-btn-cancel { background:transparent; color:var(--text-dim); border:1px solid var(--border-bright); }
+.port-btn-cancel:hover { color:#fff; border-color:var(--text-muted); }
+.port-btn-connect { background:#fff; color:#000; border:none; font-weight:900; }
+.port-btn-connect:hover { background:#e8e8e8; }
+.port-btn-connect:disabled { background:var(--border); color:#444; cursor:not-allowed; }
+.port-btn-refresh { background:transparent; color:var(--text-dim); border:1px solid var(--border-bright); margin-right:auto; }
+.port-btn-refresh:hover { color:#fff; border-color:var(--text-muted); }
+.status { border:1px solid var(--border-bright); padding:10px 20px; border-radius:999px; display:inline-block; margin-bottom:20px; font-size:10px; color:#fff; letter-spacing:2px; }
+.status.success { animation:statusFlash 0.5s ease; }
+@keyframes statusFlash { 0% { background:#fff; color:#000; } 100% { background:transparent; color:#fff; } }
+
+.board-legend { font-size:10px; color:var(--text-dim); letter-spacing:1px; margin-bottom:12px; max-width:520px; margin-left:auto; margin-right:auto; line-height:1.5; }
+.board { width:min(650px,100%); height:min(420px,72vw); margin:0 auto 20px; border:2px solid var(--border-bright); border-radius:var(--radius-lg); position:relative; background:var(--bg-card); box-shadow:0 4px 24px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.03); }
+.btn-sub { position:absolute; bottom:8px; left:0; right:0; font-size:7px; color:#555; }
+.oled { position:absolute; top:7%; left:50%; transform:translateX(-50%); width:min(210px,38%); height:min(110px,22%); border:2px solid var(--border-bright); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:clamp(12px,2.5vw,16px); font-weight:700; background:var(--bg); color:#fff; letter-spacing:2px; }
+.buttons { position:absolute; bottom:8%; left:50%; transform:translateX(-50%); display:flex; flex-direction:row; align-items:flex-end; justify-content:center; gap:min(18px,3vw); max-width:95%; }
+.encoder-s1-wrap { display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:8px; text-align:center; min-width:min(130px,26vw); }
+.encoder-s1-wrap .encoder { flex-shrink:0; }
+.encoder { width:min(110px,22vw); height:min(110px,22vw); border:2px solid var(--border-bright); border-radius:50%; display:flex; align-items:center; justify-content:center; background:radial-gradient(circle at 30% 30%,#151515,#000); font-weight:700; font-size:10px; color:#fff; cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden; box-shadow:0 0 16px rgba(255,255,255,0.06); }
+.encoder:hover, .encoder:active { background:radial-gradient(circle at 30% 30%,#1e1e1e,#000); box-shadow:0 0 20px rgba(255,255,255,0.1); }
+.btnBox { text-align:center; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; }
+.btn { width:min(130px,26vw); height:min(130px,26vw); min-width:72px; min-height:72px; border:2px solid var(--border-bright); border-radius:14px; display:flex; align-items:center; justify-content:center; background:linear-gradient(145deg,#111,#060606); font-size:clamp(14px,3vw,18px); font-weight:900; color:#fff; cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,0.3); }
+.btn:hover, .btn:active { background:linear-gradient(145deg,#181818,#0a0a0a); box-shadow:0 0 18px rgba(255,255,255,0.08); transform:translateY(-1px); }
+
+/* CONFIG OVERLAY THAT APPEARS ON CLICK */
+.config-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.94); z-index:2000; display:none; align-items:center; justify-content:center; padding:16px; padding-top:calc(16px + var(--safe-top)); padding-bottom:calc(16px + var(--safe-bottom)); backdrop-filter:blur(10px); overflow-y:auto; }
+.config-overlay.active { display:flex; }
+.config-panel { background:var(--bg-card); border:2px solid var(--border-bright); border-radius:var(--radius-lg); padding:24px 20px; width:100%; max-width:420px; max-height:90vh; overflow-y:auto; animation:dialogIn 0.3s cubic-bezier(0.34,1.56,0.64,1); margin:auto; }
+.config-panel h3 { font-size:16px; letter-spacing:2px; margin-bottom:20px; text-align:center; font-weight:700; }
+
+.config-tabs { display:flex; gap:8px; margin-bottom:20px; }
+.config-tab { flex:1; background:transparent; color:#555; border:2px solid #222; padding:12px 8px; border-radius:10px; font-family:'Orbitron',sans-serif; font-size:11px; letter-spacing:1px; cursor:pointer; transition:all 0.2s; font-weight:700; min-height:44px; }
+.config-tab:hover { color:#fff; border-color:#555; }
+.config-tab.active { background:#fff; color:#000; border-color:#fff; }
+
+.config-content { min-height:200px; }
+.config-section { display:none; }
+.config-section.active { display:block; }
+
+.config-label { font-size:10px; color:#555; letter-spacing:1px; margin-bottom:8px; display:block; }
+
+select.config-select, .config-input { background:#000; color:#fff; border:2px solid #fff; padding:12px; font-family:'Orbitron',sans-serif; width:100%; border-radius:10px; font-size:12px; margin-bottom:15px; min-height:48px; }
+select.config-select { font-weight:500; cursor:pointer; }
+select.config-select:hover { background:#111; }
+select.config-select:focus { outline:none; background:#111; }
+option { background:#0a0a0a; }
+
+.config-input:hover { background:#111; }
+.config-input:focus { outline:none; background:#111; border-color:#fff; }
+.config-input::placeholder { color:#333; }
+
+.config-btns { display:flex; gap:10px; margin-top:25px; }
+.config-btn-cancel { flex:1; background:transparent; color:#555; border:2px solid #222; padding:14px; border-radius:10px; font-family:'Orbitron',sans-serif; font-size:12px; letter-spacing:1px; cursor:pointer; transition:all 0.2s; font-weight:700; }
+.config-btn-cancel:hover { color:#fff; border-color:#fff; }
+.config-btn-save { flex:1; background:#fff; color:#000; border:none; padding:14px; border-radius:10px; font-family:'Orbitron',sans-serif; font-size:12px; font-weight:900; letter-spacing:1px; cursor:pointer; transition:all 0.2s; }
+.config-btn-save:hover { background:#ddd; transform:translateY(-1px); }
+
+.controls { margin-top:35px; display:flex; justify-content:center; gap:15px; flex-wrap:wrap; }
+.flash-btn { background:#fff; color:#000; border:none; padding:15px 45px; border-radius:30px; font-weight:900; cursor:pointer; font-family:'Orbitron',sans-serif; font-size:13px; letter-spacing:2px; transition:all 0.3s; }
+.flash-btn:hover { background:#ddd; transform:translateY(-2px); }
+.flash-btn:active { transform:translateY(0); }
+.flash-btn:disabled { background:#1a1a1a; color:#444; cursor:not-allowed; }
+.flash-progress { display:none; margin:20px auto; max-width:500px; }
+.flash-progress.active { display:block; }
+.progress-bar-wrap { background:#0a0a0a; border:1px solid #1a1a1a; border-radius:30px; height:4px; overflow:hidden; margin-bottom:10px; }
+.progress-bar-fill { height:100%; background:#fff; border-radius:30px; width:0%; transition:width 0.3s ease; }
+.progress-text { font-size:10px; color:#555; letter-spacing:2px; }
+.disconnect-btn { background:transparent; color:#444; border:1px solid #222; padding:15px 35px; border-radius:30px; font-weight:700; cursor:pointer; font-family:'Orbitron',sans-serif; font-size:12px; letter-spacing:1px; transition:all 0.3s; }
+.disconnect-btn:hover { color:#fff; border-color:#fff; transform:translateY(-2px); }
+
+.preset-section { margin:30px auto; max-width:700px; background:#0a0a0a; border:1px solid #1a1a1a; border-radius:15px; padding:25px 30px; text-align:left; }
+.preset-section h3 { color:#fff; font-size:13px; letter-spacing:2px; margin-bottom:20px; padding-bottom:12px; border-bottom:1px solid #111; }
+.preset-row { display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
+.preset-label { font-size:10px; color:#444; letter-spacing:1px; min-width:70px; }
+.preset-name-input { background:#000; color:#fff; border:1px solid #222; padding:10px 14px; border-radius:8px; font-family:'Orbitron',sans-serif; font-size:11px; letter-spacing:1px; flex:1; min-width:140px; }
+.preset-name-input:focus { outline:none; border-color:#fff; }
+.preset-name-input::placeholder { color:#2a2a2a; }
+.preset-btn { background:transparent; color:#aaa; border:1px solid #222; padding:10px 18px; border-radius:8px; font-family:'Orbitron',sans-serif; font-size:10px; letter-spacing:1px; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
+.preset-btn:hover { color:#fff; border-color:#fff; transform:translateY(-1px); }
+.preset-btn.primary { background:#fff; color:#000; border-color:#fff; }
+.preset-btn.primary:hover { background:#ddd; }
+.file-import-wrap { position:relative; display:inline-block; }
+#fileInput { position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; cursor:pointer; }
+.preset-list { margin-top:16px; display:flex; flex-direction:column; gap:8px; }
+.preset-empty { font-size:10px; color:#2a2a2a; letter-spacing:1px; padding:15px 0; text-align:center; }
+.preset-item { display:flex; align-items:center; justify-content:space-between; background:#000; border:1px solid #111; border-radius:8px; padding:12px 16px; transition:border-color 0.2s; }
+.preset-item:hover { border-color:#333; }
+.preset-item-name { font-size:11px; color:#fff; letter-spacing:1px; flex:1; }
+.preset-item-date { font-size:9px; color:#2a2a2a; letter-spacing:1px; margin:0 14px; }
+.preset-item-actions { display:flex; gap:7px; }
+.preset-action-btn { background:transparent; color:#444; border:1px solid #1a1a1a; padding:6px 11px; border-radius:6px; font-family:'Orbitron',sans-serif; font-size:9px; letter-spacing:1px; cursor:pointer; transition:all 0.2s; }
+.preset-action-btn.load:hover { color:#fff; border-color:#fff; background:#111; }
+.preset-action-btn.dl:hover { color:#fff; border-color:#fff; background:#111; }
+.preset-action-btn.del:hover { color:#fff; border-color:#fff; background:#1a0000; }
+
+.howto-btn { position:fixed; top:calc(12px + var(--safe-top)); left:calc(12px + var(--safe-left)); background:#fff; color:#000; border:none; padding:12px 20px; border-radius:999px; font-weight:900; cursor:pointer; font-family:'Orbitron',sans-serif; font-size:10px; letter-spacing:1.5px; z-index:100; box-shadow:0 2px 12px rgba(255,255,255,0.15); min-height:44px; transition:transform 0.2s,box-shadow 0.2s; }
+.howto-btn:hover, .howto-btn:active { background:#e8e8e8; transform:translateY(-1px); box-shadow:0 4px 16px rgba(255,255,255,0.2); }
+.clicks-section, .preset-section { margin:24px auto; max-width:640px; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px 24px; text-align:left; }
+.clicks-section h3, .preset-section h3 { color:#fff; font-size:12px; letter-spacing:2px; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--border); font-weight:700; }
+.clicks-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:16px; }
+.click-item { display:flex; align-items:center; justify-content:space-between; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); padding:12px 14px; min-height:48px; }
+.click-label { font-size:11px; color:var(--text-muted); letter-spacing:1px; }
+.click-value { font-size:14px; color:#fff; font-weight:700; font-family:'Courier New',monospace; }
+.refresh-clicks-btn { background:transparent; color:var(--text-muted); border:1px solid var(--border-bright); padding:10px 18px; border-radius:var(--radius); font-family:'Orbitron',sans-serif; font-size:10px; letter-spacing:1px; cursor:pointer; min-height:44px; transition:all 0.2s; }
+.refresh-clicks-btn:hover { color:#fff; border-color:#fff; }
+.howto { margin:24px auto; max-width:720px; background:var(--bg-card); border:2px solid var(--border-bright); border-radius:var(--radius-lg); padding:28px 24px; text-align:left; font-size:12px; line-height:2; box-shadow:0 4px 24px rgba(0,0,0,0.4); scroll-margin-top:80px; }
+.howto h3 { color:#fff; margin-bottom:16px; font-size:16px; letter-spacing:2px; font-weight:900; }
+.howto h4 { color:#fff; margin-bottom:12px; font-size:13px; letter-spacing:1.5px; font-weight:700; }
+.howto ol { margin-left:22px; color:var(--text-muted); }
+.howto li { margin:8px 0; }
+.howto p { color:var(--text-muted); font-size:11px; line-height:1.8; margin-bottom:10px; }
+.howto strong { color:#fff; font-weight:700; }
+.toast { position:fixed; bottom:calc(24px + var(--safe-bottom)); left:50%; transform:translateX(-50%) translateY(100px); background:#fff; color:#000; padding:14px 24px; border-radius:999px; font-size:12px; font-weight:700; letter-spacing:2px; transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1); z-index:9999; white-space:nowrap; max-width:calc(100vw - 32px); box-shadow:0 4px 20px rgba(0,0,0,0.3); }
+.toast.show { transform:translateX(-50%) translateY(0); }
+@media (max-width:600px) {
+  body { padding:12px; padding-top:calc(12px + var(--safe-top)); }
+  h1 { margin:16px 0 4px; font-size:26px; letter-spacing:3px; }
+  .subtitle { font-size:9px; margin-bottom:16px; letter-spacing:3px; }
+  .connection-box { padding:24px 20px; }
+  .mobile-hint { display:block; }
+  .board { height:min(380px,78vw); }
+  .encoder-s1-wrap { min-width:min(100px,22vw); }
+  .encoder { width:min(90px,20vw); height:min(90px,20vw); font-size:9px; }
+  .btn { width:min(100px,22vw); height:min(100px,22vw); min-width:64px; min-height:64px; font-size:13px; }
+  .buttons { gap:10px; }
+  .clicks-grid { grid-template-columns:1fr; }
+  .config-tabs { flex-wrap:wrap; }
+  .config-tab { min-width:calc(50% - 4px); }
+  .howto { padding:20px 18px; font-size:11px; }
+  .howto-btn { padding:10px 16px; font-size:9px; }
 }
 </style>
 </head>
@@ -55,52 +213,58 @@ h1{margin:24px 0 6px;font-size:clamp(28px,6vw,42px);font-weight:900;letter-spaci
 
 <div class="toast" id="toast"></div>
 
+<!-- PORT DIALOG -->
 <div class="port-overlay" id="portOverlay">
   <div class="port-dialog">
-    <h3 style="font-size:16px;margin-bottom:8px">Select Device</h3>
-    <p style="color:#555;font-size:10px;margin-bottom:20px">Choose your RageODevice</p>
-    <div class="port-list" id="portList"></div>
-    <div style="display:flex;gap:10px;margin-top:8px">
-      <button style="flex:1;background:transparent;color:#555;border:1px solid#222;padding:12px;border-radius:10px;font-family:Orbitron;font-size:11px;cursor:pointer" onclick="closePortDialog()">Cancel</button>
-      <button class="port-btn-connect" id="portConnectBtn" onclick="connectSelected()" disabled>Connect</button>
+    <h3>Select Device</h3>
+    <p>Choose your RageODevice from the list below.</p>
+    <div class="port-scanning" id="portScanning">
+      <div class="port-scan-ring"></div>
+      <p>Scanning...</p>
     </div>
-    <div class="mobile-warning" id="mobileWarning">
-      <strong>📱 Mobile Tips:</strong><br>
-      • Use Chrome on Android<br>
-      • Connect RageODevice with USB OTG cable<br>
-      • Device must be powered on<br>
-      • iOS/Safari NOT supported - use computer or Android
+    <div class="port-list" id="portList"></div>
+    <div class="port-dialog-btns">
+      <button class="port-btn-refresh" onclick="refreshPorts()">Refresh</button>
+      <button class="port-btn-cancel" onclick="closePortDialog()">Cancel</button>
+      <button class="port-btn-connect" id="portConnectBtn" onclick="connectSelected()" disabled>Connect</button>
     </div>
   </div>
 </div>
 
+<!-- CONFIG OVERLAY -->
 <div class="config-overlay" id="configOverlay">
   <div class="config-panel">
-    <h3 id="configTitle" style="font-size:16px;margin-bottom:20px;text-align:center">Configure S1</h3>
+    <h3 id="configTitle">Configure S1</h3>
+    
     <div class="config-tabs">
       <button class="config-tab active" onclick="switchTab('key')">Key</button>
       <button class="config-tab" onclick="switchTab('text')">Text</button>
       <button class="config-tab" onclick="switchTab('password')">Password</button>
       <button class="config-tab" onclick="switchTab('script')">Script</button>
     </div>
-    <div>
+    
+    <div class="config-content">
       <div class="config-section active" id="tab-key">
-        <label style="font-size:10px;color:#555;margin-bottom:8px;display:block">SELECT KEY</label>
+        <label class="config-label">SELECT KEY</label>
         <select class="config-select" id="tempKey"></select>
       </div>
+      
       <div class="config-section" id="tab-text">
-        <label style="font-size:10px;color:#555;margin-bottom:8px;display:block">TEXT TO TYPE</label>
+        <label class="config-label">TEXT TO TYPE</label>
         <input type="text" class="config-input" id="tempText" placeholder="Enter text (max 50 chars)" maxlength="50">
       </div>
+      
       <div class="config-section" id="tab-password">
-        <label style="font-size:10px;color:#555;margin-bottom:8px;display:block">PASSWORD</label>
+        <label class="config-label">PASSWORD</label>
         <input type="password" class="config-input" id="tempPassword" placeholder="Enter password (max 50 chars)" maxlength="50">
       </div>
+      
       <div class="config-section" id="tab-script">
-        <label style="font-size:10px;color:#555;margin-bottom:8px;display:block">CUSTOM SHORTCUT</label>
-        <input type="text" class="config-input" id="tempScript" placeholder="e.g., Alt+Tab, Win+Shift+S (max 50 chars)" maxlength="50">
+        <label class="config-label">SCRIPT / COMMAND / CUSTOM SHORTCUT</label>
+        <input type="text" class="config-input" id="tempScript" placeholder="e.g., Alt+Tab, Win+Shift+S, or custom command (max 50 chars)" maxlength="50">
       </div>
     </div>
+    
     <div class="config-btns">
       <button class="config-btn-cancel" onclick="closeConfig()">Cancel</button>
       <button class="config-btn-save" onclick="saveConfig()">Save</button>
@@ -108,277 +272,701 @@ h1{margin:24px 0 6px;font-size:clamp(28px,6vw,42px);font-weight:900;letter-spaci
   </div>
 </div>
 
+<!-- PAGE 1: CONNECT -->
 <div id="page1" class="page active">
   <h1>RageODevice</h1>
   <p class="subtitle">CUSTOM KEYBOARD CONFIGURATOR</p>
-  <div style="display:flex;align-items:center;justify-content:center;min-height:60vh">
+  <div class="connection-wrap">
     <div class="connection-box">
-      <h2 style="font-size:18px;margin-bottom:8px">Connect</h2>
-      <p style="color:#555;font-size:11px;margin-bottom:20px">Connect via USB</p>
-      <button class="connect-btn" onclick="openPortDialog()">Connect Device</button>
+      <h2>Connect to RageODevice</h2>
+      <p>Connect your device via USB.<br>
+      <span style="color:var(--text-dim);font-size:10px;letter-spacing:1px;">Desktop: Chrome or Edge · Phone: Chrome on Android with USB OTG</span></p>
+      <div class="mobile-hint" id="mobileHint"><strong>On phone:</strong> Use <strong>Chrome</strong> on Android. Connect RageODevice with a USB OTG cable. iOS/Safari does not support USB serial—use a computer or Android device.</div>
+      <div class="serial-unsupported" id="serialUnsupported"><strong>USB not available in this browser.</strong> Use Chrome or Edge on desktop, or Chrome on Android with a USB OTG cable. Safari on iPhone/iPad cannot connect to USB devices.</div>
+      <div class="device-info">
+        <strong>Device:</strong><span>RageODevice</span>
+        <strong>Baud:</strong><span>115200</span>
+        <strong>Connection:</strong><span>USB</span>
+      </div>
+      <div class="scan-wrap">
+        <div class="scan-circle" id="scanCircle"></div>
+        <div class="scan-dots" id="scanDots">
+          <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="scan-text" id="scanText"></div>
+      </div>
+      <button class="connect-btn" onclick="openPortDialog()" id="connectBtn">Connect Device</button>
+      <p id="connectionStatus"></p>
     </div>
   </div>
 </div>
 
+<!-- PAGE 2: CONFIGURATOR -->
 <div id="page2" class="page">
+  <button class="howto-btn" onclick="scrollToHowTo()">How to Use</button>
   <h1>RageODevice</h1>
-  <p class="subtitle">CONFIGURATOR</p>
+  <p class="subtitle">CUSTOM KEYBOARD CONFIGURATOR</p>
+  <div class="status" id="status">Connected</div>
+  
+  <p class="board-legend">Layout matches your device — from left to right: encoder above 1st button, then S1, S2, S3, S4.</p>
   <div class="board">
     <div class="oled">RageODevice</div>
+    
     <div class="buttons">
-      <div style="display:flex;flex-direction:column;gap:8px">
+      <div class="encoder-s1-wrap">
         <div class="encoder" onclick="openConfig('enc')">
-          <div style="text-align:center">
-            <div style="font-size:14px;font-weight:900" id="encDisplay">VOL</div>
-            <div style="font-size:7px;color:#555;margin-top:4px">Encoder</div>
+          <div style="text-align:center;">
+            <div style="font-size:14px;font-weight:900;" id="encDisplay">VOL</div>
+            <div style="font-size:7px;color:#555;margin-top:4px;">Encoder · click to config</div>
           </div>
         </div>
-        <div class="btn" onclick="openConfig('b1')">S1</div>
+        <div class="btn" onclick="openConfig('b1')">S1<div class="btn-sub">Click to config</div></div>
       </div>
-      <div class="btn" onclick="openConfig('b2')">S2</div>
-      <div class="btn" onclick="openConfig('b3')">S3</div>
-      <div class="btn" onclick="openConfig('b4')">S4</div>
+      <div class="btnBox">
+        <div class="btn" onclick="openConfig('b2')">S2<div class="btn-sub">Click to config</div></div>
+      </div>
+      <div class="btnBox">
+        <div class="btn" onclick="openConfig('b3')">S3<div class="btn-sub">Click to config</div></div>
+      </div>
+      <div class="btnBox">
+        <div class="btn" onclick="openConfig('b4')">S4<div class="btn-sub">Click to config</div></div>
+      </div>
     </div>
   </div>
-  <div style="margin-top:35px;display:flex;justify-content:center;gap:15px">
-    <button class="flash-btn" onclick="sendToDevice()">Send to Device</button>
+  
+  <div class="flash-progress" id="flashProgress">
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
+    <div class="progress-text" id="progressText">Sending...</div>
+  </div>
+  
+  <div class="controls">
+    <button class="flash-btn" onclick="sendToDevice()" id="sendBtn">Send to Device</button>
+    <button class="disconnect-btn" onclick="disconnectDevice()">Disconnect</button>
+  </div>
+  
+  <div class="clicks-section">
+    <h3>Button Clicks</h3>
+    <div class="clicks-grid">
+      <div class="click-item">
+        <span class="click-label">S1:</span>
+        <span class="click-value" id="clickS1">-</span>
+      </div>
+      <div class="click-item">
+        <span class="click-label">S2:</span>
+        <span class="click-value" id="clickS2">-</span>
+      </div>
+      <div class="click-item">
+        <span class="click-label">S3:</span>
+        <span class="click-value" id="clickS3">-</span>
+      </div>
+      <div class="click-item">
+        <span class="click-label">S4:</span>
+        <span class="click-value" id="clickS4">-</span>
+      </div>
+    </div>
+    <button class="refresh-clicks-btn" onclick="refreshClicks()">Refresh</button>
+  </div>
+  
+  <div class="preset-section">
+    <h3>Presets</h3>
+    <div class="preset-row">
+      <span class="preset-label">Save as:</span>
+      <input type="text" class="preset-name-input" id="presetNameInput" placeholder="Preset name...">
+      <button class="preset-btn primary" onclick="savePreset()">Save</button>
+      <button class="preset-btn" onclick="downloadPreset()">Download .txt</button>
+    </div>
+    <div class="preset-row">
+      <span class="preset-label">Import:</span>
+      <div class="file-import-wrap">
+        <button class="preset-btn">Import .txt</button>
+        <input type="file" id="fileInput" accept=".txt" onchange="importPreset(event)">
+      </div>
+    </div>
+    <div class="preset-list" id="presetList"></div>
+  </div>
+  
+  <div class="howto" id="howtoGuide">
+    <h3>How to Use</h3>
+    <ol>
+      <li><strong>Configure Buttons:</strong> Click on any button (S1-S4) or the encoder to open its configuration panel.</li>
+      <li><strong>Key Tab:</strong> Select a key or shortcut from the dropdown list. Available shortcuts include:
+        <ul style="margin-left:25px;margin-top:8px;color:#888;">
+          <li>Basic keys: Space, Enter, ESC, Arrow keys, Function keys (F1-F12)</li>
+          <li>Common shortcuts: Ctrl+C, Ctrl+V, Ctrl+Z, Ctrl+A, Ctrl+Shift+T</li>
+          <li>System shortcuts: Alt+Tab, Win+D, Win+L, Ctrl+Shift+ESC (Task Manager)</li>
+          <li>Media keys: Volume Up/Down, Play/Pause, Next/Previous Track</li>
+        </ul>
+        The selected key/shortcut will be sent when you press the button.
+      </li>
+      <li><strong>Text Tab:</strong> Type any text (max 50 characters) that will be automatically entered as if you typed it yourself. Useful for frequently used phrases, email addresses, or repetitive text.</li>
+      <li><strong>Password Tab:</strong> Same as Text, but the password stays hidden in this configurator for security. Perfect for login credentials.</li>
+      <li><strong>Script/Command Tab:</strong> For custom shortcuts that aren't in the Key dropdown, type them here using the format: <strong>"Ctrl+Shift+ESC"</strong>, <strong>"Alt+Tab"</strong>, <strong>"Win+Shift+S"</strong>, etc. Use plus signs (+) to combine keys. This works for any key combination your device supports.</li>
+      <li><strong>Save & Upload:</strong> Click "Save" to store the configuration, then click "Send to Device" to upload all settings to your board.</li>
+    </ol>
+    <div style="margin-top:30px;padding-top:25px;border-top:2px solid #222;">
+      <h4>💡 Important Tips</h4>
+      <p>
+        <strong>Shortcuts Format:</strong> When using Script/Command for shortcuts, type them exactly as shown: <strong>"Ctrl+Shift+ESC"</strong> (with plus signs, no spaces around +). Common shortcuts like <strong>Ctrl+Shift+ESC</strong> (Task Manager), <strong>Alt+Tab</strong>, <strong>Win+Shift+S</strong> (Snipping Tool), and <strong>Ctrl+Alt+Del</strong> are all supported.
+      </p>
+      <p>
+        <strong>Encoder:</strong> The encoder only supports Volume, Zoom, and Scroll modes - these are set via the Key tab. The encoder click can be configured with Text, Password, or Script just like buttons.
+      </p>
+    </div>
   </div>
 </div>
 
 <script>
-let port=null,selectedPortIndex=null,availablePorts=[],currentConfig='b1',currentTab='key';
-const DEVICE_NAMES={'2341:0037':'RageODevice','2341:8037':'RageODevice','2341:0237':'RageODevice','2341:8237':'RageODevice','2A03:0037':'RageODevice','2A03:8037':'RageODevice','2342:8038':'RageODevice'};
-const keys=["Space","Enter","ESC","Backspace","Tab","Delete","W","A","S","D","Q","E","R","F","G","H","J","K","L","Z","X","C","V","B","N","M","Shift","Ctrl","Alt","Win","F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12","Up Arrow","Down Arrow","Left Arrow","Right Arrow","Page Up","Page Down","Home","End","Insert","Ctrl+C","Ctrl+V","Ctrl+X","Ctrl+Z","Ctrl+Y","Ctrl+S","Ctrl+A","Ctrl+F","Ctrl+P","Ctrl+N","Ctrl+W","Ctrl+T","Ctrl+Tab","Ctrl+Shift+T","Alt+Tab","Alt+F4","Alt+Enter","Win+D","Win+E","Win+L","Win+R","Task Manager","Print Screen","Mute","Volume Up","Volume Down","Play/Pause","Next Track","Prev Track"];
-let config={b1:{mode:'key',key:0,text:''},b2:{mode:'key',key:2,text:''},b3:{mode:'key',key:72,text:''},b4:{mode:'key',key:0,text:''},enc:{mode:0,text:''}};
+let port = null;
+let selectedPortIndex = null;
+let availablePorts = [];
+let currentConfig = 'b1';
+let currentTab = 'key';
 
-function isMobile(){return/Android|iPhone|iPad/i.test(navigator.userAgent)}
-function isSerialSupported(){return typeof navigator!=='undefined'&&navigator.serial!=null}
+const DEVICE_NAMES = {
+  '2341:0037':'RageODevice','2341:8037':'RageODevice',
+  '2341:0237':'RageODevice','2341:8237':'RageODevice',
+  '2A03:0037':'RageODevice','2A03:8037':'RageODevice',
+  '2342:8038':'RageODevice',
+};
 
-async function openPortDialog(){
-  if(!isSerialSupported()){showToast('USB not supported');return}
-  document.getElementById('portOverlay').classList.add('active');
-  if(isMobile())document.getElementById('mobileWarning').classList.add('show');
-  selectedPortIndex=null;
-  document.getElementById('portConnectBtn').disabled=true;
-  await refreshPorts();
-}
+const keys = [
+  "Space","Enter","ESC","Backspace","Tab","Delete",
+  "W","A","S","D","Q","E","R","F","G","H","J","K","L","Z","X","C","V","B","N","M",
+  "Shift","Ctrl","Alt","Win",
+  "F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12",
+  "Up Arrow","Down Arrow","Left Arrow","Right Arrow","Page Up","Page Down","Home","End","Insert",
+  "Ctrl+C","Ctrl+V","Ctrl+X","Ctrl+Z","Ctrl+Y","Ctrl+S","Ctrl+A","Ctrl+F","Ctrl+P","Ctrl+N","Ctrl+W","Ctrl+T","Ctrl+Tab","Ctrl+Shift+T",
+  "Alt+Tab","Alt+F4","Alt+Enter",
+  "Win+D","Win+E","Win+L","Win+R",
+  "Task Manager (Ctrl+Shift+ESC)","Print Screen","Mute","Volume Up","Volume Down","Play/Pause","Next Track","Prev Track"
+];
 
-function closePortDialog(){document.getElementById('portOverlay').classList.remove('active')}
+let config = {
+  b1: {mode:'key', key:0, text:''},
+  b2: {mode:'key', key:2, text:''},
+  b3: {mode:'key', key:72, text:''},
+  b4: {mode:'key', key:0, text:''},
+  enc: {mode:0, text:''}
+};
 
-async function refreshPorts(){
-  if(!isSerialSupported())return;
-  const list=document.getElementById('portList');
-  list.innerHTML='<div style="text-align:center;padding:20px;color:#555;font-size:10px">Scanning...</div>';
-  await new Promise(r=>setTimeout(r,600));
-  availablePorts=await navigator.serial.getPorts();
-  
-  if(availablePorts.length>0){
-    availablePorts.forEach((p,i)=>{
-      const info=p.getInfo();
-      const vid=info.usbVendorId?info.usbVendorId.toString(16).toUpperCase().padStart(4,'0'):null;
-      const pid=info.usbProductId?info.usbProductId.toString(16).toUpperCase().padStart(4,'0'):null;
-      const key=vid&&pid?`${vid}:${pid}`:null;
-      if(key&&DEVICE_NAMES[key]&&selectedPortIndex===null){
-        selectedPortIndex=i;
-        document.getElementById('portConnectBtn').disabled=false;
-      }
-    });
-    renderPortList();
-  }else{
-    list.innerHTML='<div style="text-align:center;padding:20px"><p style="color:#555;font-size:10px;margin-bottom:12px">No devices found</p><button class="port-btn-connect" onclick="grantAccess()">Grant Access</button></div>';
-  }
-}
-
-async function grantAccess(){
-  try{
-    let newPort=null;
-    try{
-      // Try with filters first (works best on desktop)
-      newPort=await navigator.serial.requestPort({
-        filters:[
-          {usbVendorId:0x2341,usbProductId:0x0037},
-          {usbVendorId:0x2341,usbProductId:0x8037},
-          {usbVendorId:0x2341,usbProductId:0x0237},
-          {usbVendorId:0x2341,usbProductId:0x8237},
-          {usbVendorId:0x2A03,usbProductId:0x0037},
-          {usbVendorId:0x2A03,usbProductId:0x8037},
-          {usbVendorId:0x2342,usbProductId:0x8038}
-        ]
-      });
-    }catch(filterErr){
-      // On mobile Chrome/Android, filters sometimes block device from showing
-      // Try without filters to show ALL USB serial devices
-      console.log('Trying without filters for mobile...');
-      newPort=await navigator.serial.requestPort();
-    }
-    if(newPort){
-      await refreshPorts();
-      showToast('Device access granted!');
-    }
-  }catch(e){
-    console.error('Grant access error:',e);
-    if(e.name==='NotFoundError'){
-      showToast('No device selected');
-    }else if(e.name==='NotSupportedError'){
-      showToast('USB not supported on this device');
-    }else{
-      showToast('Error: '+e.message);
-    }
-  }
-}
-
-function renderPortList(){
-  const list=document.getElementById('portList');
-  if(!availablePorts.length){list.innerHTML='<div style="text-align:center;padding:20px;color:#555">No devices</div>';return}
-  list.innerHTML=availablePorts.map((p,i)=>{
-    const info=p.getInfo();
-    const vid=info.usbVendorId?info.usbVendorId.toString(16).toUpperCase().padStart(4,'0'):null;
-    const pid=info.usbProductId?info.usbProductId.toString(16).toUpperCase().padStart(4,'0'):null;
-    const key=vid&&pid?`${vid}:${pid}`:null;
-    const deviceName=key&&DEVICE_NAMES[key]?DEVICE_NAMES[key]:'USB Device';
-    const detail=vid&&pid?`${vid}:${pid}`:'Serial Port';
-    return `<div class="port-item ${i===selectedPortIndex?'selected':''}" onclick="selectPort(${i})"><div style="flex:1"><div style="font-size:13px;font-weight:700;margin-bottom:2px">${deviceName}</div><div style="font-size:9px;color:#555">${detail}</div></div></div>`;
-  }).join('');
-}
-
-function selectPort(index){selectedPortIndex=index;renderPortList();document.getElementById('portConnectBtn').disabled=false}
-
-async function connectSelected(){
-  if(selectedPortIndex===null||!availablePorts[selectedPortIndex])return;
-  try{
-    port=availablePorts[selectedPortIndex];
-    await port.open({baudRate:115200});
-    closePortDialog();
-    document.getElementById('page1').classList.remove('active');
-    document.getElementById('page2').classList.add('active');
-    initControls();
-    showToast('Connected!');
-  }catch(e){
-    showToast('Connection failed: '+e.message);
-  }
-}
-
-function initControls(){
-  updateEncDisplay();
-  const sel=document.getElementById('tempKey');
-  sel.innerHTML='';
-  keys.forEach((k,i)=>{
-    const opt=document.createElement('option');
-    opt.value=i;opt.textContent=k;
-    sel.appendChild(opt);
-  });
-}
+let savedPresets = JSON.parse(localStorage.getItem('ragePresets') || '[]');
 
 function openConfig(target){
-  currentConfig=target;
-  const titles={enc:'Encoder',b1:'S1',b2:'S2',b3:'S3',b4:'S4'};
-  document.getElementById('configTitle').textContent='Configure '+(titles[target]||target.toUpperCase());
+  currentConfig = target;
+  const titles = { enc: 'Encoder', b1: 'S1', b2: 'S2', b3: 'S3', b4: 'S4' };
+  document.getElementById('configTitle').textContent = 'Configure ' + (titles[target] || target.toUpperCase());
+  const keyLabelEl = document.querySelector('#tab-key .config-label');
   
-  if(target==='enc'){
-    const sel=document.getElementById('tempKey');
-    sel.innerHTML='';
-    ['Volume','Zoom','Scroll'].forEach((label,i)=>{
-      const opt=document.createElement('option');
-      opt.value=i;opt.textContent=label;
-      sel.appendChild(opt);
-    });
-    currentTab=config.enc.text?'text':'key';
-    document.getElementById('tempKey').value=config.enc.mode;
-    document.getElementById('tempText').value=config.enc.text;
-    document.getElementById('tempPassword').value=config.enc.text;
-    document.getElementById('tempScript').value=config.enc.text;
-  }else{
-    initControls();
-    currentTab=config[target].mode;
-    document.getElementById('tempKey').value=config[target].key;
-    document.getElementById('tempText').value=config[target].text;
-    document.getElementById('tempPassword').value=config[target].text;
-    document.getElementById('tempScript').value=config[target].text;
+  if(target === 'enc'){
+    // Encoder special case: only Volume / Zoom / Scroll
+    populateKeySelectForEncoder();
+    if(keyLabelEl) keyLabelEl.textContent = 'ENCODER MODE';
+    currentTab = config.enc.text ? 'text' : 'key';
+    document.getElementById('tempKey').value = config.enc.mode;
+    document.getElementById('tempText').value = config.enc.text;
+    document.getElementById('tempPassword').value = config.enc.text;
+    document.getElementById('tempScript').value = config.enc.text;
+  } else {
+    // Regular buttons: standard keys only
+    populateKeySelectForButtons();
+    if(keyLabelEl) keyLabelEl.textContent = 'SELECT KEY';
+    currentTab = config[target].mode;
+    document.getElementById('tempKey').value = config[target].key;
+    document.getElementById('tempText').value = config[target].text;
+    document.getElementById('tempPassword').value = config[target].text;
+    document.getElementById('tempScript').value = config[target].text;
   }
   
   switchTab(currentTab);
   document.getElementById('configOverlay').classList.add('active');
 }
 
-function closeConfig(){document.getElementById('configOverlay').classList.remove('active')}
+function closeConfig(){
+  document.getElementById('configOverlay').classList.remove('active');
+}
 
 function switchTab(tab){
-  currentTab=tab;
-  document.querySelectorAll('.config-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.config-section').forEach(s=>s.classList.remove('active'));
-  const tabIndex=['key','text','password','script'].indexOf(tab);
+  currentTab = tab;
+  document.querySelectorAll('.config-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.config-section').forEach(s => s.classList.remove('active'));
+  
+  const tabIndex = ['key','text','password','script'].indexOf(tab);
   document.querySelectorAll('.config-tab')[tabIndex].classList.add('active');
-  document.getElementById('tab-'+tab).classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
 }
 
 function saveConfig(){
-  if(currentConfig==='enc'){
-    if(currentTab==='key'){
-      config.enc.mode=parseInt(document.getElementById('tempKey').value);
-      config.enc.text='';
-    }else{
-      const val=document.getElementById('temp'+currentTab.charAt(0).toUpperCase()+currentTab.slice(1)).value;
-      config.enc.text=val;
+  if(currentConfig === 'enc'){
+    if(currentTab === 'key'){
+      config.enc.mode = parseInt(document.getElementById('tempKey').value);
+      config.enc.text = '';
+    } else {
+      const val = document.getElementById('temp' + currentTab.charAt(0).toUpperCase() + currentTab.slice(1)).value;
+      config.enc.text = val;
     }
     updateEncDisplay();
-  }else{
-    if(currentTab==='key'){
-      config[currentConfig].mode='key';
-      config[currentConfig].key=parseInt(document.getElementById('tempKey').value);
-      config[currentConfig].text='';
-    }else{
-      config[currentConfig].mode=currentTab;
-      const val=document.getElementById('temp'+currentTab.charAt(0).toUpperCase()+currentTab.slice(1)).value;
-      config[currentConfig].text=val;
+  } else {
+    if(currentTab === 'key'){
+      config[currentConfig].mode = 'key';
+      config[currentConfig].key = parseInt(document.getElementById('tempKey').value);
+      config[currentConfig].text = '';
+    } else {
+      config[currentConfig].mode = currentTab;
+      const val = document.getElementById('temp' + currentTab.charAt(0).toUpperCase() + currentTab.slice(1)).value;
+      config[currentConfig].text = val;
     }
   }
   closeConfig();
-  showToast('Saved');
+  showToast('Configuration saved');
 }
 
 function updateEncDisplay(){
-  const modes=['VOL','ZOOM','SCR'];
-  document.getElementById('encDisplay').textContent=modes[config.enc.mode];
+  const modes = ['VOL','ZOOM','SCR'];
+  document.getElementById('encDisplay').textContent = modes[config.enc.mode];
 }
 
-async function sendToDevice(){
-  if(!port){showToast('Not connected!');return}
-  try{
-    const data={
-      b1mode:config.b1.mode==='key'?0:1,b1key:config.b1.key,b1text:config.b1.text,
-      b2mode:config.b2.mode==='key'?0:1,b2key:config.b2.key,b2text:config.b2.text,
-      b3mode:config.b3.mode==='key'?0:1,b3key:config.b3.key,b3text:config.b3.text,
-      b4mode:config.b4.mode==='key'?0:1,b4key:config.b4.key,b4text:config.b4.text,
-      enc:config.enc.mode,enctext:config.enc.text
-    };
-    const jsonStr=JSON.stringify(data)+'\n';
-    const encoded=new TextEncoder().encode(jsonStr);
-    const writer=port.writable.getWriter();
-    for(let i=0;i<encoded.length;i++){
-      await writer.write(encoded.slice(i,i+1));
-      await new Promise(r=>setTimeout(r,8));
-    }
-    writer.releaseLock();
-    await new Promise(r=>setTimeout(r,1000));
-    showToast('Sent to device!');
-  }catch(e){
-    showToast('Failed: '+e.message);
+// Check Web Serial support (e.g. not available on iOS Safari)
+function isSerialSupported() {
+  return typeof navigator !== 'undefined' && navigator.serial != null;
+}
+
+// PORT FUNCTIONS
+async function openPortDialog() {
+  if (!isSerialSupported()) {
+    document.getElementById('serialUnsupported').classList.add('show');
+    showToast('USB not supported in this browser');
+    return;
+  }
+  document.getElementById('serialUnsupported').classList.remove('show');
+  document.getElementById('portOverlay').classList.add('active');
+  selectedPortIndex = null;
+  document.getElementById('portConnectBtn').disabled = true;
+  await refreshPorts();
+}
+
+function closePortDialog() {
+  document.getElementById('portOverlay').classList.remove('active');
+}
+
+async function refreshPorts() {
+  if (!isSerialSupported()) return;
+  const scanning = document.getElementById('portScanning');
+  const list = document.getElementById('portList');
+  const connectBtn = document.getElementById('portConnectBtn');
+
+  scanning.classList.add('active');
+  list.innerHTML = '';
+  selectedPortIndex = null;
+  connectBtn.disabled = true;
+
+  await new Promise(r => setTimeout(r, 600));
+  scanning.classList.remove('active');
+  availablePorts = await navigator.serial.getPorts();
+
+  if(availablePorts.length > 0) {
+    availablePorts.forEach((p, i) => {
+      const info = p.getInfo();
+      const vid = info.usbVendorId ? info.usbVendorId.toString(16).toUpperCase().padStart(4,'0') : null;
+      const pid = info.usbProductId ? info.usbProductId.toString(16).toUpperCase().padStart(4,'0') : null;
+      const key = vid && pid ? `${vid}:${pid}` : null;
+      if(key && DEVICE_NAMES[key] && selectedPortIndex === null) {
+        selectedPortIndex = i;
+        connectBtn.disabled = false;
+      }
+    });
+    renderPortList();
+  } else {
+    list.innerHTML = `
+      <div class="port-empty">
+        <p>No devices found</p>
+      </div>
+      <div style="text-align:center;margin-top:14px">
+        <button class="port-btn-connect" onclick="grantAccess()">Grant Access</button>
+      </div>
+    `;
   }
 }
 
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2500);
+async function grantAccess() {
+  try {
+    await navigator.serial.requestPort({
+      filters: [
+        { usbVendorId: 0x2341, usbProductId: 0x0037 },
+        { usbVendorId: 0x2341, usbProductId: 0x8037 },
+        { usbVendorId: 0x2341, usbProductId: 0x0237 },
+        { usbVendorId: 0x2341, usbProductId: 0x8237 },
+        { usbVendorId: 0x2A03, usbProductId: 0x0037 },
+        { usbVendorId: 0x2A03, usbProductId: 0x8037 },
+        { usbVendorId: 0x2342, usbProductId: 0x8038 },
+      ]
+    });
+    await refreshPorts();
+  } catch(e) {}
 }
 
-document.getElementById('portOverlay').addEventListener('click',e=>{
-  if(e.target.id==='portOverlay')closePortDialog();
+function renderPortList() {
+  const list = document.getElementById('portList');
+  if(!availablePorts.length) {
+    list.innerHTML = '<div class="port-empty"><p>No devices found</p></div>';
+    return;
+  }
+  list.innerHTML = availablePorts.map((p, i) => {
+    const info = p.getInfo();
+    const vid = info.usbVendorId ? info.usbVendorId.toString(16).toUpperCase().padStart(4,'0') : null;
+    const pid = info.usbProductId ? info.usbProductId.toString(16).toUpperCase().padStart(4,'0') : null;
+    const key = vid && pid ? `${vid}:${pid}` : null;
+    const deviceName = key && DEVICE_NAMES[key] ? DEVICE_NAMES[key] : 'Unknown';
+    const isKnown = key && DEVICE_NAMES[key];
+    const detail = vid && pid ? `VID: ${vid}  PID: ${pid}` : 'USB Serial';
+    return `
+      <div class="port-item ${i === selectedPortIndex ? 'selected' : ''}" onclick="selectPort(${i})">
+        <div class="port-item-left">
+          <div class="port-item-name">${deviceName}</div>
+          <div class="port-item-detail">${detail}</div>
+        </div>
+        <div class="port-item-badge ${isKnown ? '' : 'unknown'}">${isKnown ? 'DETECTED' : 'UNKNOWN'}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function selectPort(index) {
+  selectedPortIndex = index;
+  renderPortList();
+  document.getElementById('portConnectBtn').disabled = false;
+}
+
+async function connectSelected() {
+  if(selectedPortIndex === null || !availablePorts[selectedPortIndex]) return;
+
+  const connectBtn = document.getElementById('portConnectBtn');
+  connectBtn.disabled = true;
+  connectBtn.textContent = 'Connecting...';
+
+  try {
+    port = availablePorts[selectedPortIndex];
+    await port.open({ baudRate: 115200 });
+    closePortDialog();
+
+    setScanState(true, 'Connecting...');
+    await new Promise(r => setTimeout(r, 600));
+    setScanState(true, 'Established!');
+    await new Promise(r => setTimeout(r, 700));
+    setScanState(false);
+
+    document.getElementById('page1').classList.remove('active');
+    document.getElementById('page2').classList.add('active');
+    initControls();
+    showToast('Connected');
+
+  } catch(e) {
+    connectBtn.disabled = false;
+    connectBtn.textContent = 'Connect';
+  }
+}
+
+function initControls() {
+  updateEncDisplay();
+  renderPresetList();
+  refreshClicks();
+  // Auto-refresh clicks every 5 seconds
+  if(window.clicksInterval) clearInterval(window.clicksInterval);
+  window.clicksInterval = setInterval(refreshClicks, 5000);
+}
+
+function populateKeySelectForButtons() {
+  const sel = document.getElementById('tempKey');
+  sel.innerHTML = '';
+  keys.forEach((k, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = k;
+    sel.appendChild(opt);
+  });
+}
+
+function populateKeySelectForEncoder() {
+  const sel = document.getElementById('tempKey');
+  sel.innerHTML = '';
+  ['Volume','Zoom','Scroll'].forEach((label, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = label;
+    sel.appendChild(opt);
+  });
+}
+
+async function sendToDevice() {
+  if(!port) { showToast('Not connected!'); return; }
+
+  const sendBtn = document.getElementById('sendBtn');
+  const progressEl = document.getElementById('flashProgress');
+  const fillEl = document.getElementById('progressFill');
+  const textEl = document.getElementById('progressText');
+
+  try {
+    sendBtn.disabled = true;
+    progressEl.classList.add('active');
+    fillEl.style.width = '0%';
+    textEl.textContent = 'Preparing...';
+    await new Promise(r => setTimeout(r, 300));
+
+    fillEl.style.width = '20%';
+    textEl.textContent = 'Sending...';
+
+    // Convert to Arduino format
+    const data = {
+      b1mode: config.b1.mode === 'key' ? 0 : 1,
+      b1key: config.b1.key,
+      b1text: config.b1.text,
+      b2mode: config.b2.mode === 'key' ? 0 : 1,
+      b2key: config.b2.key,
+      b2text: config.b2.text,
+      b3mode: config.b3.mode === 'key' ? 0 : 1,
+      b3key: config.b3.key,
+      b3text: config.b3.text,
+      b4mode: config.b4.mode === 'key' ? 0 : 1,
+      b4key: config.b4.key,
+      b4text: config.b4.text,
+      enc: config.enc.mode,
+      enctext: config.enc.text
+    };
+
+    const jsonStr = JSON.stringify(data) + '\n';
+    const encoded = new TextEncoder().encode(jsonStr);
+    const writer = port.writable.getWriter();
+
+    for(let i = 0; i < encoded.length; i++) {
+      await writer.write(encoded.slice(i, i + 1));
+      await new Promise(r => setTimeout(r, 8));
+      fillEl.style.width = (20 + (i / encoded.length) * 50) + '%';
+    }
+
+    writer.releaseLock();
+
+    fillEl.style.width = '80%';
+    textEl.textContent = 'Writing EEPROM...';
+    await new Promise(r => setTimeout(r, 1000));
+
+    fillEl.style.width = '100%';
+    textEl.textContent = 'Done!';
+
+    const statusEl = document.getElementById('status');
+    statusEl.textContent = 'Settings Applied!';
+    statusEl.classList.add('success');
+    setTimeout(() => { statusEl.textContent = 'Connected'; statusEl.classList.remove('success'); }, 2000);
+
+    showToast('Saved!');
+    // Refresh clicks after saving
+    setTimeout(() => refreshClicks(), 500);
+    await new Promise(r => setTimeout(r, 800));
+    progressEl.classList.remove('active');
+    fillEl.style.width = '0%';
+    sendBtn.disabled = false;
+
+  } catch(e) {
+    progressEl.classList.remove('active');
+    sendBtn.disabled = false;
+    showToast('Failed: ' + e.message);
+  }
+}
+
+// PRESET FUNCTIONS
+function savePreset() {
+  const name = document.getElementById('presetNameInput').value.trim();
+  if(!name) { showToast('Enter name!'); return; }
+  const preset = { name, date: new Date().toLocaleDateString(), config: JSON.parse(JSON.stringify(config)) };
+  const idx = savedPresets.findIndex(p => p.name === name);
+  if(idx >= 0) savedPresets[idx] = preset;
+  else savedPresets.push(preset);
+  localStorage.setItem('ragePresets', JSON.stringify(savedPresets));
+  document.getElementById('presetNameInput').value = '';
+  renderPresetList();
+  showToast('Preset saved');
+}
+
+function loadPreset(i) {
+  config = JSON.parse(JSON.stringify(savedPresets[i].config));
+  updateEncDisplay();
+  showToast('Loaded: ' + savedPresets[i].name);
+}
+
+function deletePreset(i) {
+  const name = savedPresets[i].name;
+  savedPresets.splice(i, 1);
+  localStorage.setItem('ragePresets', JSON.stringify(savedPresets));
+  renderPresetList();
+  showToast('Deleted: ' + name);
+}
+
+function downloadPreset() {
+  const name = document.getElementById('presetNameInput').value.trim() || 'Preset';
+  const text = JSON.stringify(config, null, 2);
+  const blob = new Blob([text], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = name + '.json';
+  a.click(); URL.revokeObjectURL(url);
+  showToast('Downloaded');
+}
+
+function importPreset(event) {
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      config = JSON.parse(e.target.result);
+      updateEncDisplay();
+      showToast('Imported');
+    } catch(err) { showToast('Invalid file'); }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function downloadSaved(i) {
+  const p = savedPresets[i];
+  const text = JSON.stringify(p.config, null, 2);
+  const blob = new Blob([text], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = p.name + '.json';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+function renderPresetList() {
+  const list = document.getElementById('presetList');
+  if(!savedPresets.length) {
+    list.innerHTML = '<div class="preset-empty">No presets</div>';
+    return;
+  }
+  list.innerHTML = savedPresets.map((p, i) => `
+    <div class="preset-item">
+      <span class="preset-item-name">${p.name}</span>
+      <span class="preset-item-date">${p.date}</span>
+      <div class="preset-item-actions">
+        <button class="preset-action-btn load" onclick="loadPreset(${i})">Load</button>
+        <button class="preset-action-btn dl" onclick="downloadSaved(${i})">Download</button>
+        <button class="preset-action-btn del" onclick="deletePreset(${i})">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function setScanState(active, text='') {
+  document.getElementById('scanCircle').classList.toggle('active', active);
+  document.getElementById('scanDots').classList.toggle('active', active);
+  document.getElementById('scanText').textContent = text;
+}
+
+async function disconnectDevice() {
+  if(window.clicksInterval) {
+    clearInterval(window.clicksInterval);
+    window.clicksInterval = null;
+  }
+  if(port) {
+    try { await port.close(); } catch(e) {}
+    port = null;
+  }
+  document.getElementById('page2').classList.remove('active');
+  document.getElementById('page1').classList.add('active');
+  // Clear clicks display
+  document.getElementById('clickS1').textContent = '-';
+  document.getElementById('clickS2').textContent = '-';
+  document.getElementById('clickS3').textContent = '-';
+  document.getElementById('clickS4').textContent = '-';
+  showToast('Disconnected');
+}
+
+document.getElementById('portOverlay').addEventListener('click', e => {
+  if(e.target.id === 'portOverlay') closePortDialog();
 });
-document.getElementById('configOverlay').addEventListener('click',e=>{
-  if(e.target.id==='configOverlay')closeConfig();
+
+document.getElementById('configOverlay').addEventListener('click', e => {
+  if(e.target.id === 'configOverlay') closeConfig();
 });
+
+// Show serial unsupported message on load if needed (e.g. iOS)
+if (!isSerialSupported()) {
+  document.getElementById('serialUnsupported').classList.add('show');
+}
+
+function scrollToHowTo(){
+  const howtoEl = document.querySelector('.howto');
+  if(howtoEl){
+    howtoEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+async function refreshClicks(){
+  if(!port) {
+    // Not connected, show dashes
+    document.getElementById('clickS1').textContent = '-';
+    document.getElementById('clickS2').textContent = '-';
+    document.getElementById('clickS3').textContent = '-';
+    document.getElementById('clickS4').textContent = '-';
+    return;
+  }
+  
+  try {
+    // Get writer and reader
+    const writer = port.writable.getWriter();
+    const reader = port.readable.getReader();
+    
+    // Send GETCLICKS command
+    await writer.write(new TextEncoder().encode('GETCLICKS\n'));
+    writer.releaseLock();
+    
+    // Read response with timeout
+    let buffer = '';
+    const startTime = Date.now();
+    const timeout = 1000;
+    
+    while(Date.now() - startTime < timeout){
+      const {value, done} = await reader.read();
+      if(done) break;
+      
+      const chunk = new TextDecoder().decode(value);
+      buffer += chunk;
+      
+      if(buffer.includes('\n')){
+        const lines = buffer.split('\n');
+        buffer = lines.slice(1).join('\n');
+        const response = lines[0].trim();
+        
+        if(response.startsWith('CLICKS:')){
+          const parts = response.substring(7).split(',');
+          if(parts.length === 4){
+            document.getElementById('clickS1').textContent = formatNumber(parseInt(parts[0]) || 0);
+            document.getElementById('clickS2').textContent = formatNumber(parseInt(parts[1]) || 0);
+            document.getElementById('clickS3').textContent = formatNumber(parseInt(parts[2]) || 0);
+            document.getElementById('clickS4').textContent = formatNumber(parseInt(parts[3]) || 0);
+          }
+          reader.releaseLock();
+          return;
+        }
+      }
+    }
+    
+    reader.releaseLock();
+  } catch(e){
+    // Error reading clicks, keep current values
+    console.error('Failed to refresh clicks:', e);
+  }
+}
+
+function formatNumber(num){
+  // Format large numbers with commas for readability
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 </script>
 </body>
 </html>
